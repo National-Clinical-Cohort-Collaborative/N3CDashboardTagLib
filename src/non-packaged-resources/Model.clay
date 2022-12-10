@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<clay-model clay-version="1.4.2">
+    <database-model alias="" author="" begin-script="CREATE SCHEMA IF NOT EXISTS n3c_dashboard;&#10;&#13;CREATE SEQUENCE n3c_dashboard.seqnum&#10;;" end-script="" name="myModel3" remarks="" sql-dialect-id="jp.azzurri.clay.dialect.Postgre_7_3_Dialect" uid="34dcf4d9:12c7933ea8c:-7fe2" version="1.0">
+        <database-model-description/>
+        <schema-list>
+            <schema alias="" name="n3c_dashboard" remarks="" uid="34dcf4d9:12c7933ea8c:-7fdf">
+                <schema-description/>
+                <domain-list/>
+                <table-list>
+                    <table alias="" name="category" remarks="" uid="3b6b02d6:184e96de7d0:-7fbf">
+                        <table-description/>
+                        <table-figure-bounds height="-1" width="-1" x="129" y="120"/>
+                        <column-list>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="id" remarks="" uid="3b6b02d6:184e96de7d0:-7fbb">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="seqnum" remarks="" uid="3b6b02d6:184e96de7d0:-7fb9">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="label" remarks="" uid="3b6b02d6:184e96de7d0:-7fba">
+                                <column-description/>
+                                <data-type jdbc-type="-1" literal-prefix="'" literal-suffix="'" name="TEXT" selected-variant-pattern="TEXT">
+                                    <variant type-name-pattern="TEXT"/>
+                                </data-type>
+                            </column>
+                        </column-list>
+                        <primary-key alias="" name="PK_CATEGORY" remarks="" uid="3b6b02d6:184e96de7d0:-7fbe">
+                            <primary-key-description/>
+                            <primary-key-column name="id"/>
+                        </primary-key>
+                        <unique-key-list/>
+                        <foreign-key-list/>
+                        <index-list/>
+                    </table>
+                    <table alias="" name="dashboard" remarks="" uid="3b6b02d6:184e96de7d0:-7fb8">
+                        <table-description/>
+                        <table-figure-bounds height="-1" width="-1" x="300" y="234"/>
+                        <column-list>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="id" remarks="" uid="3b6b02d6:184e96de7d0:-7f84">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="id2" remarks="" uid="3b6b02d6:184e96de7d0:-7f7c">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="seqnum" remarks="" uid="3b6b02d6:184e96de7d0:-7f33">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="title" remarks="" uid="3b6b02d6:184e96de7d0:-7f7b">
+                                <column-description/>
+                                <data-type jdbc-type="-1" literal-prefix="'" literal-suffix="'" name="TEXT" selected-variant-pattern="TEXT">
+                                    <variant type-name-pattern="TEXT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="description" remarks="" uid="3b6b02d6:184e96de7d0:-7f7a">
+                                <column-description/>
+                                <data-type jdbc-type="-1" literal-prefix="'" literal-suffix="'" name="TEXT" selected-variant-pattern="TEXT">
+                                    <variant type-name-pattern="TEXT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="10" decimal-digits="0" default-value="" mandatory="false" name="path" remarks="" uid="3b6b02d6:184e96de7d0:-7f79">
+                                <column-description/>
+                                <data-type jdbc-type="1" literal-prefix="'" literal-suffix="'" name="CHAR" selected-variant-pattern="CHAR(%n)">
+                                    <variant precision-max="2147483647" precision-min="1" precision-variable="%n" type-name-pattern="CHAR(%n)"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="thumbnail_path" remarks="" uid="3b6b02d6:184e96de7d0:-7f78">
+                                <column-description/>
+                                <data-type jdbc-type="-1" literal-prefix="'" literal-suffix="'" name="TEXT" selected-variant-pattern="TEXT">
+                                    <variant type-name-pattern="TEXT"/>
+                                </data-type>
+                            </column>
+                        </column-list>
+                        <primary-key alias="" name="PK_DASHBOARD" remarks="" uid="3b6b02d6:184e96de7d0:-7fb7">
+                            <primary-key-description/>
+                            <primary-key-column name="id"/>
+                            <primary-key-column name="id2"/>
+                        </primary-key>
+                        <unique-key-list/>
+                        <foreign-key-list>
+                            <foreign-key alias="" name="FK_dashboard_1" on-delete="" on-update="" referenced-key="PK_CATEGORY" referenced-table="category" referenced-table-schema="n3c_dashboard" remarks="" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="" uid="3b6b02d6:184e96de7d0:-7f85">
+                                <foreign-key-description/>
+                                <foreign-key-figure>
+                                    <fk-fig-bendpoint-list/>
+                                </foreign-key-figure>
+                                <foreign-key-column column-name="id" referenced-key-column-name="id"/>
+                            </foreign-key>
+                        </foreign-key-list>
+                        <index-list/>
+                    </table>
+                    <table alias="" name="topic" remarks="" uid="3b6b02d6:184e96de7d0:-7f77">
+                        <table-description/>
+                        <table-figure-bounds height="-1" width="-1" x="617" y="336"/>
+                        <column-list>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="id" remarks="" uid="3b6b02d6:184e96de7d0:-7f48">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="id2" remarks="" uid="3b6b02d6:184e96de7d0:-7f47">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="id3" remarks="" uid="3b6b02d6:184e96de7d0:-7f3d">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="seqnum" remarks="" uid="3b6b02d6:184e96de7d0:-7f3c">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="title" remarks="" uid="3b6b02d6:184e96de7d0:-7f3b">
+                                <column-description/>
+                                <data-type jdbc-type="-1" literal-prefix="'" literal-suffix="'" name="TEXT" selected-variant-pattern="TEXT">
+                                    <variant type-name-pattern="TEXT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="path" remarks="" uid="3b6b02d6:184e96de7d0:-7f3a">
+                                <column-description/>
+                                <data-type jdbc-type="-1" literal-prefix="'" literal-suffix="'" name="TEXT" selected-variant-pattern="TEXT">
+                                    <variant type-name-pattern="TEXT"/>
+                                </data-type>
+                            </column>
+                        </column-list>
+                        <primary-key alias="" name="PK_TOPIC" remarks="" uid="3b6b02d6:184e96de7d0:-7f76">
+                            <primary-key-description/>
+                            <primary-key-column name="id"/>
+                            <primary-key-column name="id2"/>
+                            <primary-key-column name="id3"/>
+                        </primary-key>
+                        <unique-key-list/>
+                        <foreign-key-list>
+                            <foreign-key alias="" name="FK_topic_1" on-delete="" on-update="" referenced-key="PK_DASHBOARD" referenced-table="dashboard" referenced-table-schema="n3c_dashboard" remarks="" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="" uid="3b6b02d6:184e96de7d0:-7f49">
+                                <foreign-key-description/>
+                                <foreign-key-figure>
+                                    <fk-fig-bendpoint-list/>
+                                </foreign-key-figure>
+                                <foreign-key-column column-name="id" referenced-key-column-name="id"/>
+                                <foreign-key-column column-name="id2" referenced-key-column-name="id2"/>
+                            </foreign-key>
+                        </foreign-key-list>
+                        <index-list/>
+                    </table>
+                </table-list>
+            </schema>
+        </schema-list>
+    </database-model>
+</clay-model>
