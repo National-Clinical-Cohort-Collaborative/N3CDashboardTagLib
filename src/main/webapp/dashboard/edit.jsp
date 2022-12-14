@@ -14,7 +14,7 @@
                         <div class="col-xs-8">
 								<fmt:parseNumber var="did" value="${param.did}" />
 								<dashboard:dashboard did="${did}">
-									<form name="dashboard" method="post" action="/null/DashboardUploadServlet"enctype="multipart/form-data">
+									<form name="dashboard" method="post" action="/n3c-dashboard-admin/DashboardUploadServlet"enctype="multipart/form-data">
 										<fieldset>
 											<legend>Dashboard</legend>
 											<label for="title">Title</label>

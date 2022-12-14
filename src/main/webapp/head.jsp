@@ -1,5 +1,5 @@
     <head>
-        <title>null</title>
+        <title>n3c-dashboard-admin</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,10 +8,10 @@
         <link rel="stylesheet" id='font-awesome' href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="<util:applicationRoot/>/resources/DataTables/css/jquery.dataTables.min.css">
-        <script type="text/javascript" charset="utf8" src="null/resources/DataTables/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="n3c-dashboard-admin/resources/DataTables/js/jquery.dataTables.min.js"></script>
         <style type="text/css" media="all">
-        @import "/null/resources/n3c_login_style.css";
-        @import "/null/resources/main_style.css";
+        @import "/n3c-dashboard-admin/resources/n3c_login_style.css";
+        @import "/n3c-dashboard-admin/resources/main_style.css";
         </style>
         <style type="text/css">
         table.dataTable thead .sorting_asc {
