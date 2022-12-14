@@ -5,7 +5,14 @@
         <schema-list>
             <schema alias="" name="n3c_dashboard" remarks="" uid="34dcf4d9:12c7933ea8c:-7fdf">
                 <schema-description/>
-                <domain-list/>
+                <domain-list>
+                    <domain alias="" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="Image" remarks="" uid="3b6b02d6:184e96de7d0:-7e8f">
+                        <domain-description/>
+                        <data-type jdbc-type="-2" name="BYTEA" selected-variant-pattern="BYTEA">
+                            <variant type-name-pattern="BYTEA"/>
+                        </data-type>
+                    </domain>
+                </domain-list>
                 <table-list>
                     <table alias="" name="category" remarks="" uid="3b6b02d6:184e96de7d0:-7fbf">
                         <table-description/>
@@ -72,13 +79,25 @@
                                     <variant type-name-pattern="TEXT"/>
                                 </data-type>
                             </column>
-                            <column alias="" auto-increment="false" column-size="10" decimal-digits="0" default-value="" mandatory="false" name="path" remarks="" uid="3b6b02d6:184e96de7d0:-7f79">
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="path" remarks="" uid="3b6b02d6:184e96de7d0:-7f79">
                                 <column-description/>
-                                <data-type jdbc-type="1" literal-prefix="'" literal-suffix="'" name="CHAR" selected-variant-pattern="CHAR(%n)">
-                                    <variant precision-max="2147483647" precision-min="1" precision-variable="%n" type-name-pattern="CHAR(%n)"/>
+                                <data-type jdbc-type="-1" literal-prefix="'" literal-suffix="'" name="TEXT" selected-variant-pattern="TEXT">
+                                    <variant type-name-pattern="TEXT"/>
                                 </data-type>
                             </column>
                             <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="thumbnail_path" remarks="" uid="3b6b02d6:184e96de7d0:-7f78">
+                                <column-description/>
+                                <data-type jdbc-type="-1" literal-prefix="'" literal-suffix="'" name="TEXT" selected-variant-pattern="TEXT">
+                                    <variant type-name-pattern="TEXT"/>
+                                </data-type>
+                            </column>
+                            <column alias="Image" auto-increment="false" column-size="0" decimal-digits="0" default-value="" domain="Image" mandatory="false" name="thumbnail" remarks="" uid="3b6b02d6:184e96de7d0:-7e8c">
+                                <column-description/>
+                                <data-type jdbc-type="-2" name="BYTEA" selected-variant-pattern="BYTEA">
+                                    <variant type-name-pattern="BYTEA"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="thumbnail_name" remarks="" uid="3b6b02d6:184e96de7d0:-7e81">
                                 <column-description/>
                                 <data-type jdbc-type="-1" literal-prefix="'" literal-suffix="'" name="TEXT" selected-variant-pattern="TEXT">
                                     <variant type-name-pattern="TEXT"/>

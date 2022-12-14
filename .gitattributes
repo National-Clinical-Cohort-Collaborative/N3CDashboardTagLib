@@ -26,8 +26,12 @@ src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardId2.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardIterator.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardPath.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardSeqnum.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardThumbnail.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardThumbnailName.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardThumbnailPath.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardTitle.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardUploadServlet.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/FormUploadServlet.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/topic/Topic.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/topic/TopicDeleter.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/topic/TopicID.java -text
@@ -49,6 +53,7 @@ src/main/webapp/category/list.jsp -text
 src/main/webapp/category/show.jsp -text
 src/main/webapp/dashboard/add.jsp -text
 src/main/webapp/dashboard/delete.jsp -text
+src/main/webapp/dashboard/displayDashboardThumbnail.jsp -text
 src/main/webapp/dashboard/edit.jsp -text
 src/main/webapp/dashboard/list.jsp -text
 src/main/webapp/dashboard/show.jsp -text

@@ -25,6 +25,8 @@
 			<th>Description</th>
 			<th>Path</th>
 			<th>ThumbnailPath</th>
+			<th>Thumbnail</th>
+			<th>ThumbnailName</th>
 			</tr>
 			<tr>
 				<td><a href="../category/category.jsp?ID=<dashboard:dashboardID />"><dashboard:dashboardID /></a></td>
@@ -34,6 +36,8 @@
 				<td><dashboard:dashboardDescription /></td>
 				<td><dashboard:dashboardPath /></td>
 				<td><dashboard:dashboardThumbnailPath /></td>
+				<td><img src="../dashboard/displayDashboardThumbnail.jsp?&size=120&ID=<dashboard:dashboardID />&id2=<dashboard:dashboardId2 />"></td>
+				<td><dashboard:dashboardThumbnailName /></td>
 			</tr>
 		</table>
 

@@ -1,6 +1,7 @@
 CREATE SCHEMA IF NOT EXISTS n3c_dashboard;
 CREATE SEQUENCE n3c_dashboard.seqnum
 ;
+CREATE DOMAIN n3c_dashboard.Image AS BYTEA;
 CREATE TABLE n3c_dashboard.category (
        id INT NOT NULL
      , seqnum INT
@@ -14,8 +15,10 @@ CREATE TABLE n3c_dashboard.dashboard (
      , seqnum INT
      , title TEXT
      , description TEXT
-     , path CHAR(10)
+     , path TEXT
      , thumbnail_path TEXT
+     , thumbnail Image
+     , thumbnail_name TEXT
      , PRIMARY KEY (id, id2)
      , CONSTRAINT FK_dashboard_1 FOREIGN KEY (id)
                   REFERENCES n3c_dashboard.category (id)

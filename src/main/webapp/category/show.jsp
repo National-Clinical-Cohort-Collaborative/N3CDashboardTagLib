@@ -36,6 +36,8 @@
 									<th>Description</th>
 									<th>Path</th>
 									<th>ThumbnailPath</th>
+									<th>Thumbnail</th>
+									<th>ThumbnailName</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -50,6 +52,8 @@
 											<td><dashboard:dashboardDescription /></td>
 											<td><dashboard:dashboardPath /></td>
 											<td><dashboard:dashboardThumbnailPath /></td>
+											<td><img src="../dashboard/displayDashboardThumbnail.jsp?&size=120&ID=<dashboard:dashboardID />&id2=<dashboard:dashboardId2 />"></td>
+											<td><dashboard:dashboardThumbnailName /></td>
 											<td><a href="../dashboard/edit.jsp?ID=<dashboard:dashboardID />&id2=<dashboard:dashboardId2 />">edit</a></td>
 											<td><a href="../dashboard/delete.jsp?ID=<dashboard:dashboardID />&id2=<dashboard:dashboardId2 />">delete</a></td>
 										</tr>
@@ -74,6 +78,8 @@
 		<dashboard:dashboardDescription />
 		<dashboard:dashboardPath />
 		<dashboard:dashboardThumbnailPath />
+		<img src="../dashboard/displayDashboardThumbnail.jsp?&size=120&ID=<dashboard:dashboardID />&id2=<dashboard:dashboardId2 />">
+		<dashboard:dashboardThumbnailName />
 			<c:if test="${ ! id2Iter.isLast() }" >, </c:if>					</dashboard:dashboard>
 			</dashboard:foreachDashboard>
 </dashboard:category>

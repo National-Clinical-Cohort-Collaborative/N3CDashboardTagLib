@@ -200,8 +200,26 @@
 	</tag>
 
 	<tag>
+		<name>uploadDashboard</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUpload</tag-class>
+		<body-content>JSP</body-content>
+	</tag>
+
+	<tag>
 		<name>dashboardID</name>
 		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardID</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>ID</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>dashboardUploadID</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadID</tag-class>
 		<body-content>empty</body-content>
 
 		<attribute>
@@ -224,8 +242,32 @@
 	</tag>
 
 	<tag>
+		<name>dashboardUploadId2</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadId2</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>id2</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
 		<name>dashboardSeqnum</name>
 		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardSeqnum</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>seqnum</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>dashboardUploadSeqnum</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadSeqnum</tag-class>
 		<body-content>empty</body-content>
 
 		<attribute>
@@ -248,8 +290,32 @@
 	</tag>
 
 	<tag>
+		<name>dashboardUploadTitle</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadTitle</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>title</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
 		<name>dashboardDescription</name>
 		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardDescription</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>description</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>dashboardUploadDescription</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadDescription</tag-class>
 		<body-content>empty</body-content>
 
 		<attribute>
@@ -272,12 +338,96 @@
 	</tag>
 
 	<tag>
+		<name>dashboardUploadPath</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadPath</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>path</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
 		<name>dashboardThumbnailPath</name>
 		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardThumbnailPath</tag-class>
 		<body-content>empty</body-content>
 
 		<attribute>
 			<name>thumbnailPath</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>dashboardUploadThumbnailPath</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadThumbnailPath</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>thumbnailPath</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>dashboardThumbnail</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardThumbnail</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>ID</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>id2</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>dashboardUploadThumbnail</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadThumbnail</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>ID</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>id2</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>dashboardThumbnailName</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardThumbnailName</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>thumbnailName</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>dashboardUploadThumbnailName</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadThumbnailName</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>thumbnailName</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>

@@ -15,7 +15,7 @@
 								<fmt:parseNumber var="ID" value="${param.ID}" />
 								<fmt:parseNumber var="id2" value="${param.id2}" />
 								<dashboard:dashboard ID="${ID}" id2="${id2}">
-									<form action="edit.jsp" method="post" >
+									<form name="dashboard" method="post" action="/n3c-dashboard-admin/DashboardUploadServlet"enctype="multipart/form-data">
 										<fieldset>
 											<legend>Dashboard</legend>
 											<label for="seqnum">Seqnum</label>
@@ -36,6 +36,14 @@
 
 											<label for="thumbnailPath">ThumbnailPath</label>
 											<input type="text" id="thumbnailPath" name="thumbnailPath" size="40" value="<dashboard:dashboardThumbnailPath />">
+											<br>
+
+											<label for="thumbnail">Thumbnail</label>
+											<input type="file" id="thumbnail" name="thumbnail">
+											<br>
+
+											<label for="thumbnailName">ThumbnailName</label>
+											<input type="text" id="thumbnailName" name="thumbnailName" size="40" value="<dashboard:dashboardThumbnailName />">
 											<br>
 
 											<input type="submit" name="submit" value="Save">
@@ -65,6 +73,7 @@
 			<dashboard:dashboardDescription description = "${param.description}" />
 			<dashboard:dashboardPath path = "${param.path}" />
 			<dashboard:dashboardThumbnailPath thumbnailPath = "${param.thumbnailPath}" />
+			<dashboard:dashboardThumbnailName thumbnailName = "${param.thumbnailName}" />
 		</dashboard:dashboard>
 		<c:redirect url="list.jsp" />
 	</c:when>

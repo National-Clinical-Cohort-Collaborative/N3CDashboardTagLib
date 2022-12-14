@@ -24,6 +24,8 @@ public class DashboardDeleter extends N3CDashboardTagLibBodyTagSupport {
     String description = null;
     String path = null;
     String thumbnailPath = null;
+    Object thumbnail = null;
+    String thumbnailName = null;
 	Vector<N3CDashboardTagLibTagSupport> parentEntities = new Vector<N3CDashboardTagLibTagSupport>();
 
 	private static final Logger log = LogManager.getLogger(DashboardDeleter.class);
