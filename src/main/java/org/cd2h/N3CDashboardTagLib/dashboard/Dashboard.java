@@ -12,7 +12,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.cd2h.N3CDashboardTagLib.category.Category;
 
 import org.cd2h.N3CDashboardTagLib.N3CDashboardTagLibTagSupport;
 import org.cd2h.N3CDashboardTagLib.Sequence;
@@ -28,9 +27,7 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 
 	Vector<N3CDashboardTagLibTagSupport> parentEntities = new Vector<N3CDashboardTagLibTagSupport>();
 
-	int ID = 0;
-	int id2 = 0;
-	int seqnum = 0;
+	int did = 0;
 	String title = null;
 	String description = null;
 	String path = null;
@@ -45,48 +42,37 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 	public int doStartTag() throws JspException {
 		currentInstance = this;
 		try {
-			Category theCategory = (Category)findAncestorWithClass(this, Category.class);
-			if (theCategory!= null)
-				parentEntities.addElement(theCategory);
 
-			if (theCategory == null) {
-			} else {
-				ID = theCategory.getID();
-			}
 
 			DashboardIterator theDashboardIterator = (DashboardIterator)findAncestorWithClass(this, DashboardIterator.class);
 
 			if (theDashboardIterator != null) {
-				ID = theDashboardIterator.getID();
-				id2 = theDashboardIterator.getId2();
+				did = theDashboardIterator.getDid();
 			}
 
-			if (theDashboardIterator == null && theCategory == null && id2 == 0) {
-				// no id2 was provided - the default is to assume that it is a new Dashboard and to generate a new id2
-				id2 = Sequence.generateID();
+			if (theDashboardIterator == null && did == 0) {
+				// no did was provided - the default is to assume that it is a new Dashboard and to generate a new did
+				did = Sequence.generateID();
 				insertEntity();
 			} else {
-				// an iterator or id2 was provided as an attribute - we need to load a Dashboard from the database
+				// an iterator or did was provided as an attribute - we need to load a Dashboard from the database
 				boolean found = false;
-				PreparedStatement stmt = getConnection().prepareStatement("select seqnum,title,description,path,thumbnail_path,thumbnail,thumbnail_name from n3c_dashboard.dashboard where id = ? and id2 = ?");
-				stmt.setInt(1,ID);
-				stmt.setInt(2,id2);
+				PreparedStatement stmt = getConnection().prepareStatement("select title,description,path,thumbnail_path,thumbnail,thumbnail_name from n3c_dashboard.dashboard where did = ?");
+				stmt.setInt(1,did);
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
-					if (seqnum == 0)
-						seqnum = rs.getInt(1);
 					if (title == null)
-						title = rs.getString(2);
+						title = rs.getString(1);
 					if (description == null)
-						description = rs.getString(3);
+						description = rs.getString(2);
 					if (path == null)
-						path = rs.getString(4);
+						path = rs.getString(3);
 					if (thumbnailPath == null)
-						thumbnailPath = rs.getString(5);
+						thumbnailPath = rs.getString(4);
 					if (thumbnail == null)
-						thumbnail = rs.getBytes(6);
+						thumbnail = rs.getBytes(5);
 					if (thumbnailName == null)
-						thumbnailName = rs.getString(7);
+						thumbnailName = rs.getString(6);
 					found = true;
 				}
 				stmt.close();
@@ -96,7 +82,7 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 				}
 			}
 		} catch (SQLException e) {
-			log.error("JDBC error retrieving id2 " + id2, e);
+			log.error("JDBC error retrieving did " + did, e);
 
 			freeConnection();
 			clearServiceState();
@@ -105,10 +91,10 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 			if(parent != null){
 				pageContext.setAttribute("tagError", true);
 				pageContext.setAttribute("tagErrorException", e);
-				pageContext.setAttribute("tagErrorMessage", "JDBC error retrieving id2 " + id2);
+				pageContext.setAttribute("tagErrorMessage", "JDBC error retrieving did " + did);
 				return parent.doEndTag();
 			}else{
-				throw new JspException("JDBC error retrieving id2 " + id2,e);
+				throw new JspException("JDBC error retrieving did " + did,e);
 			}
 
 		} finally {
@@ -165,16 +151,14 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 				}
 			}
 			if (commitNeeded) {
-				PreparedStatement stmt = getConnection().prepareStatement("update n3c_dashboard.dashboard set seqnum = ?, title = ?, description = ?, path = ?, thumbnail_path = ?, thumbnail = ?, thumbnail_name = ? where id = ?  and id2 = ? ");
-				stmt.setInt( 1, seqnum );
-				stmt.setString( 2, title );
-				stmt.setString( 3, description );
-				stmt.setString( 4, path );
-				stmt.setString( 5, thumbnailPath );
-				stmt.setBytes( 6, thumbnail );
-				stmt.setString( 7, thumbnailName );
-				stmt.setInt(8,ID);
-				stmt.setInt(9,id2);
+				PreparedStatement stmt = getConnection().prepareStatement("update n3c_dashboard.dashboard set title = ?, description = ?, path = ?, thumbnail_path = ?, thumbnail = ?, thumbnail_name = ? where did = ? ");
+				stmt.setString( 1, title );
+				stmt.setString( 2, description );
+				stmt.setString( 3, path );
+				stmt.setString( 4, thumbnailPath );
+				stmt.setBytes( 5, thumbnail );
+				stmt.setString( 6, thumbnailName );
+				stmt.setInt(7,did);
 				stmt.executeUpdate();
 				stmt.close();
 			}
@@ -202,9 +186,9 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 	}
 
 	public void insertEntity() throws JspException, SQLException {
-		if (id2 == 0) {
-			id2 = Sequence.generateID();
-			log.debug("generating new Dashboard " + id2);
+		if (did == 0) {
+			did = Sequence.generateID();
+			log.debug("generating new Dashboard " + did);
 		}
 
 		if (title == null){
@@ -222,56 +206,29 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 		if (thumbnailName == null){
 			thumbnailName = "";
 		}
-		PreparedStatement stmt = getConnection().prepareStatement("insert into n3c_dashboard.dashboard(id,id2,seqnum,title,description,path,thumbnail_path,thumbnail,thumbnail_name) values (?,?,?,?,?,?,?,?,?)");
-		stmt.setInt(1,ID);
-		stmt.setInt(2,id2);
-		stmt.setInt(3,seqnum);
-		stmt.setString(4,title);
-		stmt.setString(5,description);
-		stmt.setString(6,path);
-		stmt.setString(7,thumbnailPath);
-		stmt.setBytes(8,thumbnail);
-		stmt.setString(9,thumbnailName);
+		PreparedStatement stmt = getConnection().prepareStatement("insert into n3c_dashboard.dashboard(did,title,description,path,thumbnail_path,thumbnail,thumbnail_name) values (?,?,?,?,?,?,?)");
+		stmt.setInt(1,did);
+		stmt.setString(2,title);
+		stmt.setString(3,description);
+		stmt.setString(4,path);
+		stmt.setString(5,thumbnailPath);
+		stmt.setBytes(6,thumbnail);
+		stmt.setString(7,thumbnailName);
 		stmt.executeUpdate();
 		stmt.close();
 		freeConnection();
 	}
 
-	public int getID () {
-		return ID;
+	public int getDid () {
+		return did;
 	}
 
-	public void setID (int ID) {
-		this.ID = ID;
+	public void setDid (int did) {
+		this.did = did;
 	}
 
-	public int getActualID () {
-		return ID;
-	}
-
-	public int getId2 () {
-		return id2;
-	}
-
-	public void setId2 (int id2) {
-		this.id2 = id2;
-	}
-
-	public int getActualId2 () {
-		return id2;
-	}
-
-	public int getSeqnum () {
-		return seqnum;
-	}
-
-	public void setSeqnum (int seqnum) {
-		this.seqnum = seqnum;
-		commitNeeded = true;
-	}
-
-	public int getActualSeqnum () {
-		return seqnum;
+	public int getActualDid () {
+		return did;
 	}
 
 	public String getTitle () {
@@ -379,27 +336,11 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 		return var;
 	}
 
-	public static Integer IDValue() throws JspException {
+	public static Integer didValue() throws JspException {
 		try {
-			return currentInstance.getID();
+			return currentInstance.getDid();
 		} catch (Exception e) {
-			 throw new JspTagException("Error in tag function IDValue()");
-		}
-	}
-
-	public static Integer id2Value() throws JspException {
-		try {
-			return currentInstance.getId2();
-		} catch (Exception e) {
-			 throw new JspTagException("Error in tag function id2Value()");
-		}
-	}
-
-	public static Integer seqnumValue() throws JspException {
-		try {
-			return currentInstance.getSeqnum();
-		} catch (Exception e) {
-			 throw new JspTagException("Error in tag function seqnumValue()");
+			 throw new JspTagException("Error in tag function didValue()");
 		}
 	}
 
@@ -452,9 +393,7 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 	}
 
 	private void clearServiceState () {
-		ID = 0;
-		id2 = 0;
-		seqnum = 0;
+		did = 0;
 		title = null;
 		description = null;
 		path = null;

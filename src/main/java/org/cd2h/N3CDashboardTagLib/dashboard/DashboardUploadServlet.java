@@ -38,11 +38,9 @@ public class DashboardUploadServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int ID = Integer.parseInt(request.getParameter("ID").trim());
-		int id2 = 0;
-		if (request.getParameter("id2") != null)
-			id2 = Integer.parseInt(request.getParameter("id2").trim());
-		int seqnum = Integer.parseInt(request.getParameter("seqnum").trim());
+		int did = 0;
+		if (request.getParameter("did") != null)
+			did = Integer.parseInt(request.getParameter("did").trim());
 		String title = request.getParameter("title").trim();
 		String description = request.getParameter("description").trim();
 		String path = request.getParameter("path").trim();
@@ -70,9 +68,8 @@ public class DashboardUploadServlet extends HttpServlet {
 			PreparedStatement stmt = null;
 			boolean recordExists = false;
 
-			stmt = conn.prepareStatement("select count(*) from n3c_dashboard.dashboard where id = ? and id2 = ?");
-			stmt.setInt(1,ID);
-			stmt.setInt(2,id2);
+			stmt = conn.prepareStatement("select count(*) from n3c_dashboard.dashboard where did = ?");
+			stmt.setInt(1,did);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				int count = rs.getInt(1);
@@ -83,33 +80,28 @@ public class DashboardUploadServlet extends HttpServlet {
 			if (recordExists) {
 				log.debug("image upload: " + thumbnail);
 				int paramCount = 0;
-				stmt = conn.prepareStatement("update n3c_dashboard.dashboard set seqnum = ?, title = ?, description = ?, path = ?, thumbnail_path = ?, thumbnail_name = ? where id = ? and id2 = ?");
-				stmt.setInt(++paramCount,seqnum);
+				stmt = conn.prepareStatement("update n3c_dashboard.dashboard set title = ?, description = ?, path = ?, thumbnail_path = ?, thumbnail_name = ? where did = ?");
 				stmt.setString(++paramCount,title);
 				stmt.setString(++paramCount,description);
 				stmt.setString(++paramCount,path);
 				stmt.setString(++paramCount,thumbnailPath);
 				stmt.setString(++paramCount,thumbnailName);
-				stmt.setInt(++paramCount,ID);
-				stmt.setInt(++paramCount,id2);
+				stmt.setInt(++paramCount,did);
 				stmt.execute();
 				stmt.close();
 				if (thumbnail != null) {
 					paramCount = 0;
-					stmt = conn.prepareStatement("update n3c_dashboard.dashboard set thumbnail=?,thumbnail_name=? where id = ? and id2 = ?");
+					stmt = conn.prepareStatement("update n3c_dashboard.dashboard set thumbnail=?,thumbnail_name=? where did = ?");
 					stmt.setBinaryStream(++paramCount, thumbnail.getInputStream(), thumbnail.getSize());
 					stmt.setString(++paramCount, thumbnailName);
-					stmt.setInt(++paramCount,ID);
-					stmt.setInt(++paramCount,id2);
+					stmt.setInt(++paramCount,did);
 					stmt.execute();
 					stmt.close();
 				}
 			} else {
 				int paramCount = 0;
-				stmt = conn.prepareStatement("insert into n3c_dashboard.dashboard(id,id2,seqnum,title,description,path,thumbnail_path,thumbnail,thumbnail_name) values(?,?,?,?,?,?,?,?,?)");
-				stmt.setInt(++paramCount,ID);
+				stmt = conn.prepareStatement("insert into n3c_dashboard.dashboard(did,title,description,path,thumbnail_path,thumbnail,thumbnail_name) values(?,?,?,?,?,?,?)");
 				stmt.setInt(++paramCount,Sequence.generateID());
-				stmt.setInt(++paramCount,seqnum);
 				stmt.setString(++paramCount,title);
 				stmt.setString(++paramCount,description);
 				stmt.setString(++paramCount,path);

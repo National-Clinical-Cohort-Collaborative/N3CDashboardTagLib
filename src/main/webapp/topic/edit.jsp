@@ -1,7 +1,7 @@
 <%@ include file="../_include.jsp" %>
 
 <c:choose>
-	<c:when test="${empty param.submit}">
+	<c:when test="${empty param.submit and not empty param.did}">
         <html>
             <jsp:include page="../head.jsp" />
             <body>
@@ -12,10 +12,9 @@
                             <jsp:include page="../menu.jsp" />
                         </div>
                         <div class="col-xs-8">
-								<fmt:parseNumber var="ID" value="${param.ID}" />
-								<fmt:parseNumber var="id2" value="${param.id2}" />
-								<fmt:parseNumber var="id3" value="${param.id3}" />
-								<dashboard:topic ID="${ID}" id2="${id2}" id3="${id3}">
+								<fmt:parseNumber var="did" value="${param.did}" />
+								<fmt:parseNumber var="tid" value="${param.tid}" />
+								<dashboard:topic did="${did}" tid="${tid}">
 									<form action="edit.jsp" method="post" >
 										<fieldset>
 											<legend>Topic</legend>
@@ -33,9 +32,8 @@
 
 											<input type="submit" name="submit" value="Save">
 											<input type="submit" name="submit" value="Cancel">
-											<input type="hidden" name="ID" value="${param.ID}">
-											<input type="hidden" name="id2" value="${param.id2}">
-											<input type="hidden" name="id3" value="${param.id3}">
+											<input type="hidden" name="did" value="${param.did}">
+											<input type="hidden" name="tid" value="${param.tid}">
 										</fieldset>
 									</form>
 								</dashboard:topic>
@@ -50,11 +48,10 @@
 		<c:redirect url="list.jsp" />
 	</c:when>
 	<c:when test="${param.submit eq 'Save'}">
-		<fmt:parseNumber var="ID" value="${param.ID}" />
-		<fmt:parseNumber var="id2" value="${param.id2}" />
-		<fmt:parseNumber var="id3" value="${param.id3}" />
+		<fmt:parseNumber var="did" value="${param.did}" />
+		<fmt:parseNumber var="tid" value="${param.tid}" />
 		<fmt:parseNumber var="seqnum" value="${param.seqnum}" />
-		<dashboard:topic ID="${ID}" id2="${id2}" id3="${id3}">
+		<dashboard:topic did="${did}" tid="${tid}">
 			<dashboard:topicSeqnum seqnum = "${param.seqnum}" />
 			<dashboard:topicTitle title = "${param.title}" />
 			<dashboard:topicPath path = "${param.path}" />

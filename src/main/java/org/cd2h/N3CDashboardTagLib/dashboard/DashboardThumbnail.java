@@ -23,9 +23,7 @@ import org.cd2h.N3CDashboardTagLib.N3CDashboardTagLibTagSupport;
 public class DashboardThumbnail extends N3CDashboardTagLibTagSupport {
 
 	private static final Logger log = LogManager.getLogger(DashboardThumbnail.class);
-	int ID = 0;
-	int id2 = 0;
-	int seqnum = 0;
+	int did = 0;
 	String title = null;
 	String description = null;
 	String path = null;
@@ -35,25 +33,22 @@ public class DashboardThumbnail extends N3CDashboardTagLibTagSupport {
 
 	public int doStartTag() throws JspException {
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement("select seqnum,title,description,path,thumbnail_path,thumbnail,thumbnail_name from n3c_dashboard.dashboard where id = ? and id2 = ?");
-			stmt.setInt(1,ID);
-			stmt.setInt(2,id2);
+			PreparedStatement stmt = getConnection().prepareStatement("select title,description,path,thumbnail_path,thumbnail,thumbnail_name from n3c_dashboard.dashboard where did = ?");
+			stmt.setInt(1,did);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				if (seqnum == 0)
-					seqnum = rs.getInt(1);
 				if (title == null)
-					title = rs.getString(2);
+					title = rs.getString(1);
 				if (description == null)
-					description = rs.getString(3);
+					description = rs.getString(2);
 				if (path == null)
-					path = rs.getString(4);
+					path = rs.getString(3);
 				if (thumbnailPath == null)
-					thumbnailPath = rs.getString(5);
+					thumbnailPath = rs.getString(4);
 				if (thumbnail == null)
-					thumbnail = rs.getBytes(6);
+					thumbnail = rs.getBytes(5);
 				if (thumbnailName == null)
-					thumbnailName = rs.getString(7);
+					thumbnailName = rs.getString(6);
 			}
 			stmt.close();
 
@@ -98,28 +93,16 @@ public class DashboardThumbnail extends N3CDashboardTagLibTagSupport {
 		return super.doEndTag();
 	}
 
-	public int getID () {
-		return ID;
+	public int getDid () {
+		return did;
 	}
 
-	public void setID (int ID) {
-		this.ID = ID;
+	public void setDid (int did) {
+		this.did = did;
 	}
 
-	public int getActualID () {
-		return ID;
-	}
-
-	public int getId2 () {
-		return id2;
-	}
-
-	public void setId2 (int id2) {
-		this.id2 = id2;
-	}
-
-	public int getActualId2 () {
-		return id2;
+	public int getActualDid () {
+		return did;
 	}
 
 	public static void copy(InputStream inStream, OutputStream outStream) throws IOException {
@@ -146,9 +129,7 @@ public class DashboardThumbnail extends N3CDashboardTagLibTagSupport {
 	}
 
 	private void clearServiceState () {
-		ID = 0;
-		id2 = 0;
-		seqnum = 0;
+		did = 0;
 		title = null;
 		description = null;
 		path = null;

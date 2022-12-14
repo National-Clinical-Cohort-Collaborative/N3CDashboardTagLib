@@ -14,9 +14,7 @@
 						<table class="table table-bordered table-striped table-hover table-datatable">
 							<thead>
 								<tr>
-									<th>ID</th>
-									<th>Id2</th>
-									<th>Seqnum</th>
+									<th>Did</th>
 									<th>Title</th>
 									<th>Description</th>
 									<th>Path</th>
@@ -27,20 +25,18 @@
 								</tr>
 							</thead>
 							<tbody>
-								<dashboard:foreachDashboard var="id2Iter">
+								<dashboard:foreachDashboard var="didIter">
 									<dashboard:dashboard>
 										<tr>
-											<td><a href="../category/category.jsp?ID=<dashboard:dashboardID />"><dashboard:dashboardID /></a></td>
-											<td><a href="../dashboard/show.jsp?ID=<dashboard:dashboardID />&id2=<dashboard:dashboardId2 />"><dashboard:dashboardId2 /></a></td>
-											<td><dashboard:dashboardSeqnum /></td>
+											<td><a href="../dashboard/show.jsp?did=<dashboard:dashboardDid />"><dashboard:dashboardDid /></a></td>
 											<td><dashboard:dashboardTitle /></td>
 											<td><dashboard:dashboardDescription /></td>
 											<td><dashboard:dashboardPath /></td>
 											<td><dashboard:dashboardThumbnailPath /></td>
-											<td><img src="../dashboard/displayDashboardThumbnail.jsp?&size=120&ID=<dashboard:dashboardID />&id2=<dashboard:dashboardId2 />"></td>
+											<td><img src="../dashboard/displayDashboardThumbnail.jsp?&size=120&did=<dashboard:dashboardDid />"></td>
 											<td><dashboard:dashboardThumbnailName /></td>
-											<td><a href="../dashboard/edit.jsp?ID=<dashboard:dashboardID />&id2=<dashboard:dashboardId2 />">edit</a></td>
-											<td><a href="../dashboard/delete.jsp?ID=<dashboard:dashboardID />&id2=<dashboard:dashboardId2 />">delete</a></td>
+											<td><a href="../dashboard/edit.jsp?did=<dashboard:dashboardDid />">edit</a></td>
+											<td><a href="../dashboard/delete.jsp?did=<dashboard:dashboardDid />">delete</a></td>
 										</tr>
 									</dashboard:dashboard>
 								</dashboard:foreachDashboard>
@@ -51,21 +47,19 @@
 
 						<br/>
 
-						<a class="btn" href="../dashboard/add.jsp?ID=${param.ID}">add Dashboard</a>
+						<a class="btn" href="../dashboard/add.jsp">add Dashboard</a>
 						<br/><br/>
 
-		<dashboard:foreachDashboard var="id2Iter">
+		<dashboard:foreachDashboard var="didIter">
 			<dashboard:dashboard>
-		<a href="../category/category.jsp?ID=<dashboard:dashboardID />"><dashboard:dashboardID /></a>
-						<a href="../../n3cDashboard/dashboard/dashboard.jsp?ID=<dashboard:dashboardID />&id2=<dashboard:dashboardId2 />"><dashboard:dashboardId2 /></a>
-		<dashboard:dashboardSeqnum />
+						<a href="../../n3cDashboard/dashboard/dashboard.jsp?did=<dashboard:dashboardDid />"><dashboard:dashboardDid /></a>
 		<dashboard:dashboardTitle />
 		<dashboard:dashboardDescription />
 		<dashboard:dashboardPath />
 		<dashboard:dashboardThumbnailPath />
-		<img src="../dashboard/displayDashboardThumbnail.jsp?&size=120&ID=<dashboard:dashboardID />&id2=<dashboard:dashboardId2 />">
+		<img src="../dashboard/displayDashboardThumbnail.jsp?&size=120&did=<dashboard:dashboardDid />">
 		<dashboard:dashboardThumbnailName />
-			<c:if test="${ ! id2Iter.isLast() }" >, </c:if>					</dashboard:dashboard>
+			<c:if test="${ ! didIter.isLast() }" >, </c:if>					</dashboard:dashboard>
 			</dashboard:foreachDashboard>
                 </div>
             </div>

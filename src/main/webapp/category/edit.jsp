@@ -12,8 +12,8 @@
                             <jsp:include page="../menu.jsp" />
                         </div>
                         <div class="col-xs-8">
-								<fmt:parseNumber var="ID" value="${param.ID}" />
-								<dashboard:category ID="${ID}">
+								<fmt:parseNumber var="cid" value="${param.cid}" />
+								<dashboard:category cid="${cid}">
 									<form action="edit.jsp" method="post" >
 										<fieldset>
 											<legend>Category</legend>
@@ -27,7 +27,7 @@
 
 											<input type="submit" name="submit" value="Save">
 											<input type="submit" name="submit" value="Cancel">
-											<input type="hidden" name="ID" value="${param.ID}">
+											<input type="hidden" name="cid" value="${param.cid}">
 										</fieldset>
 									</form>
 								</dashboard:category>
@@ -42,9 +42,9 @@
 		<c:redirect url="list.jsp" />
 	</c:when>
 	<c:when test="${param.submit eq 'Save'}">
-		<fmt:parseNumber var="ID" value="${param.ID}" />
+		<fmt:parseNumber var="cid" value="${param.cid}" />
 		<fmt:parseNumber var="seqnum" value="${param.seqnum}" />
-		<dashboard:category ID="${ID}">
+		<dashboard:category cid="${cid}">
 			<dashboard:categorySeqnum seqnum = "${param.seqnum}" />
 			<dashboard:categoryLabel label = "${param.label}" />
 		</dashboard:category>

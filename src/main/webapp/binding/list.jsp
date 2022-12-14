@@ -1,29 +1,14 @@
 <%@ include file="../_include.jsp" %>
-        <html>
-            <jsp:include page="../head.jsp" />
-            <body>
-                <div class="container-fluid">
-                    <jsp:include page="../header.jsp" />
-                    <div class="row flex-nowrap">
-                        <div class="col-xs-3">
-                            <jsp:include page="../menu.jsp" />
-                        </div>
-                        <div class="col-xs-8">
-<fmt:parseNumber var="cid" value="${param.cid}" />
-<dashboard:category cid="${cid}">
-	<h2>Category: <dashboard:categoryCid /></h2>
-		<table border=1>
-			<tr>
-			<th>Cid</th>
-			<th>Seqnum</th>
-			<th>Label</th>
-			</tr>
-			<tr>
-				<td><a href="edit.jsp?cid=<dashboard:categoryCid />"><dashboard:categoryCid /></a></td>
-				<td><dashboard:categorySeqnum /></td>
-				<td><dashboard:categoryLabel /></td>
-			</tr>
-		</table>
+<html>
+    <jsp:include page="../head.jsp" />
+    <body>
+        <div class="container-fluid">
+            <jsp:include page="../header.jsp" />
+            <div class="row flex-nowrap">
+                <div class="col-xs-3">
+                    <jsp:include page="../menu.jsp" />
+                </div>
+                <div class="col-xs-8">
 
 						<h2>Binding List</h2>
 						<table class="table table-bordered table-striped table-hover table-datatable">
@@ -64,7 +49,6 @@
 		<dashboard:bindingSeqnum />
 			<c:if test="${ ! cidIter.isLast() }" >, </c:if>					</dashboard:binding>
 			</dashboard:foreachBinding>
-</dashboard:category>
                 </div>
             </div>
         </div>

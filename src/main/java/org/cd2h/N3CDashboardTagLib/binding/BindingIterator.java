@@ -1,4 +1,4 @@
-package org.cd2h.N3CDashboardTagLib.topic;
+package org.cd2h.N3CDashboardTagLib.binding;
 
 
 import java.sql.PreparedStatement;
@@ -14,15 +14,16 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.cd2h.N3CDashboardTagLib.N3CDashboardTagLibTagSupport;
 import org.cd2h.N3CDashboardTagLib.N3CDashboardTagLibBodyTagSupport;
+import org.cd2h.N3CDashboardTagLib.category.Category;
 import org.cd2h.N3CDashboardTagLib.dashboard.Dashboard;
 
 @SuppressWarnings("serial")
-public class TopicIterator extends N3CDashboardTagLibBodyTagSupport {
-    int tid = 0;
+public class BindingIterator extends N3CDashboardTagLibBodyTagSupport {
+    int cid = 0;
     int did = 0;
 	Vector<N3CDashboardTagLibTagSupport> parentEntities = new Vector<N3CDashboardTagLibTagSupport>();
 
-	private static final Logger log = LogManager.getLogger(TopicIterator.class);
+	private static final Logger log = LogManager.getLogger(BindingIterator.class);
 
 
     PreparedStatement stat = null;
@@ -32,11 +33,42 @@ public class TopicIterator extends N3CDashboardTagLibBodyTagSupport {
     String var = null;
     int rsCount = 0;
 
-	public static String topicCountByDashboard(String did) throws JspTagException {
+   boolean useCategory = false;
+   boolean useDashboard = false;
+
+	public static String bindingCountByCategory(String cid) throws JspTagException {
 		int count = 0;
-		TopicIterator theIterator = new TopicIterator();
+		BindingIterator theIterator = new BindingIterator();
 		try {
-			PreparedStatement stat = theIterator.getConnection().prepareStatement("SELECT count(*) from n3c_dashboard.topic where 1=1"
+			PreparedStatement stat = theIterator.getConnection().prepareStatement("SELECT count(*) from n3c_dashboard.binding where 1=1"
+						+ " and cid = ?"
+						);
+
+			stat.setInt(1,Integer.parseInt(cid));
+			ResultSet crs = stat.executeQuery();
+
+			if (crs.next()) {
+				count = crs.getInt(1);
+			}
+			stat.close();
+		} catch (SQLException e) {
+			log.error("JDBC error generating Binding iterator", e);
+			throw new JspTagException("Error: JDBC error generating Binding iterator");
+		} finally {
+			theIterator.freeConnection();
+		}
+		return "" + count;
+	}
+
+	public static Boolean categoryHasBinding(String cid) throws JspTagException {
+		return ! bindingCountByCategory(cid).equals("0");
+	}
+
+	public static String bindingCountByDashboard(String did) throws JspTagException {
+		int count = 0;
+		BindingIterator theIterator = new BindingIterator();
+		try {
+			PreparedStatement stat = theIterator.getConnection().prepareStatement("SELECT count(*) from n3c_dashboard.binding where 1=1"
 						+ " and did = ?"
 						);
 
@@ -48,28 +80,28 @@ public class TopicIterator extends N3CDashboardTagLibBodyTagSupport {
 			}
 			stat.close();
 		} catch (SQLException e) {
-			log.error("JDBC error generating Topic iterator", e);
-			throw new JspTagException("Error: JDBC error generating Topic iterator");
+			log.error("JDBC error generating Binding iterator", e);
+			throw new JspTagException("Error: JDBC error generating Binding iterator");
 		} finally {
 			theIterator.freeConnection();
 		}
 		return "" + count;
 	}
 
-	public static Boolean dashboardHasTopic(String did) throws JspTagException {
-		return ! topicCountByDashboard(did).equals("0");
+	public static Boolean dashboardHasBinding(String did) throws JspTagException {
+		return ! bindingCountByDashboard(did).equals("0");
 	}
 
-	public static Boolean topicExists (String tid, String did) throws JspTagException {
+	public static Boolean bindingExists (String cid, String did) throws JspTagException {
 		int count = 0;
-		TopicIterator theIterator = new TopicIterator();
+		BindingIterator theIterator = new BindingIterator();
 		try {
-			PreparedStatement stat = theIterator.getConnection().prepareStatement("SELECT count(*) from n3c_dashboard.topic where 1=1"
-						+ " and tid = ?"
+			PreparedStatement stat = theIterator.getConnection().prepareStatement("SELECT count(*) from n3c_dashboard.binding where 1=1"
+						+ " and cid = ?"
 						+ " and did = ?"
 						);
 
-			stat.setInt(1,Integer.parseInt(tid));
+			stat.setInt(1,Integer.parseInt(cid));
 			stat.setInt(2,Integer.parseInt(did));
 			ResultSet crs = stat.executeQuery();
 
@@ -78,8 +110,34 @@ public class TopicIterator extends N3CDashboardTagLibBodyTagSupport {
 			}
 			stat.close();
 		} catch (SQLException e) {
-			log.error("JDBC error generating Topic iterator", e);
-			throw new JspTagException("Error: JDBC error generating Topic iterator");
+			log.error("JDBC error generating Binding iterator", e);
+			throw new JspTagException("Error: JDBC error generating Binding iterator");
+		} finally {
+			theIterator.freeConnection();
+		}
+		return count > 0;
+	}
+
+	public static Boolean categoryDashboardExists (String cid, String did) throws JspTagException {
+		int count = 0;
+		BindingIterator theIterator = new BindingIterator();
+		try {
+			PreparedStatement stat = theIterator.getConnection().prepareStatement("SELECT count(*) from n3c_dashboard.binding where 1=1"
+						+ " and cid = ?"
+						+ " and did = ?"
+						);
+
+			stat.setInt(1,Integer.parseInt(cid));
+			stat.setInt(2,Integer.parseInt(did));
+			ResultSet crs = stat.executeQuery();
+
+			if (crs.next()) {
+				count = crs.getInt(1);
+			}
+			stat.close();
+		} catch (SQLException e) {
+			log.error("JDBC error generating Binding iterator", e);
+			throw new JspTagException("Error: JDBC error generating Binding iterator");
 		} finally {
 			theIterator.freeConnection();
 		}
@@ -87,10 +145,17 @@ public class TopicIterator extends N3CDashboardTagLibBodyTagSupport {
 	}
 
     public int doStartTag() throws JspException {
+		Category theCategory = (Category)findAncestorWithClass(this, Category.class);
+		if (theCategory!= null)
+			parentEntities.addElement(theCategory);
 		Dashboard theDashboard = (Dashboard)findAncestorWithClass(this, Dashboard.class);
 		if (theDashboard!= null)
 			parentEntities.addElement(theDashboard);
 
+		if (theCategory == null) {
+		} else {
+			cid = theCategory.getCid();
+		}
 		if (theDashboard == null) {
 		} else {
 			did = theDashboard.getDid();
@@ -102,8 +167,10 @@ public class TopicIterator extends N3CDashboardTagLibBodyTagSupport {
             int webapp_keySeq = 1;
             stat = getConnection().prepareStatement("SELECT count(*) from " + generateFromClause() + " where 1=1"
                                                         + generateJoinCriteria()
+                                                        + (cid == 0 ? "" : " and cid = ?")
                                                         + (did == 0 ? "" : " and did = ?")
                                                         + generateLimitCriteria());
+            if (cid != 0) stat.setInt(webapp_keySeq++, cid);
             if (did != 0) stat.setInt(webapp_keySeq++, did);
             rs = stat.executeQuery();
 
@@ -114,22 +181,24 @@ public class TopicIterator extends N3CDashboardTagLibBodyTagSupport {
 
             //run select id query  
             webapp_keySeq = 1;
-            stat = getConnection().prepareStatement("SELECT n3c_dashboard.topic.tid, n3c_dashboard.topic.did from " + generateFromClause() + " where 1=1"
+            stat = getConnection().prepareStatement("SELECT n3c_dashboard.binding.cid, n3c_dashboard.binding.did from " + generateFromClause() + " where 1=1"
                                                         + generateJoinCriteria()
+                                                        + (cid == 0 ? "" : " and cid = ?")
                                                         + (did == 0 ? "" : " and did = ?")
                                                         + " order by " + generateSortCriteria()  +  generateLimitCriteria());
+            if (cid != 0) stat.setInt(webapp_keySeq++, cid);
             if (did != 0) stat.setInt(webapp_keySeq++, did);
             rs = stat.executeQuery();
 
             if ( rs != null && rs.next() ) {
-                tid = rs.getInt(1);
+                cid = rs.getInt(1);
                 did = rs.getInt(2);
                 if (var != null)
                     pageContext.setAttribute(var, this);
                 return EVAL_BODY_INCLUDE;
             }
         } catch (SQLException e) {
-            log.error("JDBC error generating Topic iterator: " + stat, e);
+            log.error("JDBC error generating Binding iterator: " + stat, e);
 
 			freeConnection();
 			clearServiceState();
@@ -138,10 +207,10 @@ public class TopicIterator extends N3CDashboardTagLibBodyTagSupport {
 			if(parent != null){
 				pageContext.setAttribute("tagError", true);
 				pageContext.setAttribute("tagErrorException", e);
-				pageContext.setAttribute("tagErrorMessage", "Error: JDBC error generating Topic iterator: " + stat);
+				pageContext.setAttribute("tagErrorMessage", "Error: JDBC error generating Binding iterator: " + stat);
 				return parent.doEndTag();
 			}else{
-				throw new JspException("Error: JDBC error generating Topic iterator: " + stat,e);
+				throw new JspException("Error: JDBC error generating Binding iterator: " + stat,e);
 			}
 
         }
@@ -150,12 +219,22 @@ public class TopicIterator extends N3CDashboardTagLibBodyTagSupport {
     }
 
     private String generateFromClause() {
-       StringBuffer theBuffer = new StringBuffer("n3c_dashboard.topic");
+       StringBuffer theBuffer = new StringBuffer("n3c_dashboard.binding");
+       if (useCategory)
+          theBuffer.append(", n3c_dashboard.category");
+       if (useDashboard)
+          theBuffer.append(", n3c_dashboard.dashboard");
+
       return theBuffer.toString();
     }
 
     private String generateJoinCriteria() {
        StringBuffer theBuffer = new StringBuffer();
+       if (useCategory)
+          theBuffer.append(" and n3c_dashboard.category.cid = n3c_dashboard.binding.cid");
+       if (useDashboard)
+          theBuffer.append(" and n3c_dashboard.dashboard.did = n3c_dashboard.binding.did");
+
       return theBuffer.toString();
     }
 
@@ -163,7 +242,7 @@ public class TopicIterator extends N3CDashboardTagLibBodyTagSupport {
         if (sortCriteria != null) {
             return sortCriteria;
         } else {
-            return "tid,did";
+            return "cid,did";
         }
     }
 
@@ -178,12 +257,12 @@ public class TopicIterator extends N3CDashboardTagLibBodyTagSupport {
     public int doAfterBody() throws JspException {
         try {
             if ( rs != null && rs.next() ) {
-                tid = rs.getInt(1);
+                cid = rs.getInt(1);
                 did = rs.getInt(2);
                 return EVAL_BODY_AGAIN;
             }
         } catch (SQLException e) {
-            log.error("JDBC error iterating across Topic", e);
+            log.error("JDBC error iterating across Binding", e);
 
 			freeConnection();
 			clearServiceState();
@@ -192,10 +271,10 @@ public class TopicIterator extends N3CDashboardTagLibBodyTagSupport {
 			if(parent != null){
 				pageContext.setAttribute("tagError", true);
 				pageContext.setAttribute("tagErrorException", e);
-				pageContext.setAttribute("tagErrorMessage", "JDBC error iterating across Topic" + stat.toString());
+				pageContext.setAttribute("tagErrorMessage", "JDBC error iterating across Binding" + stat.toString());
 				return parent.doEndTag();
 			}else{
-				throw new JspException("JDBC error iterating across Topic",e);
+				throw new JspException("JDBC error iterating across Binding",e);
 			}
 
         }
@@ -243,17 +322,17 @@ public class TopicIterator extends N3CDashboardTagLibBodyTagSupport {
             }
 
         } catch ( SQLException e ) {
-            log.error("JDBC error ending Topic iterator",e);
+            log.error("JDBC error ending Binding iterator",e);
 			freeConnection();
 
 			Tag parent = getParent();
 			if(parent != null){
 				pageContext.setAttribute("tagError", true);
 				pageContext.setAttribute("tagErrorException", e);
-				pageContext.setAttribute("tagErrorMessage", "JDBC error retrieving tid " + tid);
+				pageContext.setAttribute("tagErrorMessage", "JDBC error retrieving cid " + cid);
 				return parent.doEndTag();
 			}else{
-				throw new JspException("Error: JDBC error ending Topic iterator",e);
+				throw new JspException("Error: JDBC error ending Binding iterator",e);
 			}
 
         } finally {
@@ -264,7 +343,7 @@ public class TopicIterator extends N3CDashboardTagLibBodyTagSupport {
     }
 
     private void clearServiceState() {
-        tid = 0;
+        cid = 0;
         did = 0;
         parentEntities = new Vector<N3CDashboardTagLibTagSupport>();
 
@@ -308,6 +387,35 @@ public class TopicIterator extends N3CDashboardTagLibBodyTagSupport {
     }
 
 
+   public boolean getUseCategory() {
+        return useCategory;
+    }
+
+    public void setUseCategory(boolean useCategory) {
+        this.useCategory = useCategory;
+    }
+
+   public boolean getUseDashboard() {
+        return useDashboard;
+    }
+
+    public void setUseDashboard(boolean useDashboard) {
+        this.useDashboard = useDashboard;
+    }
+
+
+
+	public int getCid () {
+		return cid;
+	}
+
+	public void setCid (int cid) {
+		this.cid = cid;
+	}
+
+	public int getActualCid () {
+		return cid;
+	}
 
 	public int getDid () {
 		return did;
@@ -319,17 +427,5 @@ public class TopicIterator extends N3CDashboardTagLibBodyTagSupport {
 
 	public int getActualDid () {
 		return did;
-	}
-
-	public int getTid () {
-		return tid;
-	}
-
-	public void setTid (int tid) {
-		this.tid = tid;
-	}
-
-	public int getActualTid () {
-		return tid;
 	}
 }

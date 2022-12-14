@@ -1,7 +1,7 @@
 <%@ include file="../_include.jsp" %>
 
 <c:choose>
-	<c:when test="${empty param.submit}">
+	<c:when test="${empty param.submit and not empty param.did}">
         <html>
             <jsp:include page="../head.jsp" />
             <body>
@@ -29,8 +29,7 @@
 
 										<input type="submit" name="submit" value="Save">
 										<input type="submit" name="submit" value="Cancel">
-										<input type="hidden" name="ID" value="${param.ID}">
-										<input type="hidden" name="id2" value="${param.id2}">
+										<input type="hidden" name="did" value="${param.did}">
 									</fieldset>
 								</form>
                         </div>
@@ -44,7 +43,7 @@
 		<c:redirect url="list.jsp" />
 	</c:when>
 	<c:when test="${param.submit eq 'Save'}">
-		<dashboard:dashboard ID = "${param.ID}" id2 = "${param.id2}">
+		<dashboard:dashboard did = "${param.did}">
 			<dashboard:topic>
 				<dashboard:topicSeqnum seqnum = "${param.seqnum}" />
 				<dashboard:topicTitle title = "${param.title}" />

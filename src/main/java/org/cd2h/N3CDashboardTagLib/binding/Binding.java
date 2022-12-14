@@ -1,4 +1,4 @@
-package org.cd2h.N3CDashboardTagLib.topic;
+package org.cd2h.N3CDashboardTagLib.binding;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,69 +12,107 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
 
+import org.cd2h.N3CDashboardTagLib.category.Category;
 import org.cd2h.N3CDashboardTagLib.dashboard.Dashboard;
 
 import org.cd2h.N3CDashboardTagLib.N3CDashboardTagLibTagSupport;
 import org.cd2h.N3CDashboardTagLib.Sequence;
 
 @SuppressWarnings("serial")
-public class Topic extends N3CDashboardTagLibTagSupport {
+public class Binding extends N3CDashboardTagLibTagSupport {
 
-	static Topic currentInstance = null;
+	static Binding currentInstance = null;
 	boolean commitNeeded = false;
 	boolean newRecord = false;
 
-	private static final Logger log = LogManager.getLogger(Topic.class);
+	private static final Logger log = LogManager.getLogger(Binding.class);
 
 	Vector<N3CDashboardTagLibTagSupport> parentEntities = new Vector<N3CDashboardTagLibTagSupport>();
 
+	int cid = 0;
 	int did = 0;
-	int tid = 0;
 	int seqnum = 0;
-	String title = null;
-	String path = null;
 
 	private String var = null;
 
-	private Topic cachedTopic = null;
+	private Binding cachedBinding = null;
 
 	public int doStartTag() throws JspException {
 		currentInstance = this;
 		try {
+			Category theCategory = (Category)findAncestorWithClass(this, Category.class);
+			if (theCategory!= null)
+				parentEntities.addElement(theCategory);
 			Dashboard theDashboard = (Dashboard)findAncestorWithClass(this, Dashboard.class);
 			if (theDashboard!= null)
 				parentEntities.addElement(theDashboard);
 
+			if (theCategory == null) {
+			} else {
+				cid = theCategory.getCid();
+			}
 			if (theDashboard == null) {
 			} else {
 				did = theDashboard.getDid();
 			}
 
-			TopicIterator theTopicIterator = (TopicIterator)findAncestorWithClass(this, TopicIterator.class);
+			BindingIterator theBindingIterator = (BindingIterator)findAncestorWithClass(this, BindingIterator.class);
 
-			if (theTopicIterator != null) {
-				tid = theTopicIterator.getTid();
-				did = theTopicIterator.getDid();
+			if (theBindingIterator != null) {
+				cid = theBindingIterator.getCid();
+				did = theBindingIterator.getDid();
 			}
 
-			if (theTopicIterator == null && theDashboard == null && tid == 0) {
-				// no tid was provided - the default is to assume that it is a new Topic and to generate a new tid
-				tid = Sequence.generateID();
+			if (theBindingIterator == null && theCategory == null && theDashboard == null && cid == 0) {
+				// no cid was provided - the default is to assume that it is a new Binding and to generate a new cid
+				cid = Sequence.generateID();
 				insertEntity();
-			} else {
-				// an iterator or tid was provided as an attribute - we need to load a Topic from the database
+			} else if (theBindingIterator == null && theCategory != null && theDashboard == null) {
+				// an cid was provided as an attribute - we need to load a Binding from the database
 				boolean found = false;
-				PreparedStatement stmt = getConnection().prepareStatement("select seqnum,title,path from n3c_dashboard.topic where did = ? and tid = ?");
+				PreparedStatement stmt = getConnection().prepareStatement("select did,seqnum from n3c_dashboard.binding where cid = ?");
+				stmt.setInt(1,cid);
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next()) {
+					if (did == 0)
+						did = rs.getInt(1);
+					if (seqnum == 0)
+						seqnum = rs.getInt(2);
+					found = true;
+				}
+				stmt.close();
+
+				if (!found) {
+					insertEntity();
+				}
+			} else if (theBindingIterator == null && theCategory == null && theDashboard != null) {
+				// an cid was provided as an attribute - we need to load a Binding from the database
+				boolean found = false;
+				PreparedStatement stmt = getConnection().prepareStatement("select cid,seqnum from n3c_dashboard.binding where did = ?");
 				stmt.setInt(1,did);
-				stmt.setInt(2,tid);
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next()) {
+					if (cid == 0)
+						cid = rs.getInt(1);
+					if (seqnum == 0)
+						seqnum = rs.getInt(2);
+					found = true;
+				}
+				stmt.close();
+
+				if (!found) {
+					insertEntity();
+				}
+			} else {
+				// an iterator or cid was provided as an attribute - we need to load a Binding from the database
+				boolean found = false;
+				PreparedStatement stmt = getConnection().prepareStatement("select seqnum from n3c_dashboard.binding where cid = ? and did = ?");
+				stmt.setInt(1,cid);
+				stmt.setInt(2,did);
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
 					if (seqnum == 0)
 						seqnum = rs.getInt(1);
-					if (title == null)
-						title = rs.getString(2);
-					if (path == null)
-						path = rs.getString(3);
 					found = true;
 				}
 				stmt.close();
@@ -84,7 +122,7 @@ public class Topic extends N3CDashboardTagLibTagSupport {
 				}
 			}
 		} catch (SQLException e) {
-			log.error("JDBC error retrieving tid " + tid, e);
+			log.error("JDBC error retrieving cid " + cid, e);
 
 			freeConnection();
 			clearServiceState();
@@ -93,10 +131,10 @@ public class Topic extends N3CDashboardTagLibTagSupport {
 			if(parent != null){
 				pageContext.setAttribute("tagError", true);
 				pageContext.setAttribute("tagErrorException", e);
-				pageContext.setAttribute("tagErrorMessage", "JDBC error retrieving tid " + tid);
+				pageContext.setAttribute("tagErrorMessage", "JDBC error retrieving cid " + cid);
 				return parent.doEndTag();
 			}else{
-				throw new JspException("JDBC error retrieving tid " + tid,e);
+				throw new JspException("JDBC error retrieving cid " + cid,e);
 			}
 
 		} finally {
@@ -104,12 +142,12 @@ public class Topic extends N3CDashboardTagLibTagSupport {
 		}
 
 		if(pageContext != null){
-			Topic currentTopic = (Topic) pageContext.getAttribute("tag_topic");
-			if(currentTopic != null){
-				cachedTopic = currentTopic;
+			Binding currentBinding = (Binding) pageContext.getAttribute("tag_binding");
+			if(currentBinding != null){
+				cachedBinding = currentBinding;
 			}
-			currentTopic = this;
-			pageContext.setAttribute((var == null ? "tag_topic" : var), currentTopic);
+			currentBinding = this;
+			pageContext.setAttribute((var == null ? "tag_binding" : var), currentBinding);
 		}
 
 		return EVAL_PAGE;
@@ -119,11 +157,11 @@ public class Topic extends N3CDashboardTagLibTagSupport {
 		currentInstance = null;
 
 		if(pageContext != null){
-			if(this.cachedTopic != null){
-				pageContext.setAttribute((var == null ? "tag_topic" : var), this.cachedTopic);
+			if(this.cachedBinding != null){
+				pageContext.setAttribute((var == null ? "tag_binding" : var), this.cachedBinding);
 			}else{
-				pageContext.removeAttribute((var == null ? "tag_topic" : var));
-				this.cachedTopic = null;
+				pageContext.removeAttribute((var == null ? "tag_binding" : var));
+				this.cachedBinding = null;
 			}
 		}
 
@@ -153,12 +191,10 @@ public class Topic extends N3CDashboardTagLibTagSupport {
 				}
 			}
 			if (commitNeeded) {
-				PreparedStatement stmt = getConnection().prepareStatement("update n3c_dashboard.topic set seqnum = ?, title = ?, path = ? where did = ?  and tid = ? ");
+				PreparedStatement stmt = getConnection().prepareStatement("update n3c_dashboard.binding set seqnum = ? where cid = ?  and did = ? ");
 				stmt.setInt( 1, seqnum );
-				stmt.setString( 2, title );
-				stmt.setString( 3, path );
-				stmt.setInt(4,did);
-				stmt.setInt(5,tid);
+				stmt.setInt(2,cid);
+				stmt.setInt(3,did);
 				stmt.executeUpdate();
 				stmt.close();
 			}
@@ -186,26 +222,25 @@ public class Topic extends N3CDashboardTagLibTagSupport {
 	}
 
 	public void insertEntity() throws JspException, SQLException {
-		if (tid == 0) {
-			tid = Sequence.generateID();
-			log.debug("generating new Topic " + tid);
-		}
-
-		if (title == null){
-			title = "";
-		}
-		if (path == null){
-			path = "";
-		}
-		PreparedStatement stmt = getConnection().prepareStatement("insert into n3c_dashboard.topic(did,tid,seqnum,title,path) values (?,?,?,?,?)");
-		stmt.setInt(1,did);
-		stmt.setInt(2,tid);
+		PreparedStatement stmt = getConnection().prepareStatement("insert into n3c_dashboard.binding(cid,did,seqnum) values (?,?,?)");
+		stmt.setInt(1,cid);
+		stmt.setInt(2,did);
 		stmt.setInt(3,seqnum);
-		stmt.setString(4,title);
-		stmt.setString(5,path);
 		stmt.executeUpdate();
 		stmt.close();
 		freeConnection();
+	}
+
+	public int getCid () {
+		return cid;
+	}
+
+	public void setCid (int cid) {
+		this.cid = cid;
+	}
+
+	public int getActualCid () {
+		return cid;
 	}
 
 	public int getDid () {
@@ -218,18 +253,6 @@ public class Topic extends N3CDashboardTagLibTagSupport {
 
 	public int getActualDid () {
 		return did;
-	}
-
-	public int getTid () {
-		return tid;
-	}
-
-	public void setTid (int tid) {
-		this.tid = tid;
-	}
-
-	public int getActualTid () {
-		return tid;
 	}
 
 	public int getSeqnum () {
@@ -245,38 +268,6 @@ public class Topic extends N3CDashboardTagLibTagSupport {
 		return seqnum;
 	}
 
-	public String getTitle () {
-		if (commitNeeded)
-			return "";
-		else
-			return title;
-	}
-
-	public void setTitle (String title) {
-		this.title = title;
-		commitNeeded = true;
-	}
-
-	public String getActualTitle () {
-		return title;
-	}
-
-	public String getPath () {
-		if (commitNeeded)
-			return "";
-		else
-			return path;
-	}
-
-	public void setPath (String path) {
-		this.path = path;
-		commitNeeded = true;
-	}
-
-	public String getActualPath () {
-		return path;
-	}
-
 	public String getVar () {
 		return var;
 	}
@@ -289,19 +280,19 @@ public class Topic extends N3CDashboardTagLibTagSupport {
 		return var;
 	}
 
+	public static Integer cidValue() throws JspException {
+		try {
+			return currentInstance.getCid();
+		} catch (Exception e) {
+			 throw new JspTagException("Error in tag function cidValue()");
+		}
+	}
+
 	public static Integer didValue() throws JspException {
 		try {
 			return currentInstance.getDid();
 		} catch (Exception e) {
 			 throw new JspTagException("Error in tag function didValue()");
-		}
-	}
-
-	public static Integer tidValue() throws JspException {
-		try {
-			return currentInstance.getTid();
-		} catch (Exception e) {
-			 throw new JspTagException("Error in tag function tidValue()");
 		}
 	}
 
@@ -313,28 +304,10 @@ public class Topic extends N3CDashboardTagLibTagSupport {
 		}
 	}
 
-	public static String titleValue() throws JspException {
-		try {
-			return currentInstance.getTitle();
-		} catch (Exception e) {
-			 throw new JspTagException("Error in tag function titleValue()");
-		}
-	}
-
-	public static String pathValue() throws JspException {
-		try {
-			return currentInstance.getPath();
-		} catch (Exception e) {
-			 throw new JspTagException("Error in tag function pathValue()");
-		}
-	}
-
 	private void clearServiceState () {
+		cid = 0;
 		did = 0;
-		tid = 0;
 		seqnum = 0;
-		title = null;
-		path = null;
 		newRecord = false;
 		commitNeeded = false;
 		parentEntities = new Vector<N3CDashboardTagLibTagSupport>();

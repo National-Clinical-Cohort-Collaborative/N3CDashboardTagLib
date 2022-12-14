@@ -14,12 +14,10 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.cd2h.N3CDashboardTagLib.N3CDashboardTagLibTagSupport;
 import org.cd2h.N3CDashboardTagLib.N3CDashboardTagLibBodyTagSupport;
-import org.cd2h.N3CDashboardTagLib.category.Category;
 
 @SuppressWarnings("serial")
 public class DashboardIterator extends N3CDashboardTagLibBodyTagSupport {
-    int ID = 0;
-    int id2 = 0;
+    int did = 0;
 	Vector<N3CDashboardTagLibTagSupport> parentEntities = new Vector<N3CDashboardTagLibTagSupport>();
 
 	private static final Logger log = LogManager.getLogger(DashboardIterator.class);
@@ -32,15 +30,13 @@ public class DashboardIterator extends N3CDashboardTagLibBodyTagSupport {
     String var = null;
     int rsCount = 0;
 
-	public static String dashboardCountByCategory(String ID) throws JspTagException {
+	public static String dashboardCount() throws JspTagException {
 		int count = 0;
 		DashboardIterator theIterator = new DashboardIterator();
 		try {
-			PreparedStatement stat = theIterator.getConnection().prepareStatement("SELECT count(*) from n3c_dashboard.dashboard where 1=1"
-						+ " and id = ?"
+			PreparedStatement stat = theIterator.getConnection().prepareStatement("SELECT count(*) from n3c_dashboard.dashboard"
 						);
 
-			stat.setInt(1,Integer.parseInt(ID));
 			ResultSet crs = stat.executeQuery();
 
 			if (crs.next()) {
@@ -56,21 +52,15 @@ public class DashboardIterator extends N3CDashboardTagLibBodyTagSupport {
 		return "" + count;
 	}
 
-	public static Boolean categoryHasDashboard(String ID) throws JspTagException {
-		return ! dashboardCountByCategory(ID).equals("0");
-	}
-
-	public static Boolean dashboardExists (String ID, String id2) throws JspTagException {
+	public static Boolean dashboardExists (String did) throws JspTagException {
 		int count = 0;
 		DashboardIterator theIterator = new DashboardIterator();
 		try {
 			PreparedStatement stat = theIterator.getConnection().prepareStatement("SELECT count(*) from n3c_dashboard.dashboard where 1=1"
-						+ " and id = ?"
-						+ " and id2 = ?"
+						+ " and did = ?"
 						);
 
-			stat.setInt(1,Integer.parseInt(ID));
-			stat.setInt(2,Integer.parseInt(id2));
+			stat.setInt(1,Integer.parseInt(did));
 			ResultSet crs = stat.executeQuery();
 
 			if (crs.next()) {
@@ -87,24 +77,14 @@ public class DashboardIterator extends N3CDashboardTagLibBodyTagSupport {
 	}
 
     public int doStartTag() throws JspException {
-		Category theCategory = (Category)findAncestorWithClass(this, Category.class);
-		if (theCategory!= null)
-			parentEntities.addElement(theCategory);
 
-		if (theCategory == null) {
-		} else {
-			ID = theCategory.getID();
-		}
 
 
       try {
             //run count query  
-            int webapp_keySeq = 1;
             stat = getConnection().prepareStatement("SELECT count(*) from " + generateFromClause() + " where 1=1"
                                                         + generateJoinCriteria()
-                                                        + (ID == 0 ? "" : " and id = ?")
                                                         + generateLimitCriteria());
-            if (ID != 0) stat.setInt(webapp_keySeq++, ID);
             rs = stat.executeQuery();
 
             if (rs.next()) {
@@ -113,17 +93,13 @@ public class DashboardIterator extends N3CDashboardTagLibBodyTagSupport {
 
 
             //run select id query  
-            webapp_keySeq = 1;
-            stat = getConnection().prepareStatement("SELECT n3c_dashboard.dashboard.id, n3c_dashboard.dashboard.id2 from " + generateFromClause() + " where 1=1"
+            stat = getConnection().prepareStatement("SELECT n3c_dashboard.dashboard.did from " + generateFromClause() + " where 1=1"
                                                         + generateJoinCriteria()
-                                                        + (ID == 0 ? "" : " and id = ?")
                                                         + " order by " + generateSortCriteria()  +  generateLimitCriteria());
-            if (ID != 0) stat.setInt(webapp_keySeq++, ID);
             rs = stat.executeQuery();
 
             if ( rs != null && rs.next() ) {
-                ID = rs.getInt(1);
-                id2 = rs.getInt(2);
+                did = rs.getInt(1);
                 if (var != null)
                     pageContext.setAttribute(var, this);
                 return EVAL_BODY_INCLUDE;
@@ -163,7 +139,7 @@ public class DashboardIterator extends N3CDashboardTagLibBodyTagSupport {
         if (sortCriteria != null) {
             return sortCriteria;
         } else {
-            return "id,id2";
+            return "did";
         }
     }
 
@@ -178,8 +154,7 @@ public class DashboardIterator extends N3CDashboardTagLibBodyTagSupport {
     public int doAfterBody() throws JspException {
         try {
             if ( rs != null && rs.next() ) {
-                ID = rs.getInt(1);
-                id2 = rs.getInt(2);
+                did = rs.getInt(1);
                 return EVAL_BODY_AGAIN;
             }
         } catch (SQLException e) {
@@ -250,7 +225,7 @@ public class DashboardIterator extends N3CDashboardTagLibBodyTagSupport {
 			if(parent != null){
 				pageContext.setAttribute("tagError", true);
 				pageContext.setAttribute("tagErrorException", e);
-				pageContext.setAttribute("tagErrorMessage", "JDBC error retrieving id2 " + id2);
+				pageContext.setAttribute("tagErrorMessage", "JDBC error retrieving did " + did);
 				return parent.doEndTag();
 			}else{
 				throw new JspException("Error: JDBC error ending Dashboard iterator",e);
@@ -264,8 +239,7 @@ public class DashboardIterator extends N3CDashboardTagLibBodyTagSupport {
     }
 
     private void clearServiceState() {
-        ID = 0;
-        id2 = 0;
+        did = 0;
         parentEntities = new Vector<N3CDashboardTagLibTagSupport>();
 
         this.rs = null;
@@ -309,27 +283,15 @@ public class DashboardIterator extends N3CDashboardTagLibBodyTagSupport {
 
 
 
-	public int getID () {
-		return ID;
+	public int getDid () {
+		return did;
 	}
 
-	public void setID (int ID) {
-		this.ID = ID;
+	public void setDid (int did) {
+		this.did = did;
 	}
 
-	public int getActualID () {
-		return ID;
-	}
-
-	public int getId2 () {
-		return id2;
-	}
-
-	public void setId2 (int id2) {
-		this.id2 = id2;
-	}
-
-	public int getActualId2 () {
-		return id2;
+	public int getActualDid () {
+		return did;
 	}
 }

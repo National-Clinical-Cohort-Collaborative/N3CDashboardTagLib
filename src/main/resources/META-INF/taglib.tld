@@ -49,7 +49,7 @@
 		</attribute>
 
 		<attribute>
-			<name>ID</name>
+			<name>cid</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
@@ -67,7 +67,7 @@
 		</attribute>
 
 		<attribute>
-			<name>ID</name>
+			<name>cid</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
@@ -79,19 +79,19 @@
 		<body-content>JSP</body-content>
 
 		<attribute>
-			<name>ID</name>
+			<name>cid</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
 
 	<tag>
-		<name>categoryID</name>
-		<tag-class>org.cd2h.N3CDashboardTagLib.category.CategoryID</tag-class>
+		<name>categoryCid</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.category.CategoryCid</tag-class>
 		<body-content>empty</body-content>
 
 		<attribute>
-			<name>ID</name>
+			<name>cid</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
@@ -145,13 +145,7 @@
 		</attribute>
 
 		<attribute>
-			<name>ID</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-
-		<attribute>
-			<name>id2</name>
+			<name>did</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
@@ -169,13 +163,7 @@
 		</attribute>
 
 		<attribute>
-			<name>ID</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-
-		<attribute>
-			<name>id2</name>
+			<name>did</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
@@ -187,13 +175,7 @@
 		<body-content>JSP</body-content>
 
 		<attribute>
-			<name>ID</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-
-		<attribute>
-			<name>id2</name>
+			<name>did</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
@@ -206,72 +188,24 @@
 	</tag>
 
 	<tag>
-		<name>dashboardID</name>
-		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardID</tag-class>
+		<name>dashboardDid</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardDid</tag-class>
 		<body-content>empty</body-content>
 
 		<attribute>
-			<name>ID</name>
+			<name>did</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
 
 	<tag>
-		<name>dashboardUploadID</name>
-		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadID</tag-class>
+		<name>dashboardUploadDid</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadDid</tag-class>
 		<body-content>empty</body-content>
 
 		<attribute>
-			<name>ID</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-	</tag>
-
-	<tag>
-		<name>dashboardId2</name>
-		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardId2</tag-class>
-		<body-content>empty</body-content>
-
-		<attribute>
-			<name>id2</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-	</tag>
-
-	<tag>
-		<name>dashboardUploadId2</name>
-		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadId2</tag-class>
-		<body-content>empty</body-content>
-
-		<attribute>
-			<name>id2</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-	</tag>
-
-	<tag>
-		<name>dashboardSeqnum</name>
-		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardSeqnum</tag-class>
-		<body-content>empty</body-content>
-
-		<attribute>
-			<name>seqnum</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-	</tag>
-
-	<tag>
-		<name>dashboardUploadSeqnum</name>
-		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadSeqnum</tag-class>
-		<body-content>empty</body-content>
-
-		<attribute>
-			<name>seqnum</name>
+			<name>did</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
@@ -379,13 +313,7 @@
 		<body-content>empty</body-content>
 
 		<attribute>
-			<name>ID</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-
-		<attribute>
-			<name>id2</name>
+			<name>did</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
@@ -397,13 +325,7 @@
 		<body-content>empty</body-content>
 
 		<attribute>
-			<name>ID</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-
-		<attribute>
-			<name>id2</name>
+			<name>did</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
@@ -457,19 +379,13 @@
 		</attribute>
 
 		<attribute>
-			<name>ID</name>
+			<name>tid</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 
 		<attribute>
-			<name>id2</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-
-		<attribute>
-			<name>id3</name>
+			<name>did</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
@@ -487,19 +403,13 @@
 		</attribute>
 
 		<attribute>
-			<name>ID</name>
+			<name>tid</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 
 		<attribute>
-			<name>id2</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-
-		<attribute>
-			<name>id3</name>
+			<name>did</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
@@ -511,55 +421,37 @@
 		<body-content>JSP</body-content>
 
 		<attribute>
-			<name>ID</name>
+			<name>tid</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 
 		<attribute>
-			<name>id2</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-
-		<attribute>
-			<name>id3</name>
+			<name>did</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
 
 	<tag>
-		<name>topicID</name>
-		<tag-class>org.cd2h.N3CDashboardTagLib.topic.TopicID</tag-class>
+		<name>topicDid</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.topic.TopicDid</tag-class>
 		<body-content>empty</body-content>
 
 		<attribute>
-			<name>ID</name>
+			<name>did</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 	</tag>
 
 	<tag>
-		<name>topicId2</name>
-		<tag-class>org.cd2h.N3CDashboardTagLib.topic.TopicId2</tag-class>
+		<name>topicTid</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.topic.TopicTid</tag-class>
 		<body-content>empty</body-content>
 
 		<attribute>
-			<name>id2</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-	</tag>
-
-	<tag>
-		<name>topicId3</name>
-		<tag-class>org.cd2h.N3CDashboardTagLib.topic.TopicId3</tag-class>
-		<body-content>empty</body-content>
-
-		<attribute>
-			<name>id3</name>
+			<name>tid</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
@@ -601,6 +493,133 @@
 		</attribute>
 	</tag>
 
+	<tag>
+		<name>foreachBinding</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.binding.BindingIterator</tag-class>
+		<body-content>JSP</body-content>
+
+		<attribute>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>sortCriteria</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>limitCriteria</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>cid</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>did</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>useCategory</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>useDashboard</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+	</tag>
+
+	<tag>
+		<name>binding</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.binding.Binding</tag-class>
+		<body-content>JSP</body-content>
+
+		<attribute>
+			<name>var</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>cid</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>did</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>deleteBinding</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.binding.BindingDeleter</tag-class>
+		<body-content>JSP</body-content>
+
+		<attribute>
+			<name>cid</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>did</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>bindingCid</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.binding.BindingCid</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>cid</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>bindingDid</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.binding.BindingDid</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>did</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>bindingSeqnum</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.binding.BindingSeqnum</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>seqnum</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
 	<function>
 		<name>categoryCount</name>
 		<function-class>org.cd2h.N3CDashboardTagLib.category.CategoryIterator</function-class>
@@ -614,38 +633,68 @@
 	</function>
 
 	<function>
+		<name>dashboardCount</name>
+		<function-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardIterator</function-class>
+		<function-signature>java.lang.String dashboardCount()</function-signature>
+	</function>
+
+	<function>
 		<name>dashboardExists</name>
 		<function-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardIterator</function-class>
-		<function-signature>java.lang.String dashboardExists(java.lang.String, java.lang.String)</function-signature>
-	</function>
-
-	<function>
-		<name>dashboardCountByCategory</name>
-		<function-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardIterator</function-class>
-		<function-signature>java.lang.String dashboardCountByCategory(java.lang.String)</function-signature>
-	</function>
-
-	<function>
-		<name>categoryHasDashboard</name>
-		<function-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardIterator</function-class>
-		<function-signature>java.lang.Boolean categoryHasDashboard(java.lang.String)</function-signature>
+		<function-signature>java.lang.String dashboardExists(java.lang.String)</function-signature>
 	</function>
 
 	<function>
 		<name>topicExists</name>
 		<function-class>org.cd2h.N3CDashboardTagLib.topic.TopicIterator</function-class>
-		<function-signature>java.lang.String topicExists(java.lang.String, java.lang.String, java.lang.String)</function-signature>
+		<function-signature>java.lang.String topicExists(java.lang.String, java.lang.String)</function-signature>
 	</function>
 
 	<function>
 		<name>topicCountByDashboard</name>
 		<function-class>org.cd2h.N3CDashboardTagLib.topic.TopicIterator</function-class>
-		<function-signature>java.lang.String topicCountByDashboard(java.lang.String, java.lang.String)</function-signature>
+		<function-signature>java.lang.String topicCountByDashboard(java.lang.String)</function-signature>
 	</function>
 
 	<function>
 		<name>dashboardHasTopic</name>
 		<function-class>org.cd2h.N3CDashboardTagLib.topic.TopicIterator</function-class>
-		<function-signature>java.lang.Boolean dashboardHasTopic(java.lang.String, java.lang.String)</function-signature>
+		<function-signature>java.lang.Boolean dashboardHasTopic(java.lang.String)</function-signature>
+	</function>
+
+	<function>
+		<name>bindingExists</name>
+		<function-class>org.cd2h.N3CDashboardTagLib.binding.BindingIterator</function-class>
+		<function-signature>java.lang.String bindingExists(java.lang.String, java.lang.String)</function-signature>
+	</function>
+
+	<function>
+		<name>bindingCountByCategory</name>
+		<function-class>org.cd2h.N3CDashboardTagLib.binding.BindingIterator</function-class>
+		<function-signature>java.lang.String bindingCountByCategory(java.lang.String)</function-signature>
+	</function>
+
+	<function>
+		<name>categoryHasBinding</name>
+		<function-class>org.cd2h.N3CDashboardTagLib.binding.BindingIterator</function-class>
+		<function-signature>java.lang.Boolean categoryHasBinding(java.lang.String)</function-signature>
+	</function>
+
+	<function>
+		<name>bindingCountByDashboard</name>
+		<function-class>org.cd2h.N3CDashboardTagLib.binding.BindingIterator</function-class>
+		<function-signature>java.lang.String bindingCountByDashboard(java.lang.String)</function-signature>
+	</function>
+
+	<function>
+		<name>dashboardHasBinding</name>
+		<function-class>org.cd2h.N3CDashboardTagLib.binding.BindingIterator</function-class>
+		<function-signature>java.lang.Boolean dashboardHasBinding(java.lang.String)</function-signature>
+	</function>
+
+	<function>
+		<name>categoryDashboardExists</name>
+		<function-class>org.cd2h.N3CDashboardTagLib.binding.BindingIterator</function-class>
+		<function-signature>java.lang.Boolean categoryDashboardExists(java.lang.String, java.lang.String)</function-signature>
 	</function>
 </taglib>

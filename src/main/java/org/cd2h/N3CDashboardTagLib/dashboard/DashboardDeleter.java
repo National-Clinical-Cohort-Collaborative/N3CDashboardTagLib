@@ -13,13 +13,10 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.cd2h.N3CDashboardTagLib.N3CDashboardTagLibTagSupport;
 import org.cd2h.N3CDashboardTagLib.N3CDashboardTagLibBodyTagSupport;
-import org.cd2h.N3CDashboardTagLib.category.Category;
 
 @SuppressWarnings("serial")
 public class DashboardDeleter extends N3CDashboardTagLibBodyTagSupport {
-    int ID = 0;
-    int id2 = 0;
-    int seqnum = 0;
+    int did = 0;
     String title = null;
     String description = null;
     String path = null;
@@ -36,26 +33,15 @@ public class DashboardDeleter extends N3CDashboardTagLibBodyTagSupport {
     int rsCount = 0;
 
     public int doStartTag() throws JspException {
-		Category theCategory = (Category)findAncestorWithClass(this, Category.class);
-		if (theCategory!= null)
-			parentEntities.addElement(theCategory);
 
-		if (theCategory == null) {
-		} else {
-			ID = theCategory.getID();
-		}
 
 
         PreparedStatement stat;
         try {
             int webapp_keySeq = 1;
             stat = getConnection().prepareStatement("DELETE from n3c_dashboard.dashboard where 1=1"
-                                                        + (ID == 0 ? "" : " and id = ? ")
-                                                        + (id2 == 0 ? "" : " and id2 = ? ")
-                                                        + (ID == 0 ? "" : " and id = ? "));
-            if (ID != 0) stat.setInt(webapp_keySeq++, ID);
-            if (id2 != 0) stat.setInt(webapp_keySeq++, id2);
-			if (ID != 0) stat.setInt(webapp_keySeq++, ID);
+                                                        + (did == 0 ? "" : " and did = ? "));
+            if (did != 0) stat.setInt(webapp_keySeq++, did);
             stat.execute();
 
 			webapp_keySeq = 1;
@@ -108,8 +94,7 @@ public class DashboardDeleter extends N3CDashboardTagLibBodyTagSupport {
 	}
 
     private void clearServiceState() {
-        ID = 0;
-        id2 = 0;
+        did = 0;
         parentEntities = new Vector<N3CDashboardTagLibTagSupport>();
 
         this.rs = null;
@@ -127,27 +112,15 @@ public class DashboardDeleter extends N3CDashboardTagLibBodyTagSupport {
 
 
 
-	public int getID () {
-		return ID;
+	public int getDid () {
+		return did;
 	}
 
-	public void setID (int ID) {
-		this.ID = ID;
+	public void setDid (int did) {
+		this.did = did;
 	}
 
-	public int getActualID () {
-		return ID;
-	}
-
-	public int getId2 () {
-		return id2;
-	}
-
-	public void setId2 (int id2) {
-		this.id2 = id2;
-	}
-
-	public int getActualId2 () {
-		return id2;
+	public int getActualDid () {
+		return did;
 	}
 }

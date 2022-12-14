@@ -14,9 +14,8 @@
 						<table class="table table-bordered table-striped table-hover table-datatable">
 							<thead>
 								<tr>
-									<th>ID</th>
-									<th>Id2</th>
-									<th>Id3</th>
+									<th>Did</th>
+									<th>Tid</th>
 									<th>Seqnum</th>
 									<th>Title</th>
 									<th>Path</th>
@@ -24,17 +23,16 @@
 								</tr>
 							</thead>
 							<tbody>
-								<dashboard:foreachTopic var="id3Iter">
+								<dashboard:foreachTopic var="tidIter">
 									<dashboard:topic>
 										<tr>
-											<td><a href="../dashboard/dashboard.jsp?ID=<dashboard:topicID />&id2=<dashboard:topicID />"><dashboard:topicID /></a></td>
-											<td><a href="../dashboard/dashboard.jsp?ID=<dashboard:topicId2 />&id2=<dashboard:topicId2 />"><dashboard:topicId2 /></a></td>
-											<td><a href="../topic/show.jsp?ID=<dashboard:topicID />&id2=<dashboard:topicId2 />&id3=<dashboard:topicId3 />"><dashboard:topicId3 /></a></td>
+											<td><a href="../dashboard/dashboard.jsp?did=<dashboard:topicDid />"><dashboard:topicDid /></a></td>
+											<td><a href="../topic/show.jsp?tid=<dashboard:topicTid />&did=<dashboard:topicDid />"><dashboard:topicTid /></a></td>
 											<td><dashboard:topicSeqnum /></td>
 											<td><dashboard:topicTitle /></td>
 											<td><dashboard:topicPath /></td>
-											<td><a href="../topic/edit.jsp?ID=<dashboard:topicID />&id2=<dashboard:topicId2 />&id3=<dashboard:topicId3 />">edit</a></td>
-											<td><a href="../topic/delete.jsp?ID=<dashboard:topicID />&id2=<dashboard:topicId2 />&id3=<dashboard:topicId3 />">delete</a></td>
+											<td><a href="../topic/edit.jsp?tid=<dashboard:topicTid />&did=<dashboard:topicDid />">edit</a></td>
+											<td><a href="../topic/delete.jsp?tid=<dashboard:topicTid />&did=<dashboard:topicDid />">delete</a></td>
 										</tr>
 									</dashboard:topic>
 								</dashboard:foreachTopic>
@@ -45,18 +43,17 @@
 
 						<br/>
 
-						<a class="btn" href="../topic/add.jsp?ID=${param.ID}&id2=${param.id2}">add Topic</a>
+						<a class="btn" href="../topic/add.jsp?did=${param.did}">add Topic</a>
 						<br/><br/>
 
-		<dashboard:foreachTopic var="id3Iter">
+		<dashboard:foreachTopic var="tidIter">
 			<dashboard:topic>
-		<a href="../dashboard/dashboard.jsp?ID=<dashboard:topicID />&id2=<dashboard:topicID />"><dashboard:topicID /></a>
-		<a href="../dashboard/dashboard.jsp?ID=<dashboard:topicId2 />&id2=<dashboard:topicId2 />"><dashboard:topicId2 /></a>
-						<a href="../../n3cDashboard/topic/topic.jsp?ID=<dashboard:topicID />&id2=<dashboard:topicId2 />&id3=<dashboard:topicId3 />"><dashboard:topicId3 /></a>
+		<a href="../dashboard/dashboard.jsp?did=<dashboard:topicDid />"><dashboard:topicDid /></a>
+						<a href="../../n3cDashboard/topic/topic.jsp?tid=<dashboard:topicTid />&did=<dashboard:topicDid />"><dashboard:topicTid /></a>
 		<dashboard:topicSeqnum />
 		<dashboard:topicTitle />
 		<dashboard:topicPath />
-			<c:if test="${ ! id3Iter.isLast() }" >, </c:if>					</dashboard:topic>
+			<c:if test="${ ! tidIter.isLast() }" >, </c:if>					</dashboard:topic>
 			</dashboard:foreachTopic>
                 </div>
             </div>

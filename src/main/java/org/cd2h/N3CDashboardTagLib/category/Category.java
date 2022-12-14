@@ -27,7 +27,7 @@ public class Category extends N3CDashboardTagLibTagSupport {
 
 	Vector<N3CDashboardTagLibTagSupport> parentEntities = new Vector<N3CDashboardTagLibTagSupport>();
 
-	int ID = 0;
+	int cid = 0;
 	int seqnum = 0;
 	String label = null;
 
@@ -43,18 +43,18 @@ public class Category extends N3CDashboardTagLibTagSupport {
 			CategoryIterator theCategoryIterator = (CategoryIterator)findAncestorWithClass(this, CategoryIterator.class);
 
 			if (theCategoryIterator != null) {
-				ID = theCategoryIterator.getID();
+				cid = theCategoryIterator.getCid();
 			}
 
-			if (theCategoryIterator == null && ID == 0) {
-				// no ID was provided - the default is to assume that it is a new Category and to generate a new ID
-				ID = Sequence.generateID();
+			if (theCategoryIterator == null && cid == 0) {
+				// no cid was provided - the default is to assume that it is a new Category and to generate a new cid
+				cid = Sequence.generateID();
 				insertEntity();
 			} else {
-				// an iterator or ID was provided as an attribute - we need to load a Category from the database
+				// an iterator or cid was provided as an attribute - we need to load a Category from the database
 				boolean found = false;
-				PreparedStatement stmt = getConnection().prepareStatement("select seqnum,label from n3c_dashboard.category where id = ?");
-				stmt.setInt(1,ID);
+				PreparedStatement stmt = getConnection().prepareStatement("select seqnum,label from n3c_dashboard.category where cid = ?");
+				stmt.setInt(1,cid);
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
 					if (seqnum == 0)
@@ -70,7 +70,7 @@ public class Category extends N3CDashboardTagLibTagSupport {
 				}
 			}
 		} catch (SQLException e) {
-			log.error("JDBC error retrieving ID " + ID, e);
+			log.error("JDBC error retrieving cid " + cid, e);
 
 			freeConnection();
 			clearServiceState();
@@ -79,10 +79,10 @@ public class Category extends N3CDashboardTagLibTagSupport {
 			if(parent != null){
 				pageContext.setAttribute("tagError", true);
 				pageContext.setAttribute("tagErrorException", e);
-				pageContext.setAttribute("tagErrorMessage", "JDBC error retrieving ID " + ID);
+				pageContext.setAttribute("tagErrorMessage", "JDBC error retrieving cid " + cid);
 				return parent.doEndTag();
 			}else{
-				throw new JspException("JDBC error retrieving ID " + ID,e);
+				throw new JspException("JDBC error retrieving cid " + cid,e);
 			}
 
 		} finally {
@@ -139,10 +139,10 @@ public class Category extends N3CDashboardTagLibTagSupport {
 				}
 			}
 			if (commitNeeded) {
-				PreparedStatement stmt = getConnection().prepareStatement("update n3c_dashboard.category set seqnum = ?, label = ? where id = ? ");
+				PreparedStatement stmt = getConnection().prepareStatement("update n3c_dashboard.category set seqnum = ?, label = ? where cid = ? ");
 				stmt.setInt( 1, seqnum );
 				stmt.setString( 2, label );
-				stmt.setInt(3,ID);
+				stmt.setInt(3,cid);
 				stmt.executeUpdate();
 				stmt.close();
 			}
@@ -170,16 +170,16 @@ public class Category extends N3CDashboardTagLibTagSupport {
 	}
 
 	public void insertEntity() throws JspException, SQLException {
-		if (ID == 0) {
-			ID = Sequence.generateID();
-			log.debug("generating new Category " + ID);
+		if (cid == 0) {
+			cid = Sequence.generateID();
+			log.debug("generating new Category " + cid);
 		}
 
 		if (label == null){
 			label = "";
 		}
-		PreparedStatement stmt = getConnection().prepareStatement("insert into n3c_dashboard.category(id,seqnum,label) values (?,?,?)");
-		stmt.setInt(1,ID);
+		PreparedStatement stmt = getConnection().prepareStatement("insert into n3c_dashboard.category(cid,seqnum,label) values (?,?,?)");
+		stmt.setInt(1,cid);
 		stmt.setInt(2,seqnum);
 		stmt.setString(3,label);
 		stmt.executeUpdate();
@@ -187,16 +187,16 @@ public class Category extends N3CDashboardTagLibTagSupport {
 		freeConnection();
 	}
 
-	public int getID () {
-		return ID;
+	public int getCid () {
+		return cid;
 	}
 
-	public void setID (int ID) {
-		this.ID = ID;
+	public void setCid (int cid) {
+		this.cid = cid;
 	}
 
-	public int getActualID () {
-		return ID;
+	public int getActualCid () {
+		return cid;
 	}
 
 	public int getSeqnum () {
@@ -240,11 +240,11 @@ public class Category extends N3CDashboardTagLibTagSupport {
 		return var;
 	}
 
-	public static Integer IDValue() throws JspException {
+	public static Integer cidValue() throws JspException {
 		try {
-			return currentInstance.getID();
+			return currentInstance.getCid();
 		} catch (Exception e) {
-			 throw new JspTagException("Error in tag function IDValue()");
+			 throw new JspTagException("Error in tag function cidValue()");
 		}
 	}
 
@@ -265,7 +265,7 @@ public class Category extends N3CDashboardTagLibTagSupport {
 	}
 
 	private void clearServiceState () {
-		ID = 0;
+		cid = 0;
 		seqnum = 0;
 		label = null;
 		newRecord = false;

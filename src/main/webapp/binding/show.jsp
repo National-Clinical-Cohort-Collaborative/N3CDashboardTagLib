@@ -9,30 +9,27 @@
                             <jsp:include page="../menu.jsp" />
                         </div>
                         <div class="col-xs-8">
+<fmt:parseNumber var="cid" value="${param.cid}" />
 <fmt:parseNumber var="did" value="${param.did}" />
-<fmt:parseNumber var="tid" value="${param.tid}" />
-<dashboard:topic did="${did}" tid="${tid}">
-	<h2>Topic: <dashboard:topicDid /> <dashboard:topicTid /></h2>
+<dashboard:binding cid="${cid}" did="${did}">
+	<h2>Binding: <dashboard:bindingCid /> <dashboard:bindingDid /></h2>
 <ul>
-	<li><a href="../dashboard/show.jsp?did=<dashboard:topicDid />">Dashboard</a>
+	<li><a href="../category/show.jsp?cid=<dashboard:bindingCid />">Category</a>
+	<li><a href="../dashboard/show.jsp?did=<dashboard:bindingDid />">Dashboard</a>
 </ul>
 		<table border=1>
 			<tr>
+			<th>Cid</th>
 			<th>Did</th>
-			<th>Tid</th>
 			<th>Seqnum</th>
-			<th>Title</th>
-			<th>Path</th>
 			</tr>
 			<tr>
-				<td><a href="../dashboard/dashboard.jsp?did=<dashboard:topicDid />"><dashboard:topicDid /></a></td>
-				<td><a href="edit.jsp?tid=<dashboard:topicTid />&did=<dashboard:topicDid />"><dashboard:topicTid /></a></td>
-				<td><dashboard:topicSeqnum /></td>
-				<td><dashboard:topicTitle /></td>
-				<td><dashboard:topicPath /></td>
+				<td><a href="edit.jsp?cid=<dashboard:bindingCid />&did=<dashboard:bindingDid />"><dashboard:bindingCid /></a></td>
+				<td><a href="../dashboard/dashboard.jsp?did=<dashboard:bindingDid />"><dashboard:bindingDid /></a></td>
+				<td><dashboard:bindingSeqnum /></td>
 			</tr>
 		</table>
-</dashboard:topic>
+</dashboard:binding>
                 </div>
             </div>
         </div>

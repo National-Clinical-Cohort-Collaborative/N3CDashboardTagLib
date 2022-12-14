@@ -17,7 +17,7 @@ import org.cd2h.N3CDashboardTagLib.N3CDashboardTagLibBodyTagSupport;
 
 @SuppressWarnings("serial")
 public class CategoryIterator extends N3CDashboardTagLibBodyTagSupport {
-    int ID = 0;
+    int cid = 0;
 	Vector<N3CDashboardTagLibTagSupport> parentEntities = new Vector<N3CDashboardTagLibTagSupport>();
 
 	private static final Logger log = LogManager.getLogger(CategoryIterator.class);
@@ -52,15 +52,15 @@ public class CategoryIterator extends N3CDashboardTagLibBodyTagSupport {
 		return "" + count;
 	}
 
-	public static Boolean categoryExists (String ID) throws JspTagException {
+	public static Boolean categoryExists (String cid) throws JspTagException {
 		int count = 0;
 		CategoryIterator theIterator = new CategoryIterator();
 		try {
 			PreparedStatement stat = theIterator.getConnection().prepareStatement("SELECT count(*) from n3c_dashboard.category where 1=1"
-						+ " and id = ?"
+						+ " and cid = ?"
 						);
 
-			stat.setInt(1,Integer.parseInt(ID));
+			stat.setInt(1,Integer.parseInt(cid));
 			ResultSet crs = stat.executeQuery();
 
 			if (crs.next()) {
@@ -93,13 +93,13 @@ public class CategoryIterator extends N3CDashboardTagLibBodyTagSupport {
 
 
             //run select id query  
-            stat = getConnection().prepareStatement("SELECT n3c_dashboard.category.id from " + generateFromClause() + " where 1=1"
+            stat = getConnection().prepareStatement("SELECT n3c_dashboard.category.cid from " + generateFromClause() + " where 1=1"
                                                         + generateJoinCriteria()
                                                         + " order by " + generateSortCriteria()  +  generateLimitCriteria());
             rs = stat.executeQuery();
 
             if ( rs != null && rs.next() ) {
-                ID = rs.getInt(1);
+                cid = rs.getInt(1);
                 if (var != null)
                     pageContext.setAttribute(var, this);
                 return EVAL_BODY_INCLUDE;
@@ -139,7 +139,7 @@ public class CategoryIterator extends N3CDashboardTagLibBodyTagSupport {
         if (sortCriteria != null) {
             return sortCriteria;
         } else {
-            return "id";
+            return "cid";
         }
     }
 
@@ -154,7 +154,7 @@ public class CategoryIterator extends N3CDashboardTagLibBodyTagSupport {
     public int doAfterBody() throws JspException {
         try {
             if ( rs != null && rs.next() ) {
-                ID = rs.getInt(1);
+                cid = rs.getInt(1);
                 return EVAL_BODY_AGAIN;
             }
         } catch (SQLException e) {
@@ -225,7 +225,7 @@ public class CategoryIterator extends N3CDashboardTagLibBodyTagSupport {
 			if(parent != null){
 				pageContext.setAttribute("tagError", true);
 				pageContext.setAttribute("tagErrorException", e);
-				pageContext.setAttribute("tagErrorMessage", "JDBC error retrieving ID " + ID);
+				pageContext.setAttribute("tagErrorMessage", "JDBC error retrieving cid " + cid);
 				return parent.doEndTag();
 			}else{
 				throw new JspException("Error: JDBC error ending Category iterator",e);
@@ -239,7 +239,7 @@ public class CategoryIterator extends N3CDashboardTagLibBodyTagSupport {
     }
 
     private void clearServiceState() {
-        ID = 0;
+        cid = 0;
         parentEntities = new Vector<N3CDashboardTagLibTagSupport>();
 
         this.rs = null;
@@ -283,15 +283,15 @@ public class CategoryIterator extends N3CDashboardTagLibBodyTagSupport {
 
 
 
-	public int getID () {
-		return ID;
+	public int getCid () {
+		return cid;
 	}
 
-	public void setID (int ID) {
-		this.ID = ID;
+	public void setCid (int cid) {
+		this.cid = cid;
 	}
 
-	public int getActualID () {
-		return ID;
+	public int getActualCid () {
+		return cid;
 	}
 }

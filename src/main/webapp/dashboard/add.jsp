@@ -12,13 +12,9 @@
                             <jsp:include page="../menu.jsp" />
                         </div>
                         <div class="col-xs-8">
-								<form name="dashboard" method="post" action="/n3c-dashboard-admin/DashboardUploadServlet"enctype="multipart/form-data">
+								<form name="dashboard" method="post" action="/null/DashboardUploadServlet"enctype="multipart/form-data">
 									<fieldset>
 										<legend>Dashboard</legend>
-										<label for="seqnum">Seqnum</label>
-										<input type="text" id="seqnum" name="seqnum" size="40" value="">
-										<br>
-
 										<label for="title">Title</label>
 										<input type="text" id="title" name="title" size="40" value="">
 										<br>
@@ -45,7 +41,6 @@
 
 										<input type="submit" name="submit" value="Save">
 										<input type="submit" name="submit" value="Cancel">
-										<input type="hidden" name="ID" value="${param.ID}">
 									</fieldset>
 								</form>
                         </div>
@@ -59,16 +54,13 @@
 		<c:redirect url="list.jsp" />
 	</c:when>
 	<c:when test="${param.submit eq 'Save'}">
-		<dashboard:category ID = "${param.ID}">
-			<dashboard:dashboard>
-				<dashboard:dashboardSeqnum seqnum = "${param.seqnum}" />
-				<dashboard:dashboardTitle title = "${param.title}" />
-				<dashboard:dashboardDescription description = "${param.description}" />
-				<dashboard:dashboardPath path = "${param.path}" />
-				<dashboard:dashboardThumbnailPath thumbnailPath = "${param.thumbnailPath}" />
-				<dashboard:dashboardThumbnailName thumbnailName = "${param.thumbnailName}" />
-			</dashboard:dashboard>
-		</dashboard:category>
+		<dashboard:dashboard>
+			<dashboard:dashboardTitle title = "${param.title}" />
+			<dashboard:dashboardDescription description = "${param.description}" />
+			<dashboard:dashboardPath path = "${param.path}" />
+			<dashboard:dashboardThumbnailPath thumbnailPath = "${param.thumbnailPath}" />
+			<dashboard:dashboardThumbnailName thumbnailName = "${param.thumbnailName}" />
+		</dashboard:dashboard>
 		<c:redirect url="list.jsp" />
 	</c:when>
 	<c:otherwise>

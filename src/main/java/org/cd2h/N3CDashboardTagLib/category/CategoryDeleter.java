@@ -16,7 +16,7 @@ import org.cd2h.N3CDashboardTagLib.N3CDashboardTagLibBodyTagSupport;
 
 @SuppressWarnings("serial")
 public class CategoryDeleter extends N3CDashboardTagLibBodyTagSupport {
-    int ID = 0;
+    int cid = 0;
     int seqnum = 0;
     String label = null;
 	Vector<N3CDashboardTagLibTagSupport> parentEntities = new Vector<N3CDashboardTagLibTagSupport>();
@@ -36,8 +36,8 @@ public class CategoryDeleter extends N3CDashboardTagLibBodyTagSupport {
         try {
             int webapp_keySeq = 1;
             stat = getConnection().prepareStatement("DELETE from n3c_dashboard.category where 1=1"
-                                                        + (ID == 0 ? "" : " and id = ? "));
-            if (ID != 0) stat.setInt(webapp_keySeq++, ID);
+                                                        + (cid == 0 ? "" : " and cid = ? "));
+            if (cid != 0) stat.setInt(webapp_keySeq++, cid);
             stat.execute();
 
 			webapp_keySeq = 1;
@@ -90,7 +90,7 @@ public class CategoryDeleter extends N3CDashboardTagLibBodyTagSupport {
 	}
 
     private void clearServiceState() {
-        ID = 0;
+        cid = 0;
         parentEntities = new Vector<N3CDashboardTagLibTagSupport>();
 
         this.rs = null;
@@ -108,15 +108,15 @@ public class CategoryDeleter extends N3CDashboardTagLibBodyTagSupport {
 
 
 
-	public int getID () {
-		return ID;
+	public int getCid () {
+		return cid;
 	}
 
-	public void setID (int ID) {
-		this.ID = ID;
+	public void setCid (int cid) {
+		this.cid = cid;
 	}
 
-	public int getActualID () {
-		return ID;
+	public int getActualCid () {
+		return cid;
 	}
 }

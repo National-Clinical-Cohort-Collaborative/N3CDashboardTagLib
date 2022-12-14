@@ -14,21 +14,21 @@
 						<table class="table table-bordered table-striped table-hover table-datatable">
 							<thead>
 								<tr>
-									<th>ID</th>
+									<th>Cid</th>
 									<th>Seqnum</th>
 									<th>Label</th>
 									<th></th>
 								</tr>
 							</thead>
 							<tbody>
-								<dashboard:foreachCategory var="idIter">
+								<dashboard:foreachCategory var="cidIter">
 									<dashboard:category>
 										<tr>
-											<td><a href="../category/show.jsp?ID=<dashboard:categoryID />"><dashboard:categoryID /></a></td>
+											<td><a href="../category/show.jsp?cid=<dashboard:categoryCid />"><dashboard:categoryCid /></a></td>
 											<td><dashboard:categorySeqnum /></td>
 											<td><dashboard:categoryLabel /></td>
-											<td><a href="../category/edit.jsp?ID=<dashboard:categoryID />">edit</a></td>
-											<td><a href="../category/delete.jsp?ID=<dashboard:categoryID />">delete</a></td>
+											<td><a href="../category/edit.jsp?cid=<dashboard:categoryCid />">edit</a></td>
+											<td><a href="../category/delete.jsp?cid=<dashboard:categoryCid />">delete</a></td>
 										</tr>
 									</dashboard:category>
 								</dashboard:foreachCategory>
@@ -42,12 +42,12 @@
 						<a class="btn" href="../category/add.jsp">add Category</a>
 						<br/><br/>
 
-		<dashboard:foreachCategory var="idIter">
+		<dashboard:foreachCategory var="cidIter">
 			<dashboard:category>
-						<a href="../../n3cDashboard/category/category.jsp?ID=<dashboard:categoryID />"><dashboard:categoryID /></a>
+						<a href="../../n3cDashboard/category/category.jsp?cid=<dashboard:categoryCid />"><dashboard:categoryCid /></a>
 		<dashboard:categorySeqnum />
 		<dashboard:categoryLabel />
-			<c:if test="${ ! idIter.isLast() }" >, </c:if>					</dashboard:category>
+			<c:if test="${ ! cidIter.isLast() }" >, </c:if>					</dashboard:category>
 			</dashboard:foreachCategory>
                 </div>
             </div>

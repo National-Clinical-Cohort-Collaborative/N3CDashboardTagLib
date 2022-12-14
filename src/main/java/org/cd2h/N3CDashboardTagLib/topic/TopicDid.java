@@ -10,68 +10,68 @@ import org.apache.logging.log4j.LogManager;
 import org.cd2h.N3CDashboardTagLib.N3CDashboardTagLibTagSupport;
 
 @SuppressWarnings("serial")
-public class TopicId3 extends N3CDashboardTagLibTagSupport {
+public class TopicDid extends N3CDashboardTagLibTagSupport {
 
-	private static final Logger log = LogManager.getLogger(TopicId3.class);
+	private static final Logger log = LogManager.getLogger(TopicDid.class);
 
 	public int doStartTag() throws JspException {
 		try {
 			Topic theTopic = (Topic)findAncestorWithClass(this, Topic.class);
 			if (!theTopic.commitNeeded) {
-				pageContext.getOut().print(theTopic.getId3());
+				pageContext.getOut().print(theTopic.getDid());
 			}
 		} catch (Exception e) {
-			log.error("Can't find enclosing Topic for id3 tag ", e);
+			log.error("Can't find enclosing Topic for did tag ", e);
 			freeConnection();
 			Tag parent = getParent();
 			if(parent != null){
 				pageContext.setAttribute("tagError", true);
 				pageContext.setAttribute("tagErrorException", e);
-				pageContext.setAttribute("tagErrorMessage", "Error: Can't find enclosing Topic for id3 tag ");
+				pageContext.setAttribute("tagErrorMessage", "Error: Can't find enclosing Topic for did tag ");
 				return parent.doEndTag();
 			}else{
-				throw new JspTagException("Error: Can't find enclosing Topic for id3 tag ");
+				throw new JspTagException("Error: Can't find enclosing Topic for did tag ");
 			}
 
 		}
 		return SKIP_BODY;
 	}
 
-	public int getId3() throws JspException {
+	public int getDid() throws JspException {
 		try {
 			Topic theTopic = (Topic)findAncestorWithClass(this, Topic.class);
-			return theTopic.getId3();
+			return theTopic.getDid();
 		} catch (Exception e) {
-			log.error("Can't find enclosing Topic for id3 tag ", e);
+			log.error("Can't find enclosing Topic for did tag ", e);
 			freeConnection();
 			Tag parent = getParent();
 			if(parent != null){
 				pageContext.setAttribute("tagError", true);
 				pageContext.setAttribute("tagErrorException", e);
-				pageContext.setAttribute("tagErrorMessage", "Error: Can't find enclosing Topic for id3 tag ");
+				pageContext.setAttribute("tagErrorMessage", "Error: Can't find enclosing Topic for did tag ");
 				parent.doEndTag();
 				return 0;
 			}else{
-				throw new JspTagException("Error: Can't find enclosing Topic for id3 tag ");
+				throw new JspTagException("Error: Can't find enclosing Topic for did tag ");
 			}
 		}
 	}
 
-	public void setId3(int id3) throws JspException {
+	public void setDid(int did) throws JspException {
 		try {
 			Topic theTopic = (Topic)findAncestorWithClass(this, Topic.class);
-			theTopic.setId3(id3);
+			theTopic.setDid(did);
 		} catch (Exception e) {
-			log.error("Can't find enclosing Topic for id3 tag ", e);
+			log.error("Can't find enclosing Topic for did tag ", e);
 			freeConnection();
 			Tag parent = getParent();
 			if(parent != null){
 				pageContext.setAttribute("tagError", true);
 				pageContext.setAttribute("tagErrorException", e);
-				pageContext.setAttribute("tagErrorMessage", "Error: Can't find enclosing Topic for id3 tag ");
+				pageContext.setAttribute("tagErrorMessage", "Error: Can't find enclosing Topic for did tag ");
 				parent.doEndTag();
 			}else{
-				throw new JspTagException("Error: Can't find enclosing Topic for id3 tag ");
+				throw new JspTagException("Error: Can't find enclosing Topic for did tag ");
 			}
 		}
 	}
