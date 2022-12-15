@@ -21,6 +21,8 @@
 									<th>ThumbnailPath</th>
 									<th>Thumbnail</th>
 									<th>ThumbnailName</th>
+									<th>Blurb</th>
+									<th>Limitations</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -35,6 +37,8 @@
 											<td><dashboard:dashboardThumbnailPath /></td>
 											<td><img src="../dashboard/displayDashboardThumbnail.jsp?&size=120&did=<dashboard:dashboardDid />"></td>
 											<td><dashboard:dashboardThumbnailName /></td>
+											<td><dashboard:dashboardBlurb /></td>
+											<td><dashboard:dashboardLimitations /></td>
 											<td><a href="../dashboard/edit.jsp?did=<dashboard:dashboardDid />">edit</a></td>
 											<td><a href="../dashboard/delete.jsp?did=<dashboard:dashboardDid />">delete</a></td>
 										</tr>
@@ -59,6 +63,8 @@
 		<dashboard:dashboardThumbnailPath />
 		<img src="../dashboard/displayDashboardThumbnail.jsp?&size=120&did=<dashboard:dashboardDid />">
 		<dashboard:dashboardThumbnailName />
+		<dashboard:dashboardBlurb />
+		<dashboard:dashboardLimitations />
 			<c:if test="${ ! didIter.isLast() }" >, </c:if>					</dashboard:dashboard>
 			</dashboard:foreachDashboard>
                 </div>

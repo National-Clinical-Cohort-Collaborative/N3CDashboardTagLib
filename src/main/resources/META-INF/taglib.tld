@@ -356,6 +356,54 @@
 	</tag>
 
 	<tag>
+		<name>dashboardBlurb</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardBlurb</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>blurb</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>dashboardUploadBlurb</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadBlurb</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>blurb</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>dashboardLimitations</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardLimitations</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>limitations</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>dashboardUploadLimitations</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadLimitations</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>limitations</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
 		<name>foreachTopic</name>
 		<tag-class>org.cd2h.N3CDashboardTagLib.topic.TopicIterator</tag-class>
 		<body-content>JSP</body-content>

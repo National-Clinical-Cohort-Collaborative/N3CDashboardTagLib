@@ -39,6 +39,14 @@
 										<input type="text" id="thumbnailName" name="thumbnailName" size="40" value="">
 										<br>
 
+										<label for="blurb">Blurb</label>
+										<input type="text" id="blurb" name="blurb" size="40" value="">
+										<br>
+
+										<label for="limitations">Limitations</label>
+										<input type="text" id="limitations" name="limitations" size="40" value="">
+										<br>
+
 										<input type="submit" name="submit" value="Save">
 										<input type="submit" name="submit" value="Cancel">
 									</fieldset>
@@ -60,6 +68,8 @@
 			<dashboard:dashboardPath path = "${param.path}" />
 			<dashboard:dashboardThumbnailPath thumbnailPath = "${param.thumbnailPath}" />
 			<dashboard:dashboardThumbnailName thumbnailName = "${param.thumbnailName}" />
+			<dashboard:dashboardBlurb blurb = "${param.blurb}" />
+			<dashboard:dashboardLimitations limitations = "${param.limitations}" />
 		</dashboard:dashboard>
 		<c:redirect url="list.jsp" />
 	</c:when>

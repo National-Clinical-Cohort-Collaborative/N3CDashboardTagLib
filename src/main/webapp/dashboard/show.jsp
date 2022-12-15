@@ -21,6 +21,8 @@
 			<th>ThumbnailPath</th>
 			<th>Thumbnail</th>
 			<th>ThumbnailName</th>
+			<th>Blurb</th>
+			<th>Limitations</th>
 			</tr>
 			<tr>
 				<td><a href="edit.jsp?did=<dashboard:dashboardDid />"><dashboard:dashboardDid /></a></td>
@@ -30,6 +32,8 @@
 				<td><dashboard:dashboardThumbnailPath /></td>
 				<td><img src="../dashboard/displayDashboardThumbnail.jsp?&size=120&did=<dashboard:dashboardDid />"></td>
 				<td><dashboard:dashboardThumbnailName /></td>
+				<td><dashboard:dashboardBlurb /></td>
+				<td><dashboard:dashboardLimitations /></td>
 			</tr>
 		</table>
 

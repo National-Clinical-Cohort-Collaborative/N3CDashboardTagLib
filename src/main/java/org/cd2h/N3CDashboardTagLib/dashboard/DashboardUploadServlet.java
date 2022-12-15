@@ -46,6 +46,8 @@ public class DashboardUploadServlet extends HttpServlet {
 		String path = request.getParameter("path").trim();
 		String thumbnailPath = request.getParameter("thumbnailPath").trim();
 		String thumbnailName = request.getParameter("thumbnailName").trim();
+		String blurb = request.getParameter("blurb").trim();
+		String limitations = request.getParameter("limitations").trim();
 
 		Part thumbnail = null;
 
@@ -80,12 +82,14 @@ public class DashboardUploadServlet extends HttpServlet {
 			if (recordExists) {
 				log.debug("image upload: " + thumbnail);
 				int paramCount = 0;
-				stmt = conn.prepareStatement("update n3c_dashboard.dashboard set title = ?, description = ?, path = ?, thumbnail_path = ?, thumbnail_name = ? where did = ?");
+				stmt = conn.prepareStatement("update n3c_dashboard.dashboard set title = ?, description = ?, path = ?, thumbnail_path = ?, thumbnail_name = ?, blurb = ?, limitations = ? where did = ?");
 				stmt.setString(++paramCount,title);
 				stmt.setString(++paramCount,description);
 				stmt.setString(++paramCount,path);
 				stmt.setString(++paramCount,thumbnailPath);
 				stmt.setString(++paramCount,thumbnailName);
+				stmt.setString(++paramCount,blurb);
+				stmt.setString(++paramCount,limitations);
 				stmt.setInt(++paramCount,did);
 				stmt.execute();
 				stmt.close();
@@ -100,7 +104,7 @@ public class DashboardUploadServlet extends HttpServlet {
 				}
 			} else {
 				int paramCount = 0;
-				stmt = conn.prepareStatement("insert into n3c_dashboard.dashboard(did,title,description,path,thumbnail_path,thumbnail,thumbnail_name) values(?,?,?,?,?,?,?)");
+				stmt = conn.prepareStatement("insert into n3c_dashboard.dashboard(did,title,description,path,thumbnail_path,thumbnail,thumbnail_name,blurb,limitations) values(?,?,?,?,?,?,?,?,?)");
 				stmt.setInt(++paramCount,Sequence.generateID());
 				stmt.setString(++paramCount,title);
 				stmt.setString(++paramCount,description);
@@ -108,6 +112,8 @@ public class DashboardUploadServlet extends HttpServlet {
 				stmt.setString(++paramCount,thumbnailPath);
 				stmt.setBinaryStream(++paramCount, thumbnail.getInputStream(), thumbnail.getSize());
 				stmt.setString(++paramCount,thumbnailName);
+				stmt.setString(++paramCount,blurb);
+				stmt.setString(++paramCount,limitations);
 				stmt.execute();
 				stmt.close();
 			}

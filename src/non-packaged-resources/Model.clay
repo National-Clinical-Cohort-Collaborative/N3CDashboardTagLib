@@ -91,6 +91,18 @@
                                     <variant type-name-pattern="TEXT"/>
                                 </data-type>
                             </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="blurb" remarks="" uid="3b6b02d6:184e96de7d0:-7ce3">
+                                <column-description/>
+                                <data-type jdbc-type="-1" literal-prefix="'" literal-suffix="'" name="TEXT" selected-variant-pattern="TEXT">
+                                    <variant type-name-pattern="TEXT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="limitations" remarks="" uid="3b6b02d6:184e96de7d0:-7ce2">
+                                <column-description/>
+                                <data-type jdbc-type="-1" literal-prefix="'" literal-suffix="'" name="TEXT" selected-variant-pattern="TEXT">
+                                    <variant type-name-pattern="TEXT"/>
+                                </data-type>
+                            </column>
                         </column-list>
                         <primary-key alias="" name="PK_DASHBOARD" remarks="" uid="3b6b02d6:184e96de7d0:-7fb7">
                             <primary-key-description/>

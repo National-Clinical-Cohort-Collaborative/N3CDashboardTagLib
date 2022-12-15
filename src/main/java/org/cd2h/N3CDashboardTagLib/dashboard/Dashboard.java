@@ -34,6 +34,8 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 	String thumbnailPath = null;
 	byte[] thumbnail = null;
 	String thumbnailName = null;
+	String blurb = null;
+	String limitations = null;
 
 	private String var = null;
 
@@ -57,7 +59,7 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 			} else {
 				// an iterator or did was provided as an attribute - we need to load a Dashboard from the database
 				boolean found = false;
-				PreparedStatement stmt = getConnection().prepareStatement("select title,description,path,thumbnail_path,thumbnail,thumbnail_name from n3c_dashboard.dashboard where did = ?");
+				PreparedStatement stmt = getConnection().prepareStatement("select title,description,path,thumbnail_path,thumbnail,thumbnail_name,blurb,limitations from n3c_dashboard.dashboard where did = ?");
 				stmt.setInt(1,did);
 				ResultSet rs = stmt.executeQuery();
 				while (rs.next()) {
@@ -73,6 +75,10 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 						thumbnail = rs.getBytes(5);
 					if (thumbnailName == null)
 						thumbnailName = rs.getString(6);
+					if (blurb == null)
+						blurb = rs.getString(7);
+					if (limitations == null)
+						limitations = rs.getString(8);
 					found = true;
 				}
 				stmt.close();
@@ -151,14 +157,16 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 				}
 			}
 			if (commitNeeded) {
-				PreparedStatement stmt = getConnection().prepareStatement("update n3c_dashboard.dashboard set title = ?, description = ?, path = ?, thumbnail_path = ?, thumbnail = ?, thumbnail_name = ? where did = ? ");
+				PreparedStatement stmt = getConnection().prepareStatement("update n3c_dashboard.dashboard set title = ?, description = ?, path = ?, thumbnail_path = ?, thumbnail = ?, thumbnail_name = ?, blurb = ?, limitations = ? where did = ? ");
 				stmt.setString( 1, title );
 				stmt.setString( 2, description );
 				stmt.setString( 3, path );
 				stmt.setString( 4, thumbnailPath );
 				stmt.setBytes( 5, thumbnail );
 				stmt.setString( 6, thumbnailName );
-				stmt.setInt(7,did);
+				stmt.setString( 7, blurb );
+				stmt.setString( 8, limitations );
+				stmt.setInt(9,did);
 				stmt.executeUpdate();
 				stmt.close();
 			}
@@ -206,7 +214,13 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 		if (thumbnailName == null){
 			thumbnailName = "";
 		}
-		PreparedStatement stmt = getConnection().prepareStatement("insert into n3c_dashboard.dashboard(did,title,description,path,thumbnail_path,thumbnail,thumbnail_name) values (?,?,?,?,?,?,?)");
+		if (blurb == null){
+			blurb = "";
+		}
+		if (limitations == null){
+			limitations = "";
+		}
+		PreparedStatement stmt = getConnection().prepareStatement("insert into n3c_dashboard.dashboard(did,title,description,path,thumbnail_path,thumbnail,thumbnail_name,blurb,limitations) values (?,?,?,?,?,?,?,?,?)");
 		stmt.setInt(1,did);
 		stmt.setString(2,title);
 		stmt.setString(3,description);
@@ -214,6 +228,8 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 		stmt.setString(5,thumbnailPath);
 		stmt.setBytes(6,thumbnail);
 		stmt.setString(7,thumbnailName);
+		stmt.setString(8,blurb);
+		stmt.setString(9,limitations);
 		stmt.executeUpdate();
 		stmt.close();
 		freeConnection();
@@ -324,6 +340,38 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 		return thumbnailName;
 	}
 
+	public String getBlurb () {
+		if (commitNeeded)
+			return "";
+		else
+			return blurb;
+	}
+
+	public void setBlurb (String blurb) {
+		this.blurb = blurb;
+		commitNeeded = true;
+	}
+
+	public String getActualBlurb () {
+		return blurb;
+	}
+
+	public String getLimitations () {
+		if (commitNeeded)
+			return "";
+		else
+			return limitations;
+	}
+
+	public void setLimitations (String limitations) {
+		this.limitations = limitations;
+		commitNeeded = true;
+	}
+
+	public String getActualLimitations () {
+		return limitations;
+	}
+
 	public String getVar () {
 		return var;
 	}
@@ -392,6 +440,22 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 		}
 	}
 
+	public static String blurbValue() throws JspException {
+		try {
+			return currentInstance.getBlurb();
+		} catch (Exception e) {
+			 throw new JspTagException("Error in tag function blurbValue()");
+		}
+	}
+
+	public static String limitationsValue() throws JspException {
+		try {
+			return currentInstance.getLimitations();
+		} catch (Exception e) {
+			 throw new JspTagException("Error in tag function limitationsValue()");
+		}
+	}
+
 	private void clearServiceState () {
 		did = 0;
 		title = null;
@@ -400,6 +464,8 @@ public class Dashboard extends N3CDashboardTagLibTagSupport {
 		thumbnailPath = null;
 		thumbnail = null;
 		thumbnailName = null;
+		blurb = null;
+		limitations = null;
 		newRecord = false;
 		commitNeeded = false;
 		parentEntities = new Vector<N3CDashboardTagLibTagSupport>();
