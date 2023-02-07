@@ -211,6 +211,46 @@
                         </foreign-key-list>
                         <index-list/>
                     </table>
+                    <table alias="" name="related_dashboard" remarks="" uid="71d2dd85:186284ec202:-7ffc">
+                        <table-description/>
+                        <table-figure-bounds height="-1" width="-1" x="316" y="353"/>
+                        <column-list>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="did" remarks="" uid="71d2dd85:186284ec202:-7fdc">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="rid" remarks="" uid="71d2dd85:186284ec202:-7f8b">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="seqnum" remarks="" uid="71d2dd85:186284ec202:-7f86">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                        </column-list>
+                        <primary-key alias="" name="PK_RELATED_DASHBOARD" remarks="" uid="71d2dd85:186284ec202:-7ffb">
+                            <primary-key-description/>
+                            <primary-key-column name="did"/>
+                            <primary-key-column name="rid"/>
+                        </primary-key>
+                        <unique-key-list/>
+                        <foreign-key-list>
+                            <foreign-key alias="" name="FK_related_dashboard_1" on-delete="" on-update="" referenced-key="PK_DASHBOARD" referenced-table="dashboard" referenced-table-schema="n3c_dashboard" remarks="" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="" uid="71d2dd85:186284ec202:-7fdd">
+                                <foreign-key-description/>
+                                <foreign-key-figure>
+                                    <fk-fig-bendpoint-list/>
+                                </foreign-key-figure>
+                                <foreign-key-column column-name="did" referenced-key-column-name="did"/>
+                            </foreign-key>
+                        </foreign-key-list>
+                        <index-list/>
+                    </table>
                 </table-list>
             </schema>
         </schema-list>

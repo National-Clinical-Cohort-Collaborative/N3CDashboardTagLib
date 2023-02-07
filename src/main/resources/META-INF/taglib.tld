@@ -668,6 +668,120 @@
 		</attribute>
 	</tag>
 
+	<tag>
+		<name>foreachRelatedDashboard</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.relatedDashboard.RelatedDashboardIterator</tag-class>
+		<body-content>JSP</body-content>
+
+		<attribute>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>sortCriteria</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>limitCriteria</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>did</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>rid</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>relatedDashboard</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.relatedDashboard.RelatedDashboard</tag-class>
+		<body-content>JSP</body-content>
+
+		<attribute>
+			<name>var</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>did</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>rid</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>deleteRelatedDashboard</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.relatedDashboard.RelatedDashboardDeleter</tag-class>
+		<body-content>JSP</body-content>
+
+		<attribute>
+			<name>did</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+
+		<attribute>
+			<name>rid</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>relatedDashboardDid</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.relatedDashboard.RelatedDashboardDid</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>did</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>relatedDashboardRid</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.relatedDashboard.RelatedDashboardRid</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>rid</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>relatedDashboardSeqnum</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.relatedDashboard.RelatedDashboardSeqnum</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>seqnum</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
 	<function>
 		<name>categoryCount</name>
 		<function-class>org.cd2h.N3CDashboardTagLib.category.CategoryIterator</function-class>
@@ -744,5 +858,23 @@
 		<name>categoryDashboardExists</name>
 		<function-class>org.cd2h.N3CDashboardTagLib.binding.BindingIterator</function-class>
 		<function-signature>java.lang.Boolean categoryDashboardExists(java.lang.String, java.lang.String)</function-signature>
+	</function>
+
+	<function>
+		<name>relatedDashboardExists</name>
+		<function-class>org.cd2h.N3CDashboardTagLib.relatedDashboard.RelatedDashboardIterator</function-class>
+		<function-signature>java.lang.String relatedDashboardExists(java.lang.String, java.lang.String)</function-signature>
+	</function>
+
+	<function>
+		<name>relatedDashboardCountByDashboard</name>
+		<function-class>org.cd2h.N3CDashboardTagLib.relatedDashboard.RelatedDashboardIterator</function-class>
+		<function-signature>java.lang.String relatedDashboardCountByDashboard(java.lang.String)</function-signature>
+	</function>
+
+	<function>
+		<name>dashboardHasRelatedDashboard</name>
+		<function-class>org.cd2h.N3CDashboardTagLib.relatedDashboard.RelatedDashboardIterator</function-class>
+		<function-signature>java.lang.Boolean dashboardHasRelatedDashboard(java.lang.String)</function-signature>
 	</function>
 </taglib>

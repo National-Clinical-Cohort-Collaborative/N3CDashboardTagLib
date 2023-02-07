@@ -5,4 +5,5 @@
     <li><a href="<util:applicationRoot/>/dashboard/list.jsp" />Dashboard list</a></li>
     <li><a href="<util:applicationRoot/>/topic/list.jsp" />Topic list</a></li>
     <li><a href="<util:applicationRoot/>/binding/list.jsp" />Binding list</a></li>
+    <li><a href="<util:applicationRoot/>/relatedDashboard/list.jsp" />RelatedDashboard list</a></li>
 </ul>

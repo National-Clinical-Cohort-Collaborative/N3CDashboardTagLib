@@ -17,18 +17,9 @@ CREATE TABLE n3c_dashboard.dashboard (
      , thumbnail_path TEXT
      , thumbnail Image
      , thumbnail_name TEXT
+     , blurb TEXT
+     , limitations TEXT
      , PRIMARY KEY (did)
-);
-
-CREATE TABLE n3c_dashboard.topic (
-       did INT NOT NULL
-     , tid INT NOT NULL
-     , seqnum INT
-     , title TEXT
-     , path TEXT
-     , PRIMARY KEY (tid, did)
-     , CONSTRAINT FK_topic_1 FOREIGN KEY (did)
-                  REFERENCES n3c_dashboard.dashboard (did)
 );
 
 CREATE TABLE n3c_dashboard.binding (
@@ -39,6 +30,26 @@ CREATE TABLE n3c_dashboard.binding (
      , CONSTRAINT FK_binding_1 FOREIGN KEY (cid)
                   REFERENCES n3c_dashboard.category (cid)
      , CONSTRAINT FK_binding_2 FOREIGN KEY (did)
+                  REFERENCES n3c_dashboard.dashboard (did)
+);
+
+CREATE TABLE n3c_dashboard.related_dashboard (
+       did INT NOT NULL
+     , rid INT NOT NULL
+     , seqnum INT
+     , PRIMARY KEY (did, rid)
+     , CONSTRAINT FK_related_dashboard_1 FOREIGN KEY (did)
+                  REFERENCES n3c_dashboard.dashboard (did)
+);
+
+CREATE TABLE n3c_dashboard.topic (
+       did INT NOT NULL
+     , tid INT NOT NULL
+     , seqnum INT
+     , title TEXT
+     , path TEXT
+     , PRIMARY KEY (tid, did)
+     , CONSTRAINT FK_topic_1 FOREIGN KEY (did)
                   REFERENCES n3c_dashboard.dashboard (did)
 );
 

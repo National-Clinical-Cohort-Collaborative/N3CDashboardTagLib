@@ -38,6 +38,12 @@ src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardThumbnailPath.java 
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardTitle.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardUploadServlet.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/FormUploadServlet.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/relatedDashboard/RelatedDashboard.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/relatedDashboard/RelatedDashboardDeleter.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/relatedDashboard/RelatedDashboardDid.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/relatedDashboard/RelatedDashboardIterator.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/relatedDashboard/RelatedDashboardRid.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/relatedDashboard/RelatedDashboardSeqnum.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/topic/Topic.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/topic/TopicDeleter.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/topic/TopicDid.java -text
@@ -73,6 +79,11 @@ src/main/webapp/header.jsp -text
 src/main/webapp/index.jsp -text
 src/main/webapp/menu.jsp -text
 src/main/webapp/nav.jsp -text
+src/main/webapp/relatedDashboard/add.jsp -text
+src/main/webapp/relatedDashboard/delete.jsp -text
+src/main/webapp/relatedDashboard/edit.jsp -text
+src/main/webapp/relatedDashboard/list.jsp -text
+src/main/webapp/relatedDashboard/show.jsp -text
 src/main/webapp/topic/add.jsp -text
 src/main/webapp/topic/delete.jsp -text
 src/main/webapp/topic/edit.jsp -text
