@@ -52,6 +52,7 @@ src/main/java/org/cd2h/N3CDashboardTagLib/topic/TopicPath.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/topic/TopicSeqnum.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/topic/TopicTid.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/topic/TopicTitle.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/util/Functions.java -text
 src/main/java/org/cd2h/n3c_dashboard/Demo.java -text
 src/main/resources/META-INF/taglib.tld -text
 src/main/webapp/META-INF/MANIFEST.MF -text
@@ -90,4 +91,5 @@ src/main/webapp/topic/edit.jsp -text
 src/main/webapp/topic/list.jsp -text
 src/main/webapp/topic/show.jsp -text
 src/non-packaged-resources/Model.clay -text
+src/non-packaged-resources/functions.tld -text
 src/non-packaged-resources/model.sql -text
