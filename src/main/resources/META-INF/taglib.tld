@@ -877,4 +877,17 @@
 		<function-class>org.cd2h.N3CDashboardTagLib.relatedDashboard.RelatedDashboardIterator</function-class>
 		<function-signature>java.lang.Boolean dashboardHasRelatedDashboard(java.lang.String)</function-signature>
 	</function>
+
+	<function>
+		<name>dashboardDidByTitle</name>
+		<function-class>org.cd2h.N3CDashboardTagLib.util.Functions</function-class>
+		<function-signature>java.lang.Integer dashboardDidByTitle(java.lang.String)</function-signature>
+	</function>
+
+	<function>
+		<name>dashboardDidByPath</name>
+		<function-class>org.cd2h.N3CDashboardTagLib.util.Functions</function-class>
+		<function-signature>java.lang.Integer dashboardDidByPath(java.lang.String)</function-signature>
+	</function>
+	
 </taglib>
