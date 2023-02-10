@@ -251,6 +251,138 @@
                         </foreign-key-list>
                         <index-list/>
                     </table>
+                    <table alias="" name="tag_definition" remarks="" uid="71d2dd85:186284ec202:-7f85">
+                        <table-description/>
+                        <table-figure-bounds height="-1" width="-1" x="806" y="74"/>
+                        <column-list>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="tid" remarks="" uid="71d2dd85:186284ec202:-7f81">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="tag" remarks="" uid="71d2dd85:186284ec202:-7f80">
+                                <column-description/>
+                                <data-type jdbc-type="-1" literal-prefix="'" literal-suffix="'" name="TEXT" selected-variant-pattern="TEXT">
+                                    <variant type-name-pattern="TEXT"/>
+                                </data-type>
+                            </column>
+                        </column-list>
+                        <primary-key alias="" name="PK_TAG_DEFINITION" remarks="" uid="71d2dd85:186284ec202:-7f84">
+                            <primary-key-description/>
+                            <primary-key-column name="tid"/>
+                        </primary-key>
+                        <unique-key-list/>
+                        <foreign-key-list/>
+                        <index-list/>
+                    </table>
+                    <table alias="" name="dashboard_tag" remarks="" uid="71d2dd85:186284ec202:-7f7f">
+                        <table-description/>
+                        <table-figure-bounds height="-1" width="-1" x="594" y="124"/>
+                        <column-list>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="did" remarks="" uid="71d2dd85:186284ec202:-7f12">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="tid" remarks="" uid="71d2dd85:186284ec202:-7ece">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                        </column-list>
+                        <primary-key alias="" name="PK_DASHBOARD_TAG" remarks="" uid="71d2dd85:186284ec202:-7f7e">
+                            <primary-key-description/>
+                            <primary-key-column name="did"/>
+                            <primary-key-column name="tid"/>
+                        </primary-key>
+                        <unique-key-list/>
+                        <foreign-key-list>
+                            <foreign-key alias="" name="FK_dashboard_tag_1" on-delete="" on-update="" referenced-key="PK_DASHBOARD" referenced-table="dashboard" referenced-table-schema="n3c_dashboard" remarks="" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="" uid="71d2dd85:186284ec202:-7f13">
+                                <foreign-key-description/>
+                                <foreign-key-figure>
+                                    <fk-fig-bendpoint-list/>
+                                </foreign-key-figure>
+                                <foreign-key-column column-name="did" referenced-key-column-name="did"/>
+                            </foreign-key>
+                            <foreign-key alias="" name="FK_dashboard_tag_2" on-delete="" on-update="" referenced-key="PK_TAG_DEFINITION" referenced-table="tag_definition" referenced-table-schema="n3c_dashboard" remarks="" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="" uid="71d2dd85:186284ec202:-7ecf">
+                                <foreign-key-description/>
+                                <foreign-key-figure>
+                                    <fk-fig-bendpoint-list/>
+                                </foreign-key-figure>
+                                <foreign-key-column column-name="tid" referenced-key-column-name="tid"/>
+                            </foreign-key>
+                        </foreign-key-list>
+                        <index-list/>
+                    </table>
+                    <table alias="" name="type_definition" remarks="" uid="71d2dd85:186284ec202:-7ec8">
+                        <table-description/>
+                        <table-figure-bounds height="-1" width="-1" x="805" y="233"/>
+                        <column-list>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="tid" remarks="" uid="71d2dd85:186284ec202:-7ec2">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="false" name="type" remarks="" uid="71d2dd85:186284ec202:-7ec1">
+                                <column-description/>
+                                <data-type jdbc-type="-1" literal-prefix="'" literal-suffix="'" name="TEXT" selected-variant-pattern="TEXT">
+                                    <variant type-name-pattern="TEXT"/>
+                                </data-type>
+                            </column>
+                        </column-list>
+                        <primary-key alias="" name="PK_TYPE_DEFINITION" remarks="" uid="71d2dd85:186284ec202:-7ec7">
+                            <primary-key-description/>
+                            <primary-key-column name="tid"/>
+                        </primary-key>
+                        <unique-key-list/>
+                        <foreign-key-list/>
+                        <index-list/>
+                    </table>
+                    <table alias="" name="dashboard_type" remarks="" uid="71d2dd85:186284ec202:-7ec0">
+                        <table-description/>
+                        <table-figure-bounds height="-1" width="-1" x="625" y="209"/>
+                        <column-list>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="did" remarks="" uid="71d2dd85:186284ec202:-7ea5">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                            <column alias="" auto-increment="false" column-size="0" decimal-digits="0" default-value="" mandatory="true" name="tid" remarks="" uid="71d2dd85:186284ec202:-7e6d">
+                                <column-description/>
+                                <data-type jdbc-type="4" name="INT" selected-variant-pattern="INT">
+                                    <variant type-name-pattern="INT"/>
+                                </data-type>
+                            </column>
+                        </column-list>
+                        <primary-key alias="" name="PK_DASHBOARD_TYPE" remarks="" uid="71d2dd85:186284ec202:-7ebf">
+                            <primary-key-description/>
+                            <primary-key-column name="did"/>
+                            <primary-key-column name="tid"/>
+                        </primary-key>
+                        <unique-key-list/>
+                        <foreign-key-list>
+                            <foreign-key alias="" name="FK_dashboard_type_1" on-delete="" on-update="" referenced-key="PK_DASHBOARD" referenced-table="dashboard" referenced-table-schema="n3c_dashboard" remarks="" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="" uid="71d2dd85:186284ec202:-7ea6">
+                                <foreign-key-description/>
+                                <foreign-key-figure>
+                                    <fk-fig-bendpoint-list/>
+                                </foreign-key-figure>
+                                <foreign-key-column column-name="did" referenced-key-column-name="did"/>
+                            </foreign-key>
+                            <foreign-key alias="" name="FK_dashboard_type_2" on-delete="" on-update="" referenced-key="PK_TYPE_DEFINITION" referenced-table="type_definition" referenced-table-schema="n3c_dashboard" remarks="" source-entity-role="" source-multiplicity="0..*" source-relationship-type="" target-entity-role="" target-multiplicity="1" target-relationship-type="" uid="71d2dd85:186284ec202:-7e6e">
+                                <foreign-key-description/>
+                                <foreign-key-figure>
+                                    <fk-fig-bendpoint-list/>
+                                </foreign-key-figure>
+                                <foreign-key-column column-name="tid" referenced-key-column-name="tid"/>
+                            </foreign-key>
+                        </foreign-key-list>
+                        <index-list/>
+                    </table>
                 </table-list>
             </schema>
         </schema-list>

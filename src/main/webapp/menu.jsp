@@ -6,4 +6,8 @@
     <li><a href="<util:applicationRoot/>/topic/list.jsp" />Topic list</a></li>
     <li><a href="<util:applicationRoot/>/binding/list.jsp" />Binding list</a></li>
     <li><a href="<util:applicationRoot/>/relatedDashboard/list.jsp" />RelatedDashboard list</a></li>
+    <li><a href="<util:applicationRoot/>/tagDefinition/list.jsp" />TagDefinition list</a></li>
+    <li><a href="<util:applicationRoot/>/dashboardTag/list.jsp" />DashboardTag list</a></li>
+    <li><a href="<util:applicationRoot/>/typeDefinition/list.jsp" />TypeDefinition list</a></li>
+    <li><a href="<util:applicationRoot/>/dashboardType/list.jsp" />DashboardType list</a></li>
 </ul>
