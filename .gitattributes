@@ -143,3 +143,4 @@ src/main/webapp/typeDefinition/show.jsp -text
 src/non-packaged-resources/Model.clay -text
 src/non-packaged-resources/functions.tld -text
 src/non-packaged-resources/model.sql -text
+src/non-packaged-resources/monitoring.sql -text
