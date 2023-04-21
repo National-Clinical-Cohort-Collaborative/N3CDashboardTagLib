@@ -41,3 +41,22 @@ from
 natural left outer join
 	(select * from n3c_dashboard.feed_deltas) as bar
 ;
+
+-- first build the feed to table mappings
+--
+-- fgrep -R n3c_questions_new * | sed -e "s/:.*from / /" -e "s/:.*FROM / /" -e "s/  *where .*//" -e "s/ group .*//" | sort | uniq > ~/feed_table_mapping
+-- fgrep -R n3c_questions. * | sed -e "s/:.*from / /" -e "s/:.*FROM / /" -e "s/  *where .*//" -e "s/ group .*//" | sort | uniq > ~/feed_table_mapping2
+--
+-- manual editing of the two mapping files
+--
+-- psql -h neuromancer -c "copy n3c_dashboard.feed_table_mapping_staging from stdin delimiter ' ';" cd2h < ~/feed_table_mapping2
+-- sort ~/feed_table_mapping | uniq | psql -h neuromancer -c "copy n3c_dashboard.feed_table_mapping_staging from stdin delimiter ' ';" cd2h
+--
+-- then build the table to vis mapping
+-- foreach a ( `cat ~/vis_feed_mapping` )
+--    fgrep -R $a .
+-- end
+--
+-- manual editing of the mapping file yielding mapping file 2
+--
+-- sort ~/vis_feed_mapping2 | uniq | psql -h neuromancer -c "copy n3c_dashboard.dashboard_feed_mapping from stdin delimiter ' ';" cd2h
