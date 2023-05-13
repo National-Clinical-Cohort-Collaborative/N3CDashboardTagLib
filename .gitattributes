@@ -141,6 +141,12 @@ src/main/webapp/typeDefinition/edit.jsp -text
 src/main/webapp/typeDefinition/list.jsp -text
 src/main/webapp/typeDefinition/show.jsp -text
 src/non-packaged-resources/Model.clay -text
+src/non-packaged-resources/d3-node/map-us-network.js -text
+src/non-packaged-resources/d3-node/map-us.js -text
+src/non-packaged-resources/d3-node/markers.csv -text
+src/non-packaged-resources/d3-node/publications.js -text
+src/non-packaged-resources/d3-node/test.js -text
+src/non-packaged-resources/d3-node/us-states.json -text
 src/non-packaged-resources/functions.tld -text
 src/non-packaged-resources/model.sql -text
 src/non-packaged-resources/monitoring.sql -text
