@@ -73,7 +73,10 @@ src/main/java/org/cd2h/N3CDashboardTagLib/typeDefinition/TypeDefinitionIterator.
 src/main/java/org/cd2h/N3CDashboardTagLib/typeDefinition/TypeDefinitionTid.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/typeDefinition/TypeDefinitionType.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/util/Functions.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/util/LocalProperties.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/util/PropertyLoader.java -text
 src/main/java/org/cd2h/n3c_dashboard/Demo.java -text
+src/main/java/org/cd2h/n3c_dashboard/Scorecard.java -text
 src/main/resources/META-INF/taglib.tld -text
 src/main/webapp/META-INF/MANIFEST.MF -text
 src/main/webapp/_include.jsp -text
@@ -154,3 +157,5 @@ src/non-packaged-resources/d3-node/test.js -text
 src/non-packaged-resources/functions.tld -text
 src/non-packaged-resources/model.sql -text
 src/non-packaged-resources/monitoring.sql -text
+src/non-packaged-resources/n3c_dashboard_ph.sql -text
+src/non-packaged-resources/n3c_dashboard_ph_prior.sql -text
