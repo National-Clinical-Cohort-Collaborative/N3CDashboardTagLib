@@ -363,9 +363,15 @@ public class Scorecard {
 	
 	static class HeaderParagraphRenderer extends ParagraphRenderer {
 		float y;
+		Paragraph modelElement = null;
 
 		public HeaderParagraphRenderer(Paragraph modelElement) {
 			super(modelElement);
+			this.modelElement = modelElement;
+		}
+		
+		public ParagraphRenderer getNextRenderer() {
+			return new HeaderParagraphRenderer(modelElement);
 		}
 
 		@Override
