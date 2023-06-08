@@ -60,3 +60,17 @@ natural left outer join
 -- manual editing of the mapping file yielding mapping file 2
 --
 -- sort ~/vis_feed_mapping2 | uniq | psql -h neuromancer -c "copy n3c_dashboard.dashboard_feed_mapping from stdin delimiter ' ';" cd2h
+
+-----------------------
+create view n3c_dashboard_analysis.full_demographics as
+select * from
+(select table_name from information_schema.columns where table_schema = 'n3c_dashboard_ph' and column_name='age') as age
+natural join
+(select table_name from information_schema.columns where table_schema = 'n3c_dashboard_ph' and column_name='ethnicity') as ethnicity
+natural join
+(select table_name from information_schema.columns where table_schema = 'n3c_dashboard_ph' and column_name='race') as race
+natural join
+(select table_name from information_schema.columns where table_schema = 'n3c_dashboard_ph' and column_name='severity') as severity
+natural join
+(select table_name from information_schema.columns where table_schema = 'n3c_dashboard_ph' and column_name='sex') as sex
+;
