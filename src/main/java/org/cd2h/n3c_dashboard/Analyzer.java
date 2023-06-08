@@ -25,7 +25,7 @@ public class Analyzer {
 		conn = getConnection();
 
 		PreparedStatement stmt = conn.prepareStatement(
-				"SELECT table_name FROM information_schema.tables WHERE table_schema = 'n3c_dashboard_analysis' order by 1");
+				"SELECT table_name FROM information_schema.tables WHERE table_schema = 'n3c_dashboard_domain' order by 1");
 		ResultSet rs = stmt.executeQuery();
 		while (rs.next()) {
 			String domain = rs.getString(1);
@@ -75,7 +75,7 @@ public class Analyzer {
 	static int processAge(String domain, String table) throws SQLException {
 		int count = 0;
 		PreparedStatement stmt = conn.prepareStatement("select value,age,count(*)"
-				+ " from n3c_dashboard_ph." + table + " full outer join n3c_dashboard_analysis." + domain + " on (age=value)"
+				+ " from n3c_dashboard_ph." + table + " full outer join n3c_dashboard_domain." + domain + " on (age=value)"
 				+ " where value is null or " + domain + " is null group by 1,2");
 		ResultSet rs = stmt.executeQuery();
 		while (rs.next()) {
@@ -105,7 +105,7 @@ public class Analyzer {
 
 	static void processTable(String domain, String table) throws SQLException {
 		PreparedStatement stmt = conn.prepareStatement("select value,"+domain+",count(*)"
-														+ " from n3c_dashboard_ph."+table+" full outer join n3c_dashboard_analysis."+domain+" on ("+domain+"=value)"
+														+ " from n3c_dashboard_ph."+table+" full outer join n3c_dashboard_domain."+domain+" on ("+domain+"=value)"
 														+ " where value is null or "+domain+" is null group by 1,2");
 		ResultSet rs = stmt.executeQuery();
 		while (rs.next()) {
