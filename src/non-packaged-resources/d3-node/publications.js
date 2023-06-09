@@ -68,7 +68,8 @@ init().then(() => {
 	output(targetPath, d3nMap({ nodes, radius, fill, edges, scale }), options)
 	nodes.forEach(function(val, index, array) {
 		var target = val.id;
+		//console.error(target,target.replace(/.*\//, ''))
 		// this output call generates x.png, x.svg and x.html
-		output(targetPath+`_sites/` + val.site.replace(/ /g, '_'), d3nMap({ nodes, radius, fill, edges, scale, target }), options)
+		output(targetPath+`_sites/` + target.replace(/.*\//, ''), d3nMap({ nodes, radius, fill, edges, scale, target }), options)
 	});
 });
