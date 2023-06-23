@@ -83,6 +83,8 @@ import com.itextpdf.layout.renderer.ParagraphRenderer;
 
 // bottom block ?
 
+// Integrated Health Care System - N3C Collaboration and Data Profile
+
 public class Scorecard {
 	static Logger logger = Logger.getLogger(Scorecard.class);
 	static String pathPrefix = null;
@@ -106,6 +108,7 @@ public class Scorecard {
 	static boolean isDataContributor = false;
 	static boolean hasN3CGrantMention = false;
 	static boolean hasCollaboratingSites = false;
+	static boolean hasProjects = false;
 	static boolean hasPublishingSites = false;
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException, InterruptedException {
@@ -133,6 +136,7 @@ public class Scorecard {
 				isDataContributor = isDataContributor(ror);
 				hasN3CGrantMention = hasN3CGrantMention(ror);
 				hasCollaboratingSites = hasCollaboratingSites(ror);
+				hasProjects = hasProjects(ror);
 				hasPublishingSites = hasPublishingSites(ror);
 				
 				generateSite(ror, name);
@@ -197,14 +201,16 @@ public class Scorecard {
 			addHeader("NIH Grant Awards to " + name + " with Mentions of N3C");
 			generateGrantTable(ror, name, document);
 		}
-		document.add(new AreaBreak(AreaBreakType.NEXT_AREA));
-		addHeader("Enclave Projects with Members from " + name);
-		generateProjectTable(ror, name, document);
-		
-		document.add(new AreaBreak(AreaBreakType.NEXT_AREA));
-		addHeader("Publications with Authors from " + name);
-		generatePubTable(ror, name, document);
-		
+		if (hasProjects) {
+			document.add(new AreaBreak(AreaBreakType.NEXT_AREA));
+			addHeader("Enclave Projects with Members from " + name);
+			generateProjectTable(ror, name, document);
+		}
+		if (hasPublishingSites) {
+			document.add(new AreaBreak(AreaBreakType.NEXT_AREA));
+			addHeader("Publications with Authors from " + name);
+			generatePubTable(ror, name, document);
+		}
 		document.close();
 	}
 	
@@ -249,6 +255,10 @@ public class Scorecard {
 		return count > 0;
 	}
 	
+	static boolean hasProjects(String ror) throws SQLException {
+		return getSiteCount("select project_count from n3c_collaboration.organization_organization where ror_id = ?", ror) > 0;
+	}
+	
 	static boolean hasPublishingSites(String ror) throws SQLException {
 		int count = 0;
 		PreparedStatement stmt = conn.prepareStatement("select count(*)"
@@ -276,7 +286,7 @@ public class Scorecard {
 		table.addCell(logoCell);
 		
 		Cell headerCell = new Cell(1,4).setBorder(Border.NO_BORDER);
-		Text header = new Text("N3C Collaboration Scorecard: " + name)
+		Text header = new Text("N3C Collaboration Profile: " + name)
 				.setFontSize(18)
 				.setFont(font)
 				.setBold()
@@ -290,7 +300,7 @@ public class Scorecard {
 		table.addCell(headerCell);
 		
 		document.add(table);
-		table = new Table(hasN3CGrantMention(ror) ? 5 : 4).useAllAvailableWidth();
+		table = new Table(5).useAllAvailableWidth();
 		
 		// Row 2 - Metrics
 
@@ -306,11 +316,10 @@ public class Scorecard {
 		metric2.setWidth(20);
 		table.addCell(metric2);
 		
-		if (hasN3CGrantMention) {
-			Cell metric3 = getTileCell(1, "Grants mentioning N3C", name, ror);
-			metric3.setWidth(20);
-			table.addCell(metric3);
-		}
+		Cell metric3 = getTileCell(1, "Grants mentioning N3C", name, ror);
+		metric3.setWidth(20);
+		table.addCell(metric3);
+
 		Cell metric4 = getTileCell(1, "Publications", name, ror);
 		metric4.setWidth(20);
 		table.addCell(metric4);
@@ -343,7 +352,7 @@ public class Scorecard {
 		table.addCell(logoCell);
 		
 		Cell headerCell = new Cell(1,4).setBorder(Border.NO_BORDER);
-		Text header = new Text("N3C Data Scorecard: " + name)
+		Text header = new Text("N3C Data Profile: " + name)
 				.setFontSize(18)
 				.setFont(font)
 				.setBold()
@@ -484,18 +493,26 @@ public class Scorecard {
 			break;
 		case "Grants mentioning N3C":
 			addCellHeader(cell, header);
-			stmt = conn.prepareStatement("select count(*),sum(award_amount)"
-										+ " from nih_exporter_current.ror_binding natural join nih_exporter_current.n3c"
-										+ " where ror_id = ?");
-			stmt.setString(1, ror);
-			rs = stmt.executeQuery();
-			while (rs.next()) {
-				Paragraph awardPara = new Paragraph(rs.getInt(1) + " awards");
-				cell.add(awardPara);
-				Paragraph costPara = new Paragraph("$" + formatter.format(rs.getInt(2)) + " total amount");
-				cell.add(costPara);
+			if (hasN3CGrantMention) {
+				stmt = conn.prepareStatement("select count(*),sum(award_amount)"
+						+ " from nih_exporter_current.ror_binding natural join nih_exporter_current.n3c"
+						+ " where ror_id = ?");
+				stmt.setString(1, ror);
+				rs = stmt.executeQuery();
+				while (rs.next()) {
+					Paragraph awardPara = new Paragraph(rs.getInt(1) + " awards");
+					cell.add(awardPara);
+					Paragraph costPara = new Paragraph("$" + formatter.format(rs.getInt(2)) + " total amount");
+					cell.add(costPara);
+				}
+				stmt.close();
+			} else {
+				Paragraph notice = new Paragraph("None")
+//						.setFontSize(18)
+//						.setFont(font)
+						.setItalic();
+				cell.add(notice);
 			}
-			stmt.close();
 			break;
 		case "Clinical Data Model":
 			addCellHeader(cell, header);
@@ -598,39 +615,47 @@ public class Scorecard {
 			break;
 		case "Publications":
 			addCellHeader(cell, header);
-			stmt = conn.prepareStatement("select count(distinct last_name||' '||first_name) from scholar_profile.authorship_map where ror_id = ?");
-			stmt.setString(1, ror);
-			rs = stmt.executeQuery();
-			while (rs.next()) {
-				Paragraph cdmPara = new Paragraph(formatter.format(rs.getInt(1)) + " authors");
-				cell.add(cdmPara);
+			if (hasPublishingSites) {
+				stmt = conn.prepareStatement(
+						"select count(distinct last_name||' '||first_name) from scholar_profile.authorship_map where ror_id = ?");
+				stmt.setString(1, ror);
+				rs = stmt.executeQuery();
+				while (rs.next()) {
+					Paragraph cdmPara = new Paragraph(formatter.format(rs.getInt(1)) + " authors");
+					cell.add(cdmPara);
+				}
+				stmt.close();
+				stmt = conn.prepareStatement(
+						"select count(*) from scholar_profile.citation where id in (select id from scholar_profile.authorship natural join scholar_profile.authorship_map as bar where ror_id = ?)");
+				stmt.setString(1, ror);
+				rs = stmt.executeQuery();
+				while (rs.next()) {
+					Paragraph cdmPara = new Paragraph(formatter.format(rs.getInt(1)) + " publications");
+					cell.add(cdmPara);
+				}
+				stmt.close();
+				stmt = conn.prepareStatement("select count(*) from scholar_profile.authorship natural join scholar_profile.authorship_map where ror_id = ?");
+				stmt.setString(1, ror);
+				rs = stmt.executeQuery();
+				while (rs.next()) {
+					Paragraph cdmPara = new Paragraph(formatter.format(rs.getInt(1)) + " authorships");
+					cell.add(cdmPara);
+				}
+				stmt.close();
+			} else {
+				Paragraph notice = new Paragraph("None")
+//						.setFontSize(18)
+//						.setFont(font)
+						.setItalic();
+				cell.add(notice);
 			}
-			stmt.close();
-
-			stmt = conn.prepareStatement("select count(*) from scholar_profile.citation where id in (select id from scholar_profile.authorship natural join scholar_profile.authorship_map as bar where ror_id = ?)");
-			stmt.setString(1, ror);
-			rs = stmt.executeQuery();
-			while (rs.next()) {
-				Paragraph cdmPara = new Paragraph(formatter.format(rs.getInt(1)) + " publications");
-				cell.add(cdmPara);
-			}
-			stmt.close();
-
-			stmt = conn.prepareStatement("select count(*) from scholar_profile.authorship_map where ror_id = ?");
-			stmt.setString(1, ror);
-			rs = stmt.executeQuery();
-			while (rs.next()) {
-				Paragraph cdmPara = new Paragraph(formatter.format(rs.getInt(1)) + " authorships");
-				cell.add(cdmPara);
-			}
-			stmt.close();
 			break;
 		case "Sites collaborating with ":
 			if (hasCollaboratingSites) {
 				addCellHeader(cell, header  + name);
 			} else {
 				addCellHeader(cell, "N3C Collaboration Map");
-				Paragraph notice = new Paragraph("No collaborating sites identified");
+				Paragraph notice = new Paragraph("No collaborating sites identified for this site");
 				cell.add(notice);
 			}
 			Paragraph map2 = new Paragraph();
@@ -646,7 +671,7 @@ public class Scorecard {
 				addCellHeader(cell, header  + name);
 			} else {
 				addCellHeader(cell, "N3C Publication Map");
-				Paragraph notice = new Paragraph("No publications identified");
+				Paragraph notice = new Paragraph("No publications identified for this site");
 				cell.add(notice);
 			}
 			Paragraph map1 = new Paragraph();
