@@ -1,4 +1,5 @@
-<%@ include file="../_include.jsp" %>
+<%@ include file="../_include.jsp"  %>
+
 
 <c:choose>
 	<c:when test="${empty param.submit and not empty param.cid}">

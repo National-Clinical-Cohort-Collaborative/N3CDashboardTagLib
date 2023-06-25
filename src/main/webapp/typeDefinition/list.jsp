@@ -1,4 +1,5 @@
-<%@ include file="../_include.jsp" %>
+<%@ include file="../_include.jsp"  %>
+
 <html>
     <jsp:include page="../head.jsp" />
     <body>

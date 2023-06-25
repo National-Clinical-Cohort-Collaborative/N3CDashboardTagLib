@@ -1,4 +1,5 @@
-<%@ include file="../_include.jsp" %>
+<%@ include file="../_include.jsp"  %>
+
         <html>
             <jsp:include page="../head.jsp" />
             <body>
@@ -23,6 +24,8 @@
 			<th>ThumbnailName</th>
 			<th>Blurb</th>
 			<th>Limitations</th>
+			<th>Jsp</th>
+			<th>Active</th>
 			</tr>
 			<tr>
 				<td><a href="edit.jsp?did=<dashboard:dashboardDid />"><dashboard:dashboardDid /></a></td>
@@ -34,6 +37,8 @@
 				<td><dashboard:dashboardThumbnailName /></td>
 				<td><dashboard:dashboardBlurb /></td>
 				<td><dashboard:dashboardLimitations /></td>
+				<td><dashboard:dashboardJsp /></td>
+				<td><dashboard:dashboardActive /></td>
 			</tr>
 		</table>
 

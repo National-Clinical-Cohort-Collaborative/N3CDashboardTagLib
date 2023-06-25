@@ -32,10 +32,12 @@ public class DashboardThumbnail extends N3CDashboardTagLibTagSupport {
 	String thumbnailName = null;
 	String blurb = null;
 	String limitations = null;
+	String jsp = null;
+	boolean active = false;
 
 	public int doStartTag() throws JspException {
 		try {
-			PreparedStatement stmt = getConnection().prepareStatement("select title,description,path,thumbnail_path,thumbnail,thumbnail_name,blurb,limitations from n3c_dashboard.dashboard where did = ?");
+			PreparedStatement stmt = getConnection().prepareStatement("select title,description,path,thumbnail_path,thumbnail,thumbnail_name,blurb,limitations,jsp,active from n3c_dashboard.dashboard where did = ?");
 			stmt.setInt(1,did);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -55,6 +57,10 @@ public class DashboardThumbnail extends N3CDashboardTagLibTagSupport {
 					blurb = rs.getString(7);
 				if (limitations == null)
 					limitations = rs.getString(8);
+				if (jsp == null)
+					jsp = rs.getString(9);
+				if (active == false)
+					active = rs.getBoolean(10);
 			}
 			stmt.close();
 
@@ -144,6 +150,8 @@ public class DashboardThumbnail extends N3CDashboardTagLibTagSupport {
 		thumbnailName = null;
 		blurb = null;
 		limitations = null;
+		jsp = null;
+		active = false;
 	}
 
 }

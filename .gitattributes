@@ -25,11 +25,13 @@ src/main/java/org/cd2h/N3CDashboardTagLib/category/CategoryIterator.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/category/CategoryLabel.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/category/CategorySeqnum.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/Dashboard.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardActive.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardBlurb.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardDeleter.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardDescription.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardDid.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardIterator.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardJsp.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardLimitations.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardPath.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/dashboard/DashboardThumbnail.java -text

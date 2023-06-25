@@ -1,4 +1,5 @@
-<%@ include file="../_include.jsp" %>
+<%@ include file="../_include.jsp"  %>
+
 
 <c:choose>
 	<c:when test="${empty param.submit}">
@@ -47,6 +48,14 @@
 										<input type="text" id="limitations" name="limitations" size="40" value="">
 										<br>
 
+										<label for="jsp">Jsp</label>
+										<input type="text" id="jsp" name="jsp" size="40" value="">
+										<br>
+
+										<label for="active">Active</label>
+										<input type="text" id="active" name="active" size="40" value="">
+										<br>
+
 										<input type="submit" name="submit" value="Save">
 										<input type="submit" name="submit" value="Cancel">
 									</fieldset>
@@ -70,6 +79,8 @@
 			<dashboard:dashboardThumbnailName thumbnailName = "${param.thumbnailName}" />
 			<dashboard:dashboardBlurb blurb = "${param.blurb}" />
 			<dashboard:dashboardLimitations limitations = "${param.limitations}" />
+			<dashboard:dashboardJsp jsp = "${param.jsp}" />
+			<dashboard:dashboardActive active = "${param.active}" />
 		</dashboard:dashboard>
 		<c:redirect url="list.jsp" />
 	</c:when>

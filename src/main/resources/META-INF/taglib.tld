@@ -404,6 +404,54 @@
 	</tag>
 
 	<tag>
+		<name>dashboardJsp</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardJsp</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>jsp</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>dashboardUploadJsp</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadJsp</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>jsp</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>dashboardActive</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardActive</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>active</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>dashboardUploadActive</name>
+		<tag-class>org.cd2h.N3CDashboardTagLib.dashboard.DashboardUploadActive</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>active</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<tag>
 		<name>foreachTopic</name>
 		<tag-class>org.cd2h.N3CDashboardTagLib.topic.TopicIterator</tag-class>
 		<body-content>JSP</body-content>

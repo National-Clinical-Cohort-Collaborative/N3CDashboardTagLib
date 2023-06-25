@@ -1,4 +1,5 @@
-<%@ include file="../_include.jsp" %>
+<%@ include file="../_include.jsp"  %>
+
 <html>
     <jsp:include page="../head.jsp" />
     <body>
@@ -23,6 +24,8 @@
 									<th>ThumbnailName</th>
 									<th>Blurb</th>
 									<th>Limitations</th>
+									<th>Jsp</th>
+									<th>Active</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -39,6 +42,8 @@
 											<td><dashboard:dashboardThumbnailName /></td>
 											<td><dashboard:dashboardBlurb /></td>
 											<td><dashboard:dashboardLimitations /></td>
+											<td><dashboard:dashboardJsp /></td>
+											<td><dashboard:dashboardActive /></td>
 											<td><a href="../dashboard/edit.jsp?did=<dashboard:dashboardDid />">edit</a></td>
 											<td><a href="../dashboard/delete.jsp?did=<dashboard:dashboardDid />">delete</a></td>
 										</tr>
@@ -65,6 +70,8 @@
 		<dashboard:dashboardThumbnailName />
 		<dashboard:dashboardBlurb />
 		<dashboard:dashboardLimitations />
+		<dashboard:dashboardJsp />
+		<dashboard:dashboardActive />
 			<c:if test="${ ! didIter.isLast() }" >, </c:if>					</dashboard:dashboard>
 			</dashboard:foreachDashboard>
                 </div>

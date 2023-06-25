@@ -48,6 +48,8 @@ public class DashboardUploadServlet extends HttpServlet {
 		String thumbnailName = request.getParameter("thumbnailName").trim();
 		String blurb = request.getParameter("blurb").trim();
 		String limitations = request.getParameter("limitations").trim();
+		String jsp = request.getParameter("jsp").trim();
+		boolean active = Boolean.parseBoolean(request.getParameter("active").trim());
 
 		Part thumbnail = null;
 
@@ -82,7 +84,7 @@ public class DashboardUploadServlet extends HttpServlet {
 			if (recordExists) {
 				log.debug("image upload: " + thumbnail);
 				int paramCount = 0;
-				stmt = conn.prepareStatement("update n3c_dashboard.dashboard set title = ?, description = ?, path = ?, thumbnail_path = ?, thumbnail_name = ?, blurb = ?, limitations = ? where did = ?");
+				stmt = conn.prepareStatement("update n3c_dashboard.dashboard set title = ?, description = ?, path = ?, thumbnail_path = ?, thumbnail_name = ?, blurb = ?, limitations = ?, jsp = ?, active = ? where did = ?");
 				stmt.setString(++paramCount,title);
 				stmt.setString(++paramCount,description);
 				stmt.setString(++paramCount,path);
@@ -90,6 +92,8 @@ public class DashboardUploadServlet extends HttpServlet {
 				stmt.setString(++paramCount,thumbnailName);
 				stmt.setString(++paramCount,blurb);
 				stmt.setString(++paramCount,limitations);
+				stmt.setString(++paramCount,jsp);
+				stmt.setBoolean(++paramCount,active);
 				stmt.setInt(++paramCount,did);
 				stmt.execute();
 				stmt.close();
@@ -104,7 +108,7 @@ public class DashboardUploadServlet extends HttpServlet {
 				}
 			} else {
 				int paramCount = 0;
-				stmt = conn.prepareStatement("insert into n3c_dashboard.dashboard(did,title,description,path,thumbnail_path,thumbnail,thumbnail_name,blurb,limitations) values(?,?,?,?,?,?,?,?,?)");
+				stmt = conn.prepareStatement("insert into n3c_dashboard.dashboard(did,title,description,path,thumbnail_path,thumbnail,thumbnail_name,blurb,limitations,jsp,active) values(?,?,?,?,?,?,?,?,?,?,?)");
 				stmt.setInt(++paramCount,Sequence.generateID());
 				stmt.setString(++paramCount,title);
 				stmt.setString(++paramCount,description);
@@ -114,6 +118,8 @@ public class DashboardUploadServlet extends HttpServlet {
 				stmt.setString(++paramCount,thumbnailName);
 				stmt.setString(++paramCount,blurb);
 				stmt.setString(++paramCount,limitations);
+				stmt.setString(++paramCount,jsp);
+				stmt.setBoolean(++paramCount,active);
 				stmt.execute();
 				stmt.close();
 			}
