@@ -28,6 +28,9 @@ public class DashboardTypeIterator extends N3CDashboardTagLibBodyTagSupport {
 
     PreparedStatement stat = null;
     ResultSet rs = null;
+    String fromList = null;
+    String joinCriteria = null;
+    String filterCriteria = null;
     String sortCriteria = null;
     int limitCriteria = 0;
     String var = null;
@@ -167,6 +170,7 @@ public class DashboardTypeIterator extends N3CDashboardTagLibBodyTagSupport {
             int webapp_keySeq = 1;
             stat = getConnection().prepareStatement("SELECT count(*) from " + generateFromClause() + " where 1=1"
                                                         + generateJoinCriteria()
+                                                        + generateFilterCriteria()
                                                         + (did == 0 ? "" : " and did = ?")
                                                         + (tid == 0 ? "" : " and tid = ?")
                                                         + generateLimitCriteria());
@@ -183,6 +187,7 @@ public class DashboardTypeIterator extends N3CDashboardTagLibBodyTagSupport {
             webapp_keySeq = 1;
             stat = getConnection().prepareStatement("SELECT n3c_dashboard.dashboard_type.did, n3c_dashboard.dashboard_type.tid from " + generateFromClause() + " where 1=1"
                                                         + generateJoinCriteria()
+                                                        + generateFilterCriteria()
                                                         + (did == 0 ? "" : " and did = ?")
                                                         + (tid == 0 ? "" : " and tid = ?")
                                                         + " order by " + generateSortCriteria()  +  generateLimitCriteria());
@@ -236,6 +241,14 @@ public class DashboardTypeIterator extends N3CDashboardTagLibBodyTagSupport {
           theBuffer.append(" and n3c_dashboard.type_definition.tid = n3c_dashboard.dashboard_type.tid");
 
       return theBuffer.toString();
+    }
+
+    private String generateFilterCriteria() {
+        if (filterCriteria != null) {
+            return " and " + filterCriteria;
+        } else {
+            return "";
+        }
     }
 
     private String generateSortCriteria() {
@@ -352,6 +365,30 @@ public class DashboardTypeIterator extends N3CDashboardTagLibBodyTagSupport {
         this.sortCriteria = null;
         this.var = null;
         this.rsCount = 0;
+    }
+
+    public String getFromList() {
+        return fromList;
+    }
+
+    public void setFromList(String fromList) {
+        this.fromList = fromList;
+    }
+
+    public String getJoinCriteria() {
+        return joinCriteria;
+    }
+
+    public void setJoinCriteria(String joinCriteria) {
+        this.joinCriteria = joinCriteria;
+    }
+
+    public String getFilterCriteria() {
+        return filterCriteria;
+    }
+
+    public void setFilterCriteria(String filterCriteria) {
+        this.filterCriteria = filterCriteria;
     }
 
     public String getSortCriteria() {

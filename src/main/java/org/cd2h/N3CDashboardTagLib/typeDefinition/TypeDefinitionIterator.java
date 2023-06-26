@@ -25,6 +25,9 @@ public class TypeDefinitionIterator extends N3CDashboardTagLibBodyTagSupport {
 
     PreparedStatement stat = null;
     ResultSet rs = null;
+    String fromList = null;
+    String joinCriteria = null;
+    String filterCriteria = null;
     String sortCriteria = null;
     int limitCriteria = 0;
     String var = null;
@@ -84,6 +87,7 @@ public class TypeDefinitionIterator extends N3CDashboardTagLibBodyTagSupport {
             //run count query  
             stat = getConnection().prepareStatement("SELECT count(*) from " + generateFromClause() + " where 1=1"
                                                         + generateJoinCriteria()
+                                                        + generateFilterCriteria()
                                                         + generateLimitCriteria());
             rs = stat.executeQuery();
 
@@ -95,6 +99,7 @@ public class TypeDefinitionIterator extends N3CDashboardTagLibBodyTagSupport {
             //run select id query  
             stat = getConnection().prepareStatement("SELECT n3c_dashboard.type_definition.tid from " + generateFromClause() + " where 1=1"
                                                         + generateJoinCriteria()
+                                                        + generateFilterCriteria()
                                                         + " order by " + generateSortCriteria()  +  generateLimitCriteria());
             rs = stat.executeQuery();
 
@@ -133,6 +138,14 @@ public class TypeDefinitionIterator extends N3CDashboardTagLibBodyTagSupport {
     private String generateJoinCriteria() {
        StringBuffer theBuffer = new StringBuffer();
       return theBuffer.toString();
+    }
+
+    private String generateFilterCriteria() {
+        if (filterCriteria != null) {
+            return " and " + filterCriteria;
+        } else {
+            return "";
+        }
     }
 
     private String generateSortCriteria() {
@@ -247,6 +260,30 @@ public class TypeDefinitionIterator extends N3CDashboardTagLibBodyTagSupport {
         this.sortCriteria = null;
         this.var = null;
         this.rsCount = 0;
+    }
+
+    public String getFromList() {
+        return fromList;
+    }
+
+    public void setFromList(String fromList) {
+        this.fromList = fromList;
+    }
+
+    public String getJoinCriteria() {
+        return joinCriteria;
+    }
+
+    public void setJoinCriteria(String joinCriteria) {
+        this.joinCriteria = joinCriteria;
+    }
+
+    public String getFilterCriteria() {
+        return filterCriteria;
+    }
+
+    public void setFilterCriteria(String filterCriteria) {
+        this.filterCriteria = filterCriteria;
     }
 
     public String getSortCriteria() {
