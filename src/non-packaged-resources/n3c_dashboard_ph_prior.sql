@@ -1352,7 +1352,7 @@ CREATE TABLE n3c_dashboard_ph.meds_covdemomedsclassagesec_csd (
     ethnicity text,
     severity text,
     patient_count text,
-    total_patient_count integer
+    total_patient_count bigint
 );
 
 CREATE TABLE n3c_dashboard_ph.meds_coveth_csd (
@@ -1966,7 +1966,7 @@ CREATE TABLE n3c_dashboard_ph.pax_precovutil_csd (
 CREATE TABLE n3c_dashboard_ph.pax_rac_csd (
     race text,
     covid_w_pax integer,
-    count text
+    count integer
 );
 
 CREATE TABLE n3c_dashboard_ph.pax_sev_csd (
