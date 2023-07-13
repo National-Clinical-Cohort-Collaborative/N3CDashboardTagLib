@@ -29,7 +29,7 @@ select
 	end as patient_count
 from
 (select
-	alcohol_map.secondary as alcohol_condition,opioid_map.secondary as opioids
+	alcohol_map.alcohol_condition,opioid_map.opioids
 from n3c_dashboard.alcohol_map, n3c_dashboard.opioid_map) as foo
 natural left join
 n3c_dashboard_ph.sub_opialc_csd
@@ -46,7 +46,7 @@ select
 	end as patient_count
 from
 (select
-	alcohol_map.secondary as alcohol_condition,opioid_map.secondary as opioids
+	alcohol_condition, opioids
 from n3c_dashboard.alcohol_map, n3c_dashboard.opioid_map) as foo
 natural left join
 n3c_dashboard_ph.sub_covalcopi_csd
@@ -72,26 +72,34 @@ select
 	end as patient_count
 from
 (select
-	alcohol_map.secondary as alcohol_condition,smoking_map.secondary as smoking_status
+	alcohol_condition,smoking_map.secondary as smoking_status
 from n3c_dashboard.alcohol_map, n3c_dashboard.smoking_map) as foo
 natural left join
-n3c_dashboard_ph.sub_smoopialc_csd
+n3c_dashboard_ph.sub_smoalc_csd
 ;
 
 create view n3c_dashboard_ph.substance_alc_smo_covid as
 select
 	alcohol_condition,
 	smoking_status,
+	patient_count as covid_display,
 	case
 		when patient_count = '<20' then 1
 		else coalesce(patient_count, '0')::int
 	end as patient_count
 from
 (select
-	alcohol_map.secondary as alcohol_condition,smoking_map.secondary as smoking_status
+	alcohol_condition,smoking_map.secondary as smoking_status
 from n3c_dashboard.alcohol_map, n3c_dashboard.smoking_map) as foo
 natural left join
-n3c_dashboard_ph.sub_covopismoalc_csd
+n3c_dashboard_ph.sub_covalcsmo_csd
+;
+
+create view n3c_dashboard_ph.substance_alc_smo_combined as
+select * from
+(select alcohol_condition, smoking_status, all_display, patient_count as all_count from n3c_dashboard_ph.substance_alc_smo_all) as foo
+natural join
+(select alcohol_condition, smoking_status, covid_display, patient_count as covid_count from n3c_dashboard_ph.substance_alc_smo_covid) as bar
 ;
 
 -- opioids / smoking
