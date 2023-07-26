@@ -1,15 +1,5 @@
 CREATE SCHEMA n3c_dashboard_ph;
 
-CREATE TABLE n3c_dashboard_ph.sub_alc_csd (
-    alcohol_condition text,
-    patient_count text
-);
-
-CREATE TABLE n3c_dashboard_ph.sub_opi_csd (
-    opioids text,
-    patient_count text
-);
-
 CREATE TABLE n3c_dashboard_ph.cumavgcov_poscasebyday_cumsum_csd (
     first_diagnosis_date text,
     positive_cases text,
@@ -44,7 +34,7 @@ CREATE TABLE n3c_dashboard_ph.demo_agemin_all_csdd (
 );
 
 CREATE TABLE n3c_dashboard_ph.demo_agemin_cov_csd (
-    age text,
+    long_covid_indicator integer,
     patient_count integer
 );
 
@@ -54,7 +44,7 @@ CREATE TABLE n3c_dashboard_ph.demo_agesec_all_csd (
 );
 
 CREATE TABLE n3c_dashboard_ph.demo_agesec_cov_csd (
-    age text,
+    covid_associated_hospitalization_indicator bigint,
     patient_count integer
 );
 
@@ -539,7 +529,7 @@ CREATE TABLE n3c_dashboard_ph.diabetesmetformin_agerc_csd (
 CREATE TABLE n3c_dashboard_ph.diabetesmetformin_agesex_csd (
     age text,
     sex text,
-    patient_count text
+    patient_count integer
 );
 
 CREATE TABLE n3c_dashboard_ph.diabetesmetformin_demo_all_csd (
@@ -970,6 +960,124 @@ CREATE TABLE n3c_dashboard_ph.env_demoagescnd_cov_csd (
     patient_count text
 );
 
+CREATE TABLE n3c_dashboard_ph.env_env_eth_all_csd (
+    env_factor text,
+    ethnicity text,
+    patient_count text
+);
+
+CREATE TABLE n3c_dashboard_ph.env_envage_all_csd (
+    env_factor text,
+    age text,
+    patient_count text
+);
+
+CREATE TABLE n3c_dashboard_ph.env_envage_csd (
+    covid_indicator integer,
+    env_factor text,
+    age text,
+    patient_count text
+);
+
+CREATE TABLE n3c_dashboard_ph.env_envagercsx_all_csd (
+    env_factor text,
+    age text,
+    race text,
+    sex text,
+    patient_count text
+);
+
+CREATE TABLE n3c_dashboard_ph.env_envagesxrcsev_cov_csd (
+    covid_indicator integer,
+    env_factor text,
+    age text,
+    race text,
+    sex text,
+    severity text,
+    patient_count text
+);
+
+CREATE TABLE n3c_dashboard_ph.env_enveth_cov_csd (
+    covid_indicator integer,
+    env_factor text,
+    ethnicity text,
+    patient_count text
+);
+
+CREATE TABLE n3c_dashboard_ph.env_envmort_cov_csd (
+    covid_indicator integer,
+    env_factor text,
+    covid_patient_death_indicator integer,
+    patient_count text
+);
+
+CREATE TABLE n3c_dashboard_ph.env_envmort_csd (
+    env_factor text,
+    death_indicator integer,
+    patient_count text
+);
+
+CREATE TABLE n3c_dashboard_ph.env_envrc_all_csd (
+    env_factor text,
+    race text,
+    patient_count text
+);
+
+CREATE TABLE n3c_dashboard_ph.env_envrc_cov_csd (
+    covid_indicator integer,
+    env_factor text,
+    race text,
+    patient_count text
+);
+
+CREATE TABLE n3c_dashboard_ph.env_envsev_cov (
+    covid_indicator integer,
+    env_factor text,
+    severity text,
+    patient_count text
+);
+
+CREATE TABLE n3c_dashboard_ph.env_envsx_all_csd (
+    env_factor text,
+    sex text,
+    patient_count text
+);
+
+CREATE TABLE n3c_dashboard_ph.env_envsx_cov_csd (
+    covid_indicator integer,
+    env_factor text,
+    sex text,
+    patient_count text
+);
+
+CREATE TABLE n3c_dashboard_ph.env_envsxmortvac_all_csd (
+    covid_indicator integer,
+    covid_patient_death_indicator integer,
+    long_covid_diagnosis_post_covid_indicator integer,
+    vaccinated integer,
+    sex text,
+    severity text,
+    patient_count text
+);
+
+CREATE TABLE n3c_dashboard_ph.env_envsxvacmortsev_cov_csd (
+    covid_indicator integer,
+    env_factor text,
+    covid_patient_death_indicator integer,
+    long_covid_diagnosis_post_covid_indicator integer,
+    vaccinated integer,
+    sex text,
+    severity text,
+    patient_count text
+);
+
+CREATE TABLE n3c_dashboard_ph.env_envvac_cov_csd (
+    covid_indicator integer,
+    env_factor text,
+    vaccinated integer,
+    patient_count text
+);
+
 CREATE TABLE n3c_dashboard_ph.env_eth_all_csd (
     ethnicity text,
     patient_count integer
@@ -1011,6 +1119,31 @@ CREATE TABLE n3c_dashboard_ph.env_sev_cov_csd (
     patient_count integer
 );
 
+CREATE TABLE n3c_dashboard_ph.env_stcntctprmlist_cnt_csd (
+    covid_indicator integer,
+    statename text,
+    countyname text,
+    cityname text,
+    ruca1_value text,
+    param_list text,
+    patient_count_of_this_city text,
+    patient_count_died text,
+    patient_count_died_cause_covid text
+);
+
+CREATE TABLE n3c_dashboard_ph.env_stcntctzipprmlist_cnt_csd (
+    covid_indicator integer,
+    statename text,
+    countyname text,
+    cityname text,
+    postal_code text,
+    ruca1_value text,
+    param_list text,
+    patient_count_of_this_city text,
+    patient_count_died text,
+    patient_count_died_cause_covid text
+);
+
 CREATE TABLE n3c_dashboard_ph.env_sx_all_csd (
     sex text,
     patient_count integer
@@ -1023,18 +1156,18 @@ CREATE TABLE n3c_dashboard_ph.env_sx_cov_csd (
 );
 
 CREATE TABLE n3c_dashboard_ph.env_zipcnt_all_csd (
-    postal_code bigint,
+    postal_code text,
     patient_count text
 );
 
 CREATE TABLE n3c_dashboard_ph.env_zipcnt_cov_csd (
     covid_indicator integer,
-    postal_code bigint,
+    postal_code text,
     patient_count text
 );
 
 CREATE TABLE n3c_dashboard_ph.env_ziptemp_envcnt_all (
-    postal_code integer,
+    postal_code text,
     mean_precip double precision,
     mean_dewpoint double precision,
     mean_temp double precision,
@@ -1048,7 +1181,7 @@ CREATE TABLE n3c_dashboard_ph.longcov_bindatediffpos_sym_csd (
 );
 
 CREATE TABLE n3c_dashboard_ph.longcov_consetdemoageideal_csd (
-    severity text,
+    race text,
     sex text,
     age text,
     patient_count text,
@@ -1056,7 +1189,7 @@ CREATE TABLE n3c_dashboard_ph.longcov_consetdemoageideal_csd (
 );
 
 CREATE TABLE n3c_dashboard_ph.longcov_consetdemoagemin_csd (
-    severity text,
+    race text,
     sex text,
     age text,
     patient_count text,
@@ -1064,11 +1197,20 @@ CREATE TABLE n3c_dashboard_ph.longcov_consetdemoagemin_csd (
 );
 
 CREATE TABLE n3c_dashboard_ph.longcov_consetdemoagesec_csd (
-    severity text,
+    race text,
     sex text,
     age text,
     patient_count text,
     total_patient_count bigint
+);
+
+CREATE TABLE n3c_dashboard_ph.longcov_consetvaccmorrac_csd (
+    vaccinated boolean,
+    covid_patient_death_indicator integer,
+    race text,
+    severity text,
+    patient_count text,
+    total_patient_count integer
 );
 
 CREATE TABLE n3c_dashboard_ph.longcov_icd10_symptoms_csd (
@@ -1127,7 +1269,7 @@ CREATE TABLE n3c_dashboard_ph.longcov_icd10symptom_csd (
 );
 
 CREATE TABLE n3c_dashboard_ph.longcov_icddemoageideal_csd (
-    severity text,
+    race text,
     sex text,
     age text,
     patient_count text,
@@ -1135,7 +1277,7 @@ CREATE TABLE n3c_dashboard_ph.longcov_icddemoageideal_csd (
 );
 
 CREATE TABLE n3c_dashboard_ph.longcov_icddemoagemin_csd (
-    severity text,
+    race text,
     sex text,
     age text,
     patient_count text,
@@ -1143,11 +1285,20 @@ CREATE TABLE n3c_dashboard_ph.longcov_icddemoagemin_csd (
 );
 
 CREATE TABLE n3c_dashboard_ph.longcov_icddemoagesec_csd (
-    severity text,
+    race text,
     sex text,
     age text,
     patient_count text,
     total_patient_count bigint
+);
+
+CREATE TABLE n3c_dashboard_ph.longcov_icdvaccmorrac_csd (
+    vaccinated boolean,
+    covid_patient_death_indicator integer,
+    race text,
+    severity text,
+    patient_count text,
+    total_patient_count integer
 );
 
 CREATE TABLE n3c_dashboard_ph.longcov_symbeforeoraftercov_csd (
@@ -1872,6 +2023,7 @@ CREATE TABLE n3c_dashboard_ph.metformin_demosevvacmorlc_cov_csd (
     patient_death_indicator integer,
     long_covid_diagnosis_post_covid_indicator integer,
     metformin_before_after_covid text,
+    cci_score_range text,
     patient_count text
 );
 
@@ -1879,6 +2031,12 @@ CREATE TABLE n3c_dashboard_ph.metformin_eth_cov_csd (
     covid_indicator integer,
     metformin_indicator integer,
     ethnicity text,
+    patient_count integer
+);
+
+CREATE TABLE n3c_dashboard_ph.metformin_hosp_csd (
+    hospitalization_delta integer,
+    metformin_indicator integer,
     patient_count integer
 );
 
@@ -1991,6 +2149,7 @@ CREATE TABLE n3c_dashboard_ph.metformindiabetes_demosevvacmorlc_cov_csd (
     metformin_before_after_covid text,
     diabetes_before_after_covid text,
     metformindiabetes_before_after_covid text,
+    cci_score_range text,
     patient_count text
 );
 
@@ -2368,6 +2527,11 @@ CREATE TABLE n3c_dashboard_ph.reints_monthyear_csd (
     patient_count text
 );
 
+CREATE TABLE n3c_dashboard_ph.sub_alc_csd (
+    alcohol_condition text,
+    patient_count text
+);
+
 CREATE TABLE n3c_dashboard_ph.sub_alcageideal_csd (
     age text,
     patient_count integer
@@ -2422,7 +2586,7 @@ CREATE TABLE n3c_dashboard_ph.sub_alcrac_csd (
 
 CREATE TABLE n3c_dashboard_ph.sub_alcsex_csd (
     sex text,
-    patient_count text
+    patient_count integer
 );
 
 CREATE TABLE n3c_dashboard_ph.sub_covalc_csd (
@@ -2511,6 +2675,12 @@ CREATE TABLE n3c_dashboard_ph.sub_covalcsev_csd (
 
 CREATE TABLE n3c_dashboard_ph.sub_covalcsex_csd (
     sex text,
+    patient_count integer
+);
+
+CREATE TABLE n3c_dashboard_ph.sub_covalcsmo_csd (
+    alcohol_condition text,
+    smoking_status text,
     patient_count text
 );
 
@@ -2722,19 +2892,48 @@ CREATE TABLE n3c_dashboard_ph.sub_demosmoagesec_csd (
     patient_count text
 );
 
+CREATE TABLE n3c_dashboard_ph.sub_opi_csd (
+    opioids text,
+    patient_count text
+);
+
 CREATE TABLE n3c_dashboard_ph.sub_opiageideal_csd (
-    age text,
-    patient_count integer
+    age_bin text,
+    race text,
+    sex text,
+    ethnicity text,
+    alcohol_indicator integer,
+    smoking_indicator integer,
+    opioid_indicator integer,
+    confirmed_covid_patient bigint,
+    num_patients text,
+    total_patients bigint
 );
 
 CREATE TABLE n3c_dashboard_ph.sub_opiagemin_csd (
-    age text,
-    patient_count integer
+    age_bin text,
+    race text,
+    sex text,
+    ethnicity text,
+    alcohol_indicator integer,
+    smoking_indicator integer,
+    opioid_indicator integer,
+    confirmed_covid_patient bigint,
+    num_patients text,
+    total_patients bigint
 );
 
 CREATE TABLE n3c_dashboard_ph.sub_opiagesec_csd (
-    age text,
-    patient_count integer
+    age_bin text,
+    race text,
+    sex text,
+    ethnicity text,
+    alcohol_indicator integer,
+    smoking_indicator integer,
+    opioid_indicator integer,
+    confirmed_covid_patient bigint,
+    num_patients text,
+    total_patients bigint
 );
 
 CREATE TABLE n3c_dashboard_ph.sub_opialc_csd (
@@ -2786,8 +2985,16 @@ CREATE TABLE n3c_dashboard_ph.sub_opieth_csd (
 );
 
 CREATE TABLE n3c_dashboard_ph.sub_opirac_csd (
-    race text,
-    patient_count integer
+    sex text,
+    vaccinated bigint,
+    death_mortality_indicator bigint,
+    long_covid_indicator bigint,
+    confirmed_covid_patient bigint,
+    alcohol_indicator integer,
+    opioid_indicator integer,
+    smoking_indicator integer,
+    num_patients text,
+    total_patients bigint
 );
 
 CREATE TABLE n3c_dashboard_ph.sub_opisex_csd (
@@ -2821,6 +3028,12 @@ CREATE TABLE n3c_dashboard_ph.sub_smoagesec_csd (
     patient_count text
 );
 
+CREATE TABLE n3c_dashboard_ph.sub_smoalc_csd (
+    alcohol_condition text,
+    smoking_status text,
+    patient_count text
+);
+
 CREATE TABLE n3c_dashboard_ph.sub_smoeth_csd (
     ethnicity text,
     patient_count integer
@@ -2842,52 +3055,6 @@ CREATE TABLE n3c_dashboard_ph.sub_smosex_csd (
     sex text,
     patient_count text
 );
-
-CREATE VIEW n3c_dashboard_ph.substance_alc_opi_all AS
- SELECT foo.alcohol_condition,
-    foo.opioids,
-    sub_opialc_csd.patient_count AS all_display,
-        CASE
-            WHEN (sub_opialc_csd.patient_count = '<20'::text) THEN 1
-            ELSE (COALESCE(sub_opialc_csd.patient_count, '0'::text))::integer
-        END AS patient_count
-   FROM (( SELECT alcohol_map.alcohol_condition,
-            opioid_map.opioids
-           FROM n3c_dashboard.alcohol_map,
-            n3c_dashboard.opioid_map) foo
-     LEFT JOIN n3c_dashboard_ph.sub_opialc_csd USING (alcohol_condition, opioids));
-
-CREATE VIEW n3c_dashboard_ph.substance_alc_opi_covid AS
- SELECT foo.alcohol_condition,
-    foo.opioids,
-    sub_covalcopi_csd.patient_count AS covid_display,
-        CASE
-            WHEN (sub_covalcopi_csd.patient_count = '<20'::text) THEN 1
-            ELSE (COALESCE(sub_covalcopi_csd.patient_count, '0'::text))::integer
-        END AS patient_count
-   FROM (( SELECT alcohol_map.alcohol_condition,
-            opioid_map.opioids
-           FROM n3c_dashboard.alcohol_map,
-            n3c_dashboard.opioid_map) foo
-     LEFT JOIN n3c_dashboard_ph.sub_covalcopi_csd USING (alcohol_condition, opioids));
-
-CREATE VIEW n3c_dashboard_ph.substance_alc_opi_combined AS
- SELECT foo.alcohol_condition,
-    foo.opioids,
-    foo.all_display,
-    foo.all_count,
-    bar.covid_display,
-    bar.covid_count
-   FROM (( SELECT substance_alc_opi_all.alcohol_condition,
-            substance_alc_opi_all.opioids,
-            substance_alc_opi_all.all_display,
-            substance_alc_opi_all.patient_count AS all_count
-           FROM n3c_dashboard_ph.substance_alc_opi_all) foo
-     JOIN ( SELECT substance_alc_opi_covid.alcohol_condition,
-            substance_alc_opi_covid.opioids,
-            substance_alc_opi_covid.covid_display,
-            substance_alc_opi_covid.patient_count AS covid_count
-           FROM n3c_dashboard_ph.substance_alc_opi_covid) bar USING (alcohol_condition, opioids));
 
 CREATE TABLE n3c_dashboard_ph.sxmortsev_csd (
     drug_name text,
