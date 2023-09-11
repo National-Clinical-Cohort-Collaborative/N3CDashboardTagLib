@@ -737,7 +737,7 @@ public class Scorecard {
 		addHeaderCell(table, "Status");
 		addHeaderCell(table, "Title");
 		addHeaderCell(table, "Lead Investigator");
-		addHeaderCell(table, "Members");
+		addHeaderCell(table, "Members From This Site");
 		addHeaderCell(table, "Collaborating Organizations");
 		PreparedStatement inclstmt = conn
 				.prepareStatement("select uid,title,lead_investigator,accessing_institution,workspace_status,dur_project_id"
