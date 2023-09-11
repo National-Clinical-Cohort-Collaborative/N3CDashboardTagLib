@@ -29,7 +29,7 @@ select
 	end as patient_count
 from
 (select
-	alcohol_map.alcohol_condition,opioid_map.opioids
+	alcohol_map.secondary as alcohol_condition,opioid_map.secondary as opioids
 from n3c_dashboard.alcohol_map, n3c_dashboard.opioid_map) as foo
 natural left join
 n3c_dashboard_ph.sub_opialc_csd
@@ -46,7 +46,7 @@ select
 	end as patient_count
 from
 (select
-	alcohol_condition, opioids
+	alcohol_map.secondary as alcohol_condition,opioid_map.secondary as opioids
 from n3c_dashboard.alcohol_map, n3c_dashboard.opioid_map) as foo
 natural left join
 n3c_dashboard_ph.sub_covalcopi_csd
@@ -72,7 +72,7 @@ select
 	end as patient_count
 from
 (select
-	alcohol_condition,smoking_map.secondary as smoking_status
+	alcohol_map.secondary as alcohol_condition,smoking_map.secondary as smoking_status
 from n3c_dashboard.alcohol_map, n3c_dashboard.smoking_map) as foo
 natural left join
 n3c_dashboard_ph.sub_smoalc_csd
@@ -89,7 +89,7 @@ select
 	end as patient_count
 from
 (select
-	alcohol_condition,smoking_map.secondary as smoking_status
+	alcohol_map.secondary as alcohol_condition,smoking_map.secondary as smoking_status
 from n3c_dashboard.alcohol_map, n3c_dashboard.smoking_map) as foo
 natural left join
 n3c_dashboard_ph.sub_covalcsmo_csd
@@ -115,7 +115,7 @@ select
 	end as patient_count
 from
 (select
-	opioid_map.opioids,smoking_map.secondary as smoking_status
+	opioid_map.secondary as opioids,smoking_map.secondary as smoking_status
 from n3c_dashboard.opioid_map, n3c_dashboard.smoking_map) as foo
 natural left join
 n3c_dashboard_ph.sub_opismo_csd
@@ -132,7 +132,7 @@ select
 	end as patient_count
 from
 (select
-	opioid_map.opioids,smoking_map.secondary as smoking_status
+	opioid_map.secondary as opioids,smoking_map.secondary as smoking_status
 from n3c_dashboard.opioid_map, n3c_dashboard.smoking_map) as foo
 natural left join
 n3c_dashboard_ph.sub_covsmoopi_csd

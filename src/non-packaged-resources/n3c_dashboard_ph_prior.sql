@@ -1156,18 +1156,18 @@ CREATE TABLE n3c_dashboard_ph.env_sx_cov_csd (
 );
 
 CREATE TABLE n3c_dashboard_ph.env_zipcnt_all_csd (
-    postal_code bigint,
+    postal_code text,
     patient_count text
 );
 
 CREATE TABLE n3c_dashboard_ph.env_zipcnt_cov_csd (
     covid_indicator integer,
-    postal_code bigint,
+    postal_code text,
     patient_count text
 );
 
 CREATE TABLE n3c_dashboard_ph.env_ziptemp_envcnt_all (
-    postal_code integer,
+    postal_code text,
     mean_precip double precision,
     mean_dewpoint double precision,
     mean_temp double precision,
