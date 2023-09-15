@@ -107,6 +107,7 @@ public class Scorecard {
 	
 	static boolean isDataContributor = false;
 	static boolean hasN3CGrantMention = false;
+	static boolean hasSubcontracts = false;
 	static boolean hasCollaboratingSites = false;
 	static boolean hasProjects = false;
 	static boolean hasPublishingSites = false;
@@ -135,6 +136,7 @@ public class Scorecard {
 				// first set the conditional rendering flags
 				isDataContributor = isDataContributor(ror);
 				hasN3CGrantMention = hasN3CGrantMention(ror);
+				hasSubcontracts = hasSubcontracts(ror);
 				hasCollaboratingSites = hasCollaboratingSites(ror);
 				hasProjects = hasProjects(ror);
 				hasPublishingSites = hasPublishingSites(ror);
@@ -189,17 +191,23 @@ public class Scorecard {
 		pdfDoc.addNewPage();
 		generateCollaborationScorecard(ror, name, document);
 		
-		if (isDataContributor) {
-			document.add(new AreaBreak(AreaBreakType.NEXT_AREA));
-			generateDataScorecard(ror, name, document);			
-			document.add(new AreaBreak(AreaBreakType.NEXT_AREA));
-			generateQualityScorecard(ror, name, document);			
-		}
+//		if (isDataContributor) {
+//			document.add(new AreaBreak(AreaBreakType.NEXT_AREA));
+//			generateDataScorecard(ror, name, document);			
+//			document.add(new AreaBreak(AreaBreakType.NEXT_AREA));
+//			generateQualityScorecard(ror, name, document);			
+//		}
 
-		if (hasN3CGrantMention) {
+		if (hasN3CGrantMention || hasSubcontracts) {
 			document.add(new AreaBreak(AreaBreakType.NEXT_AREA));
+		}
+		if (hasN3CGrantMention) {
 			addHeader("NIH Grant Awards to " + name + " with Mentions of N3C");
 			generateGrantTable(ror, name, document);
+		}
+		if (hasSubcontracts) {
+			addHeader("N3C-related Subcontract Awards to " + name);
+			generateSubcontractTable(ror, name, document);
 		}
 		if (hasProjects) {
 			document.add(new AreaBreak(AreaBreakType.NEXT_AREA));
@@ -264,6 +272,20 @@ public class Scorecard {
 		PreparedStatement stmt = conn.prepareStatement("select count(*)"
 													+ " from n3c_collaboration.publication_organization"
 													+ " where ror_id = ?");
+		stmt.setString(1, ror);
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			count = rs.getInt(1);
+		}
+		stmt.close();
+		return count > 0;
+	}
+	
+	static boolean hasSubcontracts(String ror) throws SQLException {
+		int count = 0;
+		PreparedStatement stmt = conn.prepareStatement("select count(*)"
+													+ " from n3c_collaboration.subcontracts"
+													+ " where subaward_ror = ?");
 		stmt.setString(1, ror);
 		ResultSet rs = stmt.executeQuery();
 		while (rs.next()) {
@@ -930,6 +952,35 @@ public class Scorecard {
 			addCell(table, pi);
 			addCell(table, year);
 			addCell(table, "$" + formatter.format(award), TextAlignment.RIGHT);
+		}
+		inclstmt.close();
+
+		// Adding Table to document
+		document.add(table);
+
+	}
+
+	static void generateSubcontractTable(String ror, String org, Document document) throws SQLException {
+		// Creating a table
+		Table table = new Table(3);
+
+		// Adding cells to the table
+		addHeaderCell(table, "Project Number");
+		addHeaderCell(table, "Title");
+		addHeaderCell(table, "Primary Site");
+		PreparedStatement inclstmt = conn.prepareStatement("select project_number,title,primary_site"
+														+ " from n3c_collaboration.subcontracts"
+														+ " where subaward_ror = ?"
+														+ " order by 1,2");
+		inclstmt.setString(1, ror);
+		ResultSet inclrs = inclstmt.executeQuery();
+		while (inclrs.next()) {
+			String number = inclrs.getString(1);
+			String title = inclrs.getString(2);
+			String primary = inclrs.getString(3);
+			addCell(table, number);
+			addCell(table, title);
+			addCell(table, primary);
 		}
 		inclstmt.close();
 
