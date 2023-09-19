@@ -1,4 +1,4 @@
-create view environmental_temp as
+create view n3c_dashboard_ph.environmental_temp as
 select
 	code,
 	statename,
@@ -23,13 +23,13 @@ from
 			when patient_count_died_cause_covid = '<20' then 1
 			else patient_count_died_cause_covid::int
 		end as patient_count_died_cause_covid
-	from n3c_maps.state_code,env_stcntctprmlist_cnt_csd
+	from n3c_maps.state_code,n3c_dashboard_ph.env_stcntctprmlist_cnt_csd
 	where statename=state
 	) as foo
 group by 1,2,3
 ;
 
-create view environmental_temp as
+create view n3c_dashboard_ph.environmental_temp as
 select
 	code,
 	statename,
