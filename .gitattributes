@@ -77,6 +77,7 @@ src/main/java/org/cd2h/N3CDashboardTagLib/typeDefinition/TypeDefinitionType.java
 src/main/java/org/cd2h/N3CDashboardTagLib/util/Functions.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/util/LocalProperties.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/util/PropertyLoader.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/util/TomcatRewriteMap.java -text
 src/main/java/org/cd2h/n3c_dashboard/Analyzer.java -text
 src/main/java/org/cd2h/n3c_dashboard/Demo.java -text
 src/main/java/org/cd2h/n3c_dashboard/Scorecard.java -text

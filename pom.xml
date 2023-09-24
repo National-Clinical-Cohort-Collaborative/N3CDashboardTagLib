@@ -250,6 +250,11 @@
       	<version>7.1.16</version>
       	<type>pom</type>
       </dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-catalina</artifactId>
+			<version>9.0.54</version>
+		</dependency>
 	</dependencies>
   <build>
   	<plugins>
