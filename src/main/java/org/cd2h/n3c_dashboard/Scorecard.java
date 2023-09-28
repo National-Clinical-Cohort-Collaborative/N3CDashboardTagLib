@@ -322,30 +322,22 @@ public class Scorecard {
 		table.addCell(headerCell);
 		
 		document.add(table);
-		table = new Table(5).useAllAvailableWidth();
+		table = new Table(3).useAllAvailableWidth();
 		
 		// Row 2 - Metrics
 
 		Cell metric1 = getTileCell(1, "Users", name, ror);
-		metric1.setWidth(20);
+		metric1.setWidth(30);
 		table.addCell(metric1);
 		
 		Cell collab2 = getTileCell(1, "Collaborating Institutions", name, ror);
-		collab2.setWidth(20);
+		collab2.setWidth(40);
 		table.addCell(collab2);
 
-		Cell metric2 = getTileCell(1, "Enclave Projects", name, ror);
-		metric2.setWidth(20);
-		table.addCell(metric2);
-		
 		Cell metric3 = getTileCell(1, "Grants mentioning N3C", name, ror);
-		metric3.setWidth(20);
+		metric3.setWidth(30);
 		table.addCell(metric3);
 
-		Cell metric4 = getTileCell(1, "Publications", name, ror);
-		metric4.setWidth(20);
-		table.addCell(metric4);
-		
 		document.add(table);
 		table = new Table(2).useAllAvailableWidth();
 		
@@ -469,17 +461,6 @@ public class Scorecard {
 			break;
 		case "Enclave Projects":
 			addCellHeader(cell, header);
-			int investigatorCount = getSiteCount("select investigator_count from n3c_collaboration.organization_organization where ror_id = ?", ror);
-			Paragraph investigatorPara = new Paragraph(investigatorCount + " Investigators on Projects");
-			cell.add(investigatorPara);
-
-			int membershipCount = getSiteCount("select membership_count from n3c_collaboration.organization_organization where ror_id = ?", ror);
-			Paragraph membershipPara = new Paragraph(membershipCount + " Project Memberships");
-			cell.add(membershipPara);
-
-			int projectCount = getSiteCount("select project_count from n3c_collaboration.organization_organization where ror_id = ?", ror);
-			Paragraph projectPara = new Paragraph(projectCount + " Enclave Projects");
-			cell.add(projectPara);
 			break;
 		case "Collaborating Institutions":
 			addCellHeader(cell, header);
@@ -638,32 +619,6 @@ public class Scorecard {
 		case "Publications":
 			addCellHeader(cell, header);
 			if (hasPublishingSites) {
-				stmt = conn.prepareStatement(
-						"select count(distinct last_name||' '||first_name) from scholar_profile.authorship_map where ror_id = ?");
-				stmt.setString(1, ror);
-				rs = stmt.executeQuery();
-				while (rs.next()) {
-					Paragraph cdmPara = new Paragraph(formatter.format(rs.getInt(1)) + " authors");
-					cell.add(cdmPara);
-				}
-				stmt.close();
-				stmt = conn.prepareStatement(
-						"select count(*) from scholar_profile.citation where id in (select id from scholar_profile.authorship natural join scholar_profile.authorship_map as bar where ror_id = ?)");
-				stmt.setString(1, ror);
-				rs = stmt.executeQuery();
-				while (rs.next()) {
-					Paragraph cdmPara = new Paragraph(formatter.format(rs.getInt(1)) + " publications");
-					cell.add(cdmPara);
-				}
-				stmt.close();
-				stmt = conn.prepareStatement("select count(*) from scholar_profile.authorship natural join scholar_profile.authorship_map where ror_id = ?");
-				stmt.setString(1, ror);
-				rs = stmt.executeQuery();
-				while (rs.next()) {
-					Paragraph cdmPara = new Paragraph(formatter.format(rs.getInt(1)) + " authorships");
-					cell.add(cdmPara);
-				}
-				stmt.close();
 			} else {
 				Paragraph notice = new Paragraph("None")
 //						.setFontSize(18)
@@ -675,6 +630,18 @@ public class Scorecard {
 		case "Sites collaborating with ":
 			if (hasCollaboratingSites) {
 				addCellHeader(cell, header  + name);
+				
+				int investigatorCount = getSiteCount("select investigator_count from n3c_collaboration.organization_organization where ror_id = ?", ror);
+				Paragraph investigatorPara = new Paragraph(investigatorCount + " Local Investigators, ");
+				investigatorPara.setFontSize(10);
+
+				int membershipCount = getSiteCount("select membership_count from n3c_collaboration.organization_organization where ror_id = ?", ror);
+				investigatorPara.add(membershipCount + " Project Memberships, ");
+
+				int projectCount = getSiteCount("select project_count from n3c_collaboration.organization_organization where ror_id = ?", ror);
+				investigatorPara.add(projectCount + " Enclave Projects");
+
+				cell.add(investigatorPara);
 			} else {
 				addCellHeader(cell, "N3C Collaboration Map");
 				Paragraph notice = new Paragraph("No collaborating sites identified for this site");
@@ -691,6 +658,35 @@ public class Scorecard {
 		case "Sites publishing with ":
 			if (hasPublishingSites) {
 				addCellHeader(cell, header  + name);
+				stmt = conn.prepareStatement(
+						"select count(distinct last_name||' '||first_name) from scholar_profile.authorship_map where ror_id = ?");
+				stmt.setString(1, ror);
+				rs = stmt.executeQuery();
+				Paragraph cdmPara = null;
+				while (rs.next()) {
+					cdmPara = new Paragraph(formatter.format(rs.getInt(1)) + " Local Authors, ");
+				}
+				stmt.close();
+
+				stmt = conn.prepareStatement(
+						"select count(*) from scholar_profile.citation where id in (select id from scholar_profile.authorship natural join scholar_profile.authorship_map as bar where ror_id = ?)");
+				stmt.setString(1, ror);
+				rs = stmt.executeQuery();
+				while (rs.next()) {
+					cdmPara.add(formatter.format(rs.getInt(1)) + " Publications, ");
+				}
+				stmt.close();
+
+				stmt = conn.prepareStatement("select count(*) from scholar_profile.authorship natural join scholar_profile.authorship_map where ror_id = ?");
+				stmt.setString(1, ror);
+				rs = stmt.executeQuery();
+				while (rs.next()) {
+					cdmPara.add(formatter.format(rs.getInt(1)) + " Authorships");
+				}
+				stmt.close();
+
+				cdmPara.setFontSize(10);
+				cell.add(cdmPara);
 			} else {
 				addCellHeader(cell, "N3C Publication Map");
 				Paragraph notice = new Paragraph("No publications identified for this site");
