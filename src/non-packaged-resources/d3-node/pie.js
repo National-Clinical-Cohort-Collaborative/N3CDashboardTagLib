@@ -3,7 +3,7 @@ const d3 = D3Node.d3
 
 // This assumes various components installed from https://github.com/d3-node
 
-function collaborators(data) {
+function collaborators(data, doLegend) {
 	const d3n = new D3Node()
 	var text = "";
 
@@ -57,6 +57,7 @@ function collaborators(data) {
 		.style("fill", "white")
 		.text(function(d) { return d.data.value });
 
+	if (doLegend) {
 	// do legends
 	svg.append('g')
 		.attr('class', 'legend')
@@ -67,7 +68,7 @@ function collaborators(data) {
 		.text(function(d) { return '• ' + d.data.name; })
 		.attr('fill', function(d) { return color(d.data.name); })
 		.attr('y', function(d, i) { return 20 * (i + 1); })
-
+}
 	return d3n
 }
 

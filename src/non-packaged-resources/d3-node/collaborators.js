@@ -29,7 +29,7 @@ init().then(() => {
 		if (val.orgs != null) {
 			console.log(target,target.replace(/.*\//, ''), val.orgs)
 			// this output call generates x.png, x.svg and x.html
-			output(targetPath+`_sites/` + target.replace(/.*\//, ''), d3nMap(val.orgs), options)
+			output(targetPath+`_sites/` + target.replace(/.*\//, ''), d3nMap(val.orgs,false), options)
 		}
 	});
 });
