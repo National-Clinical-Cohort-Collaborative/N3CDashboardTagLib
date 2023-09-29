@@ -439,6 +439,27 @@ public class Scorecard {
 		generateExecSummaryTable(ror, name, document);
 	}
 	
+	static Color getColor(String type) {
+		switch (type) {
+		case "COM":
+			return hex2Rgb("#ffa600");
+		case "CTR":
+			return hex2Rgb("#AD1181");
+		case "CTSA":
+			return hex2Rgb("#8406D1");
+		case "GOV":
+			return hex2Rgb("#09405A");
+		case "N3C":
+			return hex2Rgb("#007bff");
+		case "REGIONAL":
+			return hex2Rgb("#a6a6a6");
+		case "UNAFFILIATED":
+			return hex2Rgb("#ff7155");
+		default:
+			return ColorConstants.BLACK;
+		}
+	}
+	
 	static Cell getTileCell(int columns, String header, String name, String ror) throws SQLException, MalformedURLException {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -464,21 +485,32 @@ public class Scorecard {
 			break;
 		case "Collaborating Institutions":
 			addCellHeader(cell, header);
-//			stmt = conn.prepareStatement("select bar.org_type,count(*)"
-//										+ " from n3c_collaboration.organization_organization as foo, n3c_collaboration.organization_edge as foo1,"
-//										+ "      n3c_collaboration.organization_organization as bar, n3c_collaboration.organization_edge as bar1"
-//										+ " where foo.ror_id=foo1.ror_id and foo1.project_uid=bar1.project_uid"
-//										+ " and bar.ror_id=bar1.ror_id and foo.ror_id!=bar.ror_id"
-//										+ " and foo.ror_id = ?"
-//										+ " group by 1 order by 2 desc");
-//			stmt.setString(1, ror);
-//			rs = stmt.executeQuery();
-//			while (rs.next()) {
-//				Paragraph collaboratorPara = new Paragraph(rs.getInt(2) + " " + rs.getString(1));
-//				collaboratorPara.setFontSize(7);
-//				cell.add(collaboratorPara);
-//			}
-//			stmt.close();
+			Table table2 = new Table(2).useAllAvailableWidth();
+			Cell cell1 = new Cell(1,columns)
+					.setBorder(Border.NO_BORDER)
+					.setTextAlignment(TextAlignment.CENTER)
+					.setWidth(5)
+					;
+			Cell cell2 = new Cell(1,columns)
+					.setBorder(Border.NO_BORDER)
+					.setTextAlignment(TextAlignment.CENTER)
+					.setWidth(95)
+					;
+			stmt = conn.prepareStatement("select bar.org_type,count(*)"
+										+ " from n3c_collaboration.organization_organization as foo, n3c_collaboration.organization_edge as foo1,"
+										+ "      n3c_collaboration.organization_organization as bar, n3c_collaboration.organization_edge as bar1"
+										+ " where foo.ror_id=foo1.ror_id and foo1.project_uid=bar1.project_uid"
+										+ " and bar.ror_id=bar1.ror_id and foo.ror_id!=bar.ror_id"
+										+ " and foo.ror_id = ?"
+										+ " group by 1 order by 2 desc,1");
+			stmt.setString(1, ror);
+			rs = stmt.executeQuery();
+			while (rs.next()) {
+				Paragraph collaboratorPara = new Paragraph(rs.getInt(2) + " " + rs.getString(1));
+				collaboratorPara.setFontColor(getColor(rs.getString(1)));
+				cell1.add(collaboratorPara);
+			}
+			stmt.close();
 			Paragraph collbars = new Paragraph();
 			
 			if (hasCollaboratingSites) {
@@ -492,7 +524,10 @@ public class Scorecard {
 						.setItalic();
 				collbars.add(notice);
 			}
-			cell.add(collbars);
+			cell2.add(collbars);
+			table2.addCell(cell1);
+			table2.addCell(cell2);
+			cell.add(table2);
 			break;
 		case "Grants mentioning N3C":
 			addCellHeader(cell, header);
