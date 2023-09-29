@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -310,7 +311,7 @@ public class Scorecard {
 		Cell headerCell = new Cell(1,4).setBorder(Border.NO_BORDER);
 		Text header = new Text("N3C Collaboration Profile: " + name)
 				.setFontSize(18)
-				.setFont(font)
+//				.setFont(font)
 				.setBold()
 				.setFontColor(headerColor);
 		Paragraph head = new Paragraph()
@@ -351,6 +352,14 @@ public class Scorecard {
 		
 		// Adding Table to document
 		document.add(table);
+		
+		// Footer
+		Paragraph caveat = new Paragraph("Note: these data are collected from multiple sources. Updates are welcome - please send to n3c@cuanschutz.edu.");
+		caveat.setFontSize(9);
+		document.add(caveat);
+		Paragraph footer = new Paragraph("Profile generated " + (new Date()));
+		footer.setFontSize(9);
+		document.add(footer);
 	}
 	
 	static void generateDataScorecard(String ror, String name, Document document) throws MalformedURLException, SQLException {
@@ -473,11 +482,11 @@ public class Scorecard {
 		case "Users":
 			addCellHeader(cell, header);
 			int userCount = getSiteCount("select count(*) from n3c_admin.gsuite_view where ror_id = ? and enclave='TRUE'", ror);
-			Paragraph userPara = new Paragraph(userCount + " Enclave Users");
+			Paragraph userPara = new Paragraph(userCount + " N3C Enclave Users");
 			cell.add(userPara);
 
 			int otherCount = getSiteCount("select count(*) from n3c_admin.gsuite_view where ror_id = ? and enclave='FALSE'", ror);
-			Paragraph otherPara = new Paragraph(otherCount + " Addt'l N3C Members");
+			Paragraph otherPara = new Paragraph(otherCount + " Additional N3C Members");
 			cell.add(otherPara);
 			break;
 		case "Enclave Projects":
@@ -496,7 +505,7 @@ public class Scorecard {
 					.setTextAlignment(TextAlignment.CENTER)
 					.setWidth(95)
 					;
-			stmt = conn.prepareStatement("select bar.org_type,count(*)"
+			stmt = conn.prepareStatement("select bar.org_type,count(distinct bar.ror_id)"
 										+ " from n3c_collaboration.organization_organization as foo, n3c_collaboration.organization_edge as foo1,"
 										+ "      n3c_collaboration.organization_organization as bar, n3c_collaboration.organization_edge as bar1"
 										+ " where foo.ror_id=foo1.ror_id and foo1.project_uid=bar1.project_uid"
@@ -531,21 +540,34 @@ public class Scorecard {
 			break;
 		case "Grants mentioning N3C":
 			addCellHeader(cell, header);
-			if (hasN3CGrantMention) {
-				stmt = conn.prepareStatement("select count(*),sum(award_amount)"
-						+ " from nih_exporter_current.ror_binding natural join nih_exporter_current.n3c"
-						+ " where ror_id = ?");
-				stmt.setString(1, ror);
-				rs = stmt.executeQuery();
-				while (rs.next()) {
-					Paragraph awardPara = new Paragraph(rs.getInt(1) + " awards");
-					cell.add(awardPara);
-					Paragraph costPara = new Paragraph("$" + formatter.format(rs.getInt(2)) + " total amount");
-					cell.add(costPara);
+			if (hasN3CGrantMention || hasSubcontracts) {
+				if (hasN3CGrantMention) {
+					stmt = conn.prepareStatement("select count(*),sum(award_amount)"
+							+ " from nih_exporter_current.ror_binding natural join nih_exporter_current.n3c"
+							+ " where ror_id = ?");
+					stmt.setString(1, ror);
+					rs = stmt.executeQuery();
+					while (rs.next()) {
+						Paragraph awardPara = new Paragraph(rs.getInt(1) + " awards");
+						cell.add(awardPara);
+						Paragraph costPara = new Paragraph("$" + formatter.format(rs.getInt(2)) + " total amount");
+						cell.add(costPara);
+					}
+					stmt.close();
 				}
-				stmt.close();
+				if (hasSubcontracts) {
+					stmt = conn.prepareStatement(
+							"select count(*)" + " from n3c_collaboration.subcontracts" + " where subaward_ror = ?");
+					stmt.setString(1, ror);
+					rs = stmt.executeQuery();
+					while (rs.next()) {
+						Paragraph awardPara = new Paragraph(rs.getInt(1) + " subcontracts");
+						cell.add(awardPara);
+					}
+					stmt.close();
+				}
 			} else {
-				Paragraph notice = new Paragraph("None")
+				Paragraph notice = new Paragraph("None detected")
 //						.setFontSize(18)
 //						.setFont(font)
 						.setItalic();
@@ -791,7 +813,7 @@ public class Scorecard {
 		addHeaderCell(table, "Title");
 		addHeaderCell(table, "Lead Investigator");
 		addHeaderCell(table, "Members From This Site");
-		addHeaderCell(table, "Collaborating Organizations");
+		addHeaderCell(table, "Collaborating Organizations (# investigators)");
 		PreparedStatement inclstmt = conn
 				.prepareStatement("select uid,title,lead_investigator,accessing_institution,workspace_status,dur_project_id"
 								+ " from n3c_admin.enclave_project"
@@ -851,16 +873,18 @@ public class Scorecard {
 															+ " order by 1");
 			orgStmt.setString(1, ror);
 			orgStmt.setString(2, uid);
+			boolean first = true;
+			Paragraph collOrg = new Paragraph();
 			ResultSet orgrs = orgStmt.executeQuery();
 			while (orgrs.next()) {
 				String orgName = orgrs.getString(1);
 				int orgCount = orgrs.getInt(2);
-//				Paragraph collOrg = new Paragraph("\u2022\u00a0" + orgName.replaceAll(" ", "\u00a0") + "\u00a0(" + orgCount + ")");
-				Paragraph collOrg = new Paragraph("\u2022\u00a0" + orgName + " (" + orgCount + ")");
-				collOrg.setFontSize(9);
-				orgCell.add(collOrg);
+				collOrg.add((first ? "" : ", ") + orgName + " (" + orgCount + ")");
+				first = false;
 			}
 			orgStmt.close();
+			collOrg.setFontSize(9);
+			orgCell.add(collOrg);
 			table.addCell(orgCell);
 }
 		inclstmt.close();
@@ -876,7 +900,7 @@ public class Scorecard {
 
 		// Adding cells to the table
 		addHeaderCell(table, "Title");
-		addHeaderCell(table, "Authors");
+		addHeaderCell(table, "Local Authors");
 		PreparedStatement inclstmt = conn
 				.prepareStatement("select title,external_url,id from scholar_profile.citation\n"
 						+ "where id in (select id from scholar_profile.authorship natural join scholar_profile.authorship_map as bar where ror_id = ?)");
@@ -886,7 +910,49 @@ public class Scorecard {
 			String name = inclrs.getString(1);
 			String url = inclrs.getString(2);
 			int pubid = inclrs.getInt(3);
-			addLinkCell(table, name, url, TextAlignment.LEFT);
+			
+			Paragraph additional = new Paragraph();
+			additional.setFontSize(9);
+			String doi = null;
+			String journal = null;
+			String pubdate = null;
+			
+			PreparedStatement stmt = conn.prepareStatement("select value from scholar_profile.metadata where field='Journal' and id = ?");
+			stmt.setInt(1, pubid);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				journal = rs.getString(1);
+			}
+			stmt.close();
+			stmt = conn.prepareStatement("select substring(value from '^[0-9]+') from scholar_profile.metadata where field='Publication date' and id = ?");
+			stmt.setInt(1, pubid);
+			rs = stmt.executeQuery();
+			while (rs.next()) {
+				pubdate = rs.getString(1);
+			}
+			stmt.close();
+			stmt = conn.prepareStatement("select doi from scholar_profile.citation natural join scholar_profile.linkage where doi != 'x' and id = ?");
+			stmt.setInt(1, pubid);
+			rs = stmt.executeQuery();
+			while (rs.next()) {
+				doi = rs.getString(1);
+			}
+			stmt.close();
+			
+			if (journal != null) {
+				additional.add(journal);
+				if (pubdate != null)
+					additional.add(", " + pubdate);
+			}
+			if (doi != null) {
+				additional.add((journal != null ? ", " : "") + "doi: " + doi);
+			}
+
+			if (doi != null || journal != null)
+				addLinkCell(table, name, url, TextAlignment.LEFT, additional);
+			else
+				addLinkCell(table, name, url, TextAlignment.LEFT);
+
 			Cell authorCell = new Cell();
 			PreparedStatement authStmt = conn.prepareStatement("select\n"
 					+ "				last_name, first_name, seqnum\n"
@@ -1137,6 +1203,22 @@ public class Scorecard {
 		paragraph.setFontSize(9);
 		paragraph.add(link);
 		Cell cell = new Cell().add(paragraph);
+		cell.setTextAlignment(alignment);
+		table.addCell(cell);
+	}
+
+	static void addLinkCell(Table table, String anchor, String URI, TextAlignment alignment, Paragraph additional) {
+		Rectangle rect = new Rectangle(0, 0);
+		PdfLinkAnnotation annotation = new PdfLinkAnnotation(rect);
+		PdfAction action = PdfAction.createURI(URI);
+		annotation.setAction(action);
+		annotation.setBorderStyle(PdfAnnotation.STYLE_UNDERLINE);
+		Link link = new Link(anchor, annotation);
+		Paragraph paragraph = new Paragraph();
+		paragraph.setFontSize(9);
+		paragraph.add(link);
+		Cell cell = new Cell().add(paragraph);
+		cell.add(additional);
 		cell.setTextAlignment(alignment);
 		table.addCell(cell);
 	}
