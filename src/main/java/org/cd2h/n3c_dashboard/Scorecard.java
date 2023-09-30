@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
@@ -37,6 +38,7 @@ import com.itextpdf.kernel.pdf.action.PdfAction;
 import com.itextpdf.kernel.pdf.annot.PdfAnnotation;
 import com.itextpdf.kernel.pdf.annot.PdfLinkAnnotation;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.ColumnDocumentRenderer;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.borders.Border;
@@ -105,6 +107,7 @@ public class Scorecard {
 
 	static DecimalFormat formatter = new DecimalFormat("###,###,###"); 
 	static DecimalFormat pctFormatter = new DecimalFormat("##0.00");
+	static SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM d, YYYY");
 	
 	static boolean isDataContributor = false;
 	static boolean hasN3CGrantMention = false;
@@ -173,8 +176,13 @@ public class Scorecard {
 		return PageSize.LETTER.rotate();
 	}
 	
+	static String generateSiteName(String ror, String name) throws IOException, SQLException {
+	//	return pathPrefix + name.replaceAll(" ", "_") + ".pdf";
+		return pathPrefix + (ror.startsWith("https") ? ror.substring(ror.lastIndexOf('/')+1) : ror.substring(0,ror.indexOf('.'))) + ".pdf";
+	}
+	
 	static void generateSite(String ror, String name) throws IOException, SQLException {
-		PdfWriter writer = new PdfWriter(pathPrefix + name.replaceAll(" ", "_") + ".pdf");
+		PdfWriter writer = new PdfWriter(generateSiteName(ror, name));
 		PdfDocument pdfDoc = new PdfDocument(writer);
 //        pdfDoc.addEventHandler(PdfDocumentEvent.START_PAGE, new PageBackgroundsEventHandler());
 
@@ -188,6 +196,7 @@ public class Scorecard {
 
 		// Creating a Document
 		document = new Document(pdfDoc, getPageSize());
+        pdfDoc.addEventHandler(PdfDocumentEvent.END_PAGE, new TextFooterEventHandler(document));
 
 		pdfDoc.addNewPage();
 		generateCollaborationScorecard(ror, name, document);
@@ -357,9 +366,6 @@ public class Scorecard {
 		Paragraph caveat = new Paragraph("Note: these data are collected from multiple sources. Updates are welcome - please send to n3c@cuanschutz.edu.");
 		caveat.setFontSize(9);
 		document.add(caveat);
-		Paragraph footer = new Paragraph("Profile generated " + (new Date()));
-		footer.setFontSize(9);
-		document.add(footer);
 	}
 	
 	static void generateDataScorecard(String ror, String name, Document document) throws MalformedURLException, SQLException {
@@ -1314,4 +1320,29 @@ public class Scorecard {
                     .restoreState();
         }
     }
+
+	static protected class TextFooterEventHandler implements IEventHandler {
+	    protected Document doc;
+	    String dateString = "Profile generated " + dateFormatter.format(new Date());
+	    
+	    public TextFooterEventHandler(Document doc) {
+	        this.doc = doc;
+	    }
+	    @Override
+        public void handleEvent(Event currentEvent) {
+            PdfDocumentEvent docEvent = (PdfDocumentEvent) currentEvent;
+            Rectangle pageSize = docEvent.getPage().getPageSize();
+
+            float coordX = pageSize.getLeft() + doc.getLeftMargin();
+//            float headerY = pageSize.getTop() - doc.getTopMargin() + 10;
+            float footerY = doc.getBottomMargin() - 10;
+
+            Canvas canvas = new Canvas(docEvent.getPage(), pageSize);
+            canvas
+                    .setFontSize(9)
+                    .setItalic()
+                    .showTextAligned(dateString, coordX, footerY, TextAlignment.LEFT)
+                    .close();
+        }
+	}
 }
