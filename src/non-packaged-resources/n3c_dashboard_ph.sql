@@ -1,20 +1,5 @@
 CREATE SCHEMA n3c_dashboard_ph;
 
-CREATE TABLE n3c_dashboard_ph.sub_alc_csd (
-    alcohol_condition text,
-    patient_count text
-);
-
-CREATE TABLE n3c_dashboard_ph.sub_opi_csd (
-    opioids text,
-    patient_count text
-);
-
-CREATE TABLE n3c_dashboard_ph.sub_smo_csd (
-    smoking_status text,
-    patient_count integer
-);
-
 CREATE TABLE n3c_dashboard_ph.cms_agmin_csd (
     cms_type text,
     age text,
@@ -1302,57 +1287,6 @@ CREATE TABLE n3c_dashboard_ph.env_ziptemp_envcnt_all (
     mean_temp double precision,
     count_of_environmental_factor_in_2021 integer
 );
-
-CREATE VIEW n3c_dashboard_ph.environmental_temp AS
- SELECT bar.code,
-    bar.statename,
-    bar.countyname,
-    sum(bar.non_count) AS non_count,
-    sum(bar.covid_count) AS covid_count,
-    sum(bar.patient_count_died) AS patient_count_died,
-    sum(bar.patient_count_died_cause_covid) AS patient_count_died_cause_covid
-   FROM ( SELECT state_code.code,
-            foo2.statename,
-            foo2.countyname,
-            COALESCE(foo2.non_count, 0) AS non_count,
-            COALESCE(foo2.covid_count, 0) AS covid_count,
-            foo2.patient_count_died,
-            foo2.patient_count_died_cause_covid
-           FROM (( SELECT env_stcntctzipprmlist_cnt_csd.statename,
-                    env_stcntctzipprmlist_cnt_csd.countyname,
-                        CASE
-                            WHEN (env_stcntctzipprmlist_cnt_csd.patient_count_of_this_city = '<20'::text) THEN 1
-                            ELSE (env_stcntctzipprmlist_cnt_csd.patient_count_of_this_city)::integer
-                        END AS non_count,
-                        CASE
-                            WHEN (env_stcntctzipprmlist_cnt_csd.patient_count_died = '<20'::text) THEN 1
-                            ELSE (env_stcntctzipprmlist_cnt_csd.patient_count_died)::integer
-                        END AS patient_count_died,
-                        CASE
-                            WHEN (env_stcntctzipprmlist_cnt_csd.patient_count_died_cause_covid = '<20'::text) THEN 1
-                            ELSE (env_stcntctzipprmlist_cnt_csd.patient_count_died_cause_covid)::integer
-                        END AS patient_count_died_cause_covid
-                   FROM n3c_dashboard_ph.env_stcntctzipprmlist_cnt_csd
-                  WHERE (env_stcntctzipprmlist_cnt_csd.covid_indicator = 0)) foo
-             FULL JOIN ( SELECT env_stcntctzipprmlist_cnt_csd.statename,
-                    env_stcntctzipprmlist_cnt_csd.countyname,
-                        CASE
-                            WHEN (env_stcntctzipprmlist_cnt_csd.patient_count_of_this_city = '<20'::text) THEN 1
-                            ELSE (env_stcntctzipprmlist_cnt_csd.patient_count_of_this_city)::integer
-                        END AS covid_count,
-                        CASE
-                            WHEN (env_stcntctzipprmlist_cnt_csd.patient_count_died = '<20'::text) THEN 1
-                            ELSE (env_stcntctzipprmlist_cnt_csd.patient_count_died)::integer
-                        END AS patient_count_died,
-                        CASE
-                            WHEN (env_stcntctzipprmlist_cnt_csd.patient_count_died_cause_covid = '<20'::text) THEN 1
-                            ELSE (env_stcntctzipprmlist_cnt_csd.patient_count_died_cause_covid)::integer
-                        END AS patient_count_died_cause_covid
-                   FROM n3c_dashboard_ph.env_stcntctzipprmlist_cnt_csd
-                  WHERE (env_stcntctzipprmlist_cnt_csd.covid_indicator = 1)) bar_1 USING (statename, countyname, patient_count_died, patient_count_died_cause_covid)) foo2,
-            n3c_maps.state_code
-          WHERE (foo2.statename = state_code.state)) bar
-  GROUP BY bar.code, bar.statename, bar.countyname;
 
 CREATE TABLE n3c_dashboard_ph.longcov_bindatediffpos_sym_csd (
     datediff_bw_covid_and_symptom text,
@@ -2844,9 +2778,18 @@ CREATE TABLE n3c_dashboard_ph.reints_monthyear_csd (
     patient_count text
 );
 
+CREATE TABLE n3c_dashboard_ph.sub_alc_csd (
+    alcohol_condition text,
+    patient_count text
+);
+
 CREATE TABLE n3c_dashboard_ph.sub_alcageideal_csd (
-    age text,
-    patient_count integer
+    alcohol_indicator integer,
+    smoking_indicator integer,
+    opioid_indicator integer,
+    cannabis_indicator integer,
+    env_exosure_indicator integer,
+    patient_count text
 );
 
 CREATE TABLE n3c_dashboard_ph.sub_alcagemin_csd (
@@ -2856,6 +2799,8 @@ CREATE TABLE n3c_dashboard_ph.sub_alcagemin_csd (
     smoking_indicator integer,
     opioid_indicator integer,
     cannabis_indicator integer,
+    cms_type text,
+    env_exposure_indicator integer,
     patient_count text,
     total_patient integer
 );
@@ -3128,13 +3073,18 @@ CREATE TABLE n3c_dashboard_ph.sub_covopidemoagesec_csd (
 );
 
 CREATE TABLE n3c_dashboard_ph.sub_covopieth_csd (
-    ethnicity text,
-    patient_count integer
+    sud text,
+    env_condition text,
+    patient_count text
 );
 
 CREATE TABLE n3c_dashboard_ph.sub_covopirac_csd (
-    race text,
-    patient_count integer
+    alcohol_indicator integer,
+    smoking_indicator integer,
+    opioid_indicator integer,
+    cannabis_indicator integer,
+    env_exosure_indicator integer,
+    patient_count text
 );
 
 CREATE TABLE n3c_dashboard_ph.sub_covopisev_csd (
@@ -3144,8 +3094,9 @@ CREATE TABLE n3c_dashboard_ph.sub_covopisev_csd (
 );
 
 CREATE TABLE n3c_dashboard_ph.sub_covopisex_csd (
-    sex text,
-    patient_count text
+    sud text,
+    cms_type text,
+    patient_count integer
 );
 
 CREATE TABLE n3c_dashboard_ph.sub_covopismoalc_csd (
@@ -3274,6 +3225,11 @@ CREATE TABLE n3c_dashboard_ph.sub_demosmoagesec_csd (
     patient_count text
 );
 
+CREATE TABLE n3c_dashboard_ph.sub_opi_csd (
+    opioids text,
+    patient_count text
+);
+
 CREATE TABLE n3c_dashboard_ph.sub_opiageideal_csd (
     age_bin text,
     race text,
@@ -3389,14 +3345,20 @@ CREATE TABLE n3c_dashboard_ph.sub_opismo_csd (
     patient_count text
 );
 
+CREATE TABLE n3c_dashboard_ph.sub_smo_csd (
+    smoking_status text,
+    patient_count integer
+);
+
 CREATE TABLE n3c_dashboard_ph.sub_smoageideal_csd (
     age text,
     patient_count integer
 );
 
 CREATE TABLE n3c_dashboard_ph.sub_smoagemin_csd (
-    age text,
-    patient_count integer
+    sud text,
+    env_condition text,
+    patient_count text
 );
 
 CREATE TABLE n3c_dashboard_ph.sub_smoagesec_csd (
@@ -3449,193 +3411,6 @@ CREATE TABLE n3c_dashboard_ph.sub_smosex_csd (
     patient_count text
 );
 
-CREATE VIEW n3c_dashboard_ph.substance_alc_opi_all AS
- SELECT foo.alcohol_condition,
-    foo.opioids,
-    sub_opialc_csd.patient_count AS all_display,
-        CASE
-            WHEN (sub_opialc_csd.patient_count = '<20'::text) THEN 1
-            ELSE (COALESCE(sub_opialc_csd.patient_count, '0'::text))::integer
-        END AS patient_count
-   FROM (( SELECT alcohol_map.secondary AS alcohol_condition,
-            opioid_map.secondary AS opioids
-           FROM n3c_dashboard.alcohol_map,
-            n3c_dashboard.opioid_map) foo
-     LEFT JOIN n3c_dashboard_ph.sub_opialc_csd USING (alcohol_condition, opioids));
-
-CREATE VIEW n3c_dashboard_ph.substance_alc_opi_covid AS
- SELECT foo.alcohol_condition,
-    foo.opioids,
-    sub_covalcopi_csd.patient_count AS covid_display,
-        CASE
-            WHEN (sub_covalcopi_csd.patient_count = '<20'::text) THEN 1
-            ELSE (COALESCE(sub_covalcopi_csd.patient_count, '0'::text))::integer
-        END AS patient_count
-   FROM (( SELECT alcohol_map.secondary AS alcohol_condition,
-            opioid_map.secondary AS opioids
-           FROM n3c_dashboard.alcohol_map,
-            n3c_dashboard.opioid_map) foo
-     LEFT JOIN n3c_dashboard_ph.sub_covalcopi_csd USING (alcohol_condition, opioids));
-
-CREATE VIEW n3c_dashboard_ph.substance_alc_opi_combined AS
- SELECT foo.alcohol_condition,
-    foo.opioids,
-    foo.all_display,
-    foo.all_count,
-    bar.covid_display,
-    bar.covid_count
-   FROM (( SELECT substance_alc_opi_all.alcohol_condition,
-            substance_alc_opi_all.opioids,
-            substance_alc_opi_all.all_display,
-            substance_alc_opi_all.patient_count AS all_count
-           FROM n3c_dashboard_ph.substance_alc_opi_all) foo
-     JOIN ( SELECT substance_alc_opi_covid.alcohol_condition,
-            substance_alc_opi_covid.opioids,
-            substance_alc_opi_covid.covid_display,
-            substance_alc_opi_covid.patient_count AS covid_count
-           FROM n3c_dashboard_ph.substance_alc_opi_covid) bar USING (alcohol_condition, opioids));
-
-CREATE VIEW n3c_dashboard_ph.substance_alc_smo_all AS
- SELECT foo.alcohol_condition,
-    foo.smoking_status,
-    sub_smoalc_csd.patient_count AS all_display,
-        CASE
-            WHEN (sub_smoalc_csd.patient_count = '<20'::text) THEN 1
-            ELSE (COALESCE(sub_smoalc_csd.patient_count, '0'::text))::integer
-        END AS patient_count
-   FROM (( SELECT alcohol_map.secondary AS alcohol_condition,
-            smoking_map.secondary AS smoking_status
-           FROM n3c_dashboard.alcohol_map,
-            n3c_dashboard.smoking_map) foo
-     LEFT JOIN n3c_dashboard_ph.sub_smoalc_csd USING (alcohol_condition, smoking_status));
-
-CREATE VIEW n3c_dashboard_ph.substance_alc_smo_covid AS
- SELECT foo.alcohol_condition,
-    foo.smoking_status,
-    sub_covalcsmo_csd.patient_count AS covid_display,
-        CASE
-            WHEN (sub_covalcsmo_csd.patient_count = '<20'::text) THEN 1
-            ELSE (COALESCE(sub_covalcsmo_csd.patient_count, '0'::text))::integer
-        END AS patient_count
-   FROM (( SELECT alcohol_map.secondary AS alcohol_condition,
-            smoking_map.secondary AS smoking_status
-           FROM n3c_dashboard.alcohol_map,
-            n3c_dashboard.smoking_map) foo
-     LEFT JOIN n3c_dashboard_ph.sub_covalcsmo_csd USING (alcohol_condition, smoking_status));
-
-CREATE VIEW n3c_dashboard_ph.substance_alc_smo_combined AS
- SELECT foo.alcohol_condition,
-    foo.smoking_status,
-    foo.all_display,
-    foo.all_count,
-    bar.covid_display,
-    bar.covid_count
-   FROM (( SELECT substance_alc_smo_all.alcohol_condition,
-            substance_alc_smo_all.smoking_status,
-            substance_alc_smo_all.all_display,
-            substance_alc_smo_all.patient_count AS all_count
-           FROM n3c_dashboard_ph.substance_alc_smo_all) foo
-     JOIN ( SELECT substance_alc_smo_covid.alcohol_condition,
-            substance_alc_smo_covid.smoking_status,
-            substance_alc_smo_covid.covid_display,
-            substance_alc_smo_covid.patient_count AS covid_count
-           FROM n3c_dashboard_ph.substance_alc_smo_covid) bar USING (alcohol_condition, smoking_status));
-
-CREATE VIEW n3c_dashboard_ph.substance_all AS
- SELECT foo.alcohol_condition,
-    foo.opioids,
-    foo.smoking_status,
-        CASE
-            WHEN (sub_smoopialc_csd.patient_count = '<20'::text) THEN 1
-            ELSE (COALESCE(sub_smoopialc_csd.patient_count, '0'::text))::integer
-        END AS patient_count
-   FROM (( SELECT alcohol_map.secondary AS alcohol_condition,
-            opioid_map.secondary AS opioids,
-            smoking_map.secondary AS smoking_status
-           FROM n3c_dashboard.alcohol_map,
-            n3c_dashboard.opioid_map,
-            n3c_dashboard.smoking_map) foo
-     LEFT JOIN n3c_dashboard_ph.sub_smoopialc_csd USING (alcohol_condition, opioids, smoking_status));
-
-CREATE VIEW n3c_dashboard_ph.substance_covid AS
- SELECT foo.alcohol_condition,
-    foo.opioids,
-    foo.smoking_status,
-        CASE
-            WHEN (sub_covopismoalc_csd.patient_count = '<20'::text) THEN 1
-            ELSE (COALESCE(sub_covopismoalc_csd.patient_count, '0'::text))::integer
-        END AS patient_count
-   FROM (( SELECT alcohol_map.secondary AS alcohol_condition,
-            opioid_map.secondary AS opioids,
-            smoking_map.secondary AS smoking_status
-           FROM n3c_dashboard.alcohol_map,
-            n3c_dashboard.opioid_map,
-            n3c_dashboard.smoking_map) foo
-     LEFT JOIN n3c_dashboard_ph.sub_covopismoalc_csd USING (alcohol_condition, opioids, smoking_status));
-
-CREATE VIEW n3c_dashboard_ph.substance_combined AS
- SELECT foo.alcohol_condition,
-    foo.opioids,
-    foo.smoking_status,
-    foo.all_count,
-    bar.covid_count
-   FROM (( SELECT substance_all.alcohol_condition,
-            substance_all.opioids,
-            substance_all.smoking_status,
-            substance_all.patient_count AS all_count
-           FROM n3c_dashboard_ph.substance_all) foo
-     JOIN ( SELECT substance_covid.alcohol_condition,
-            substance_covid.opioids,
-            substance_covid.smoking_status,
-            substance_covid.patient_count AS covid_count
-           FROM n3c_dashboard_ph.substance_covid) bar USING (alcohol_condition, opioids, smoking_status));
-
-CREATE VIEW n3c_dashboard_ph.substance_opi_smo_all AS
- SELECT foo.opioids,
-    foo.smoking_status,
-    sub_opismo_csd.patient_count AS all_display,
-        CASE
-            WHEN (sub_opismo_csd.patient_count = '<20'::text) THEN 1
-            ELSE (COALESCE(sub_opismo_csd.patient_count, '0'::text))::integer
-        END AS patient_count
-   FROM (( SELECT opioid_map.secondary AS opioids,
-            smoking_map.secondary AS smoking_status
-           FROM n3c_dashboard.opioid_map,
-            n3c_dashboard.smoking_map) foo
-     LEFT JOIN n3c_dashboard_ph.sub_opismo_csd USING (opioids, smoking_status));
-
-CREATE VIEW n3c_dashboard_ph.substance_opi_smo_covid AS
- SELECT foo.opioids,
-    foo.smoking_status,
-    sub_covsmoopi_csd.patient_count AS covid_display,
-        CASE
-            WHEN (sub_covsmoopi_csd.patient_count = '<20'::text) THEN 1
-            ELSE (COALESCE(sub_covsmoopi_csd.patient_count, '0'::text))::integer
-        END AS patient_count
-   FROM (( SELECT opioid_map.secondary AS opioids,
-            smoking_map.secondary AS smoking_status
-           FROM n3c_dashboard.opioid_map,
-            n3c_dashboard.smoking_map) foo
-     LEFT JOIN n3c_dashboard_ph.sub_covsmoopi_csd USING (opioids, smoking_status));
-
-CREATE VIEW n3c_dashboard_ph.substance_opi_smo_combined AS
- SELECT foo.opioids,
-    foo.smoking_status,
-    foo.all_display,
-    foo.all_count,
-    bar.covid_display,
-    bar.covid_count
-   FROM (( SELECT substance_opi_smo_all.opioids,
-            substance_opi_smo_all.smoking_status,
-            substance_opi_smo_all.all_display,
-            substance_opi_smo_all.patient_count AS all_count
-           FROM n3c_dashboard_ph.substance_opi_smo_all) foo
-     JOIN ( SELECT substance_opi_smo_covid.opioids,
-            substance_opi_smo_covid.smoking_status,
-            substance_opi_smo_covid.covid_display,
-            substance_opi_smo_covid.patient_count AS covid_count
-           FROM n3c_dashboard_ph.substance_opi_smo_covid) bar USING (opioids, smoking_status));
-
 CREATE TABLE n3c_dashboard_ph.sxmortsev_csd (
     drug_name text,
     sex text,
@@ -3677,7 +3452,7 @@ CREATE TABLE n3c_dashboard_ph.viral_demo_csd (
 
 CREATE TABLE n3c_dashboard_ph.viral_eth_csd (
     ethnicity text,
-    patient_count integer,
+    patient_count text,
     total_viral_patient integer
 );
 
@@ -3688,8 +3463,8 @@ CREATE TABLE n3c_dashboard_ph.viral_hosp_csd (
 );
 
 CREATE TABLE n3c_dashboard_ph.viral_longcovid_csd (
-    long_covid_indicator integer,
-    patient_count integer,
+    long_covid_indicator bigint,
+    patient_count text,
     total_viral_patient integer
 );
 
@@ -3738,16 +3513,16 @@ CREATE TABLE n3c_dashboard_ph.viral_rcvacmor_csd (
 
 CREATE TABLE n3c_dashboard_ph.viral_sev_csd (
     severity text,
-    patient_count integer,
+    patient_count text,
     total_viral_patient integer
 );
 
 CREATE TABLE n3c_dashboard_ph.viral_sevvacmorthos_csd (
     sex text,
     severity text,
-    vaccinated integer,
-    death_indicator integer,
-    long_covid_indicator integer,
+    vaccinated bigint,
+    death_indicator bigint,
+    long_covid_indicator bigint,
     patient_count text,
     total_viral_patient integer
 );
@@ -3760,27 +3535,27 @@ CREATE TABLE n3c_dashboard_ph.viral_sub_cnt_csd (
 
 CREATE TABLE n3c_dashboard_ph.viral_sx_csd (
     sex text,
-    patient_count integer,
+    patient_count text,
     total_viral_patient integer
 );
 
 CREATE TABLE n3c_dashboard_ph.viral_total_csd (
-    covid_indicator integer,
-    patient_count integer,
+    covid_indicator bigint,
+    patient_count text,
     total_viral_patient integer
 );
 
 CREATE TABLE n3c_dashboard_ph.viral_typesev_csd (
     who_lineage text,
-    covid_indicator integer,
+    covid_indicator bigint,
     severity text,
     patient_count text,
     total_viral_patient integer
 );
 
 CREATE TABLE n3c_dashboard_ph.viral_vacc_csd (
-    vaccinated integer,
-    patient_count integer,
+    vaccinated bigint,
+    patient_count text,
     total_viral_patient integer
 );
 
