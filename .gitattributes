@@ -75,6 +75,7 @@ src/main/java/org/cd2h/N3CDashboardTagLib/typeDefinition/TypeDefinitionIterator.
 src/main/java/org/cd2h/N3CDashboardTagLib/typeDefinition/TypeDefinitionTid.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/typeDefinition/TypeDefinitionType.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/util/Functions.java -text
+src/main/java/org/cd2h/N3CDashboardTagLib/util/Indexer.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/util/LocalProperties.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/util/PropertyLoader.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/util/TomcatRewriteMap.java -text
