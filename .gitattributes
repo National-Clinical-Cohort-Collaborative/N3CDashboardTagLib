@@ -150,6 +150,7 @@ src/main/webapp/typeDefinition/list.jsp -text
 src/main/webapp/typeDefinition/show.jsp -text
 src/non-packaged-resources/Model.clay -text
 src/non-packaged-resources/county.sql -text
+src/non-packaged-resources/county_reload.sql -text
 src/non-packaged-resources/d3-node/collaborators.js -text
 src/non-packaged-resources/d3-node/data/markers.csv -text
 src/non-packaged-resources/d3-node/data/us-states.json -text
