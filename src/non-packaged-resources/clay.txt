@@ -1,0 +1,60 @@
+database: mymodel3	uid: null
+	schema: n3cDashboard	uid: null
+		entity: Category	uid: null
+			child Binding
+			attribute: cid	uid: null	type: int	mandatory: true	primary: true	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: seqnum	uid: null	type: int	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: label	uid: null	type: String	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+		entity: Dashboard	uid: null
+			child Topic
+			child Binding
+			child RelatedDashboard
+			child DashboardTag
+			child DashboardType
+			attribute: did	uid: null	type: int	mandatory: true	primary: true	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: title	uid: null	type: String	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: description	uid: null	type: String	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: path	uid: null	type: String	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: thumbnailPath	uid: null	type: String	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: thumbnail	uid: null	type: Object	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: thumbnailName	uid: null	type: String	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: blurb	uid: null	type: String	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: limitations	uid: null	type: String	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: jsp	uid: null	type: String	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: active	uid: null	type: boolean	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+		entity: Topic	uid: null
+			attribute: did	uid: null	type: int	mandatory: true	primary: true	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: tid	uid: null	type: int	mandatory: true	primary: true	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: seqnum	uid: null	type: int	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: title	uid: null	type: String	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: path	uid: null	type: String	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+		entity: Binding	uid: null
+			attribute: cid	uid: null	type: int	mandatory: true	primary: true	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: did	uid: null	type: int	mandatory: true	primary: true	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: seqnum	uid: null	type: int	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+		entity: RelatedDashboard	uid: null
+			attribute: did	uid: null	type: int	mandatory: true	primary: true	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: rid	uid: null	type: int	mandatory: true	primary: true	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: seqnum	uid: null	type: int	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+		entity: TagDefinition	uid: null
+			child DashboardTag
+			attribute: tid	uid: null	type: int	mandatory: true	primary: true	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: tag	uid: null	type: String	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+		entity: DashboardTag	uid: null
+			attribute: did	uid: null	type: int	mandatory: true	primary: true	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: tid	uid: null	type: int	mandatory: true	primary: true	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+		entity: TypeDefinition	uid: null
+			child DashboardType
+			attribute: tid	uid: null	type: int	mandatory: true	primary: true	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: type	uid: null	type: String	mandatory: false	primary: false	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+		entity: DashboardType	uid: null
+			attribute: did	uid: null	type: int	mandatory: true	primary: true	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+			attribute: tid	uid: null	type: int	mandatory: true	primary: true	auto-increment: false	remarks: 	counter: false	sequence: false	sequence name: null
+		source entity: Dashboard	target entity: Topic	uid: null
+		source entity: Category	target entity: Binding	uid: null
+		source entity: Dashboard	target entity: Binding	uid: null
+		source entity: Dashboard	target entity: RelatedDashboard	uid: null
+		source entity: Dashboard	target entity: DashboardTag	uid: null
+		source entity: TagDefinition	target entity: DashboardTag	uid: null
+		source entity: Dashboard	target entity: DashboardType	uid: null
+		source entity: TypeDefinition	target entity: DashboardType	uid: null

@@ -149,6 +149,7 @@ src/main/webapp/typeDefinition/edit.jsp -text
 src/main/webapp/typeDefinition/list.jsp -text
 src/main/webapp/typeDefinition/show.jsp -text
 src/non-packaged-resources/Model.clay -text
+src/non-packaged-resources/clay.txt -text
 src/non-packaged-resources/county.sql -text
 src/non-packaged-resources/county_reload.sql -text
 src/non-packaged-resources/d3-node/collaborators.js -text
