@@ -171,4 +171,5 @@ src/non-packaged-resources/model.sql -text
 src/non-packaged-resources/monitoring.sql -text
 src/non-packaged-resources/n3c_dashboard_ph.sql -text
 src/non-packaged-resources/n3c_dashboard_ph_prior.sql -text
+src/non-packaged-resources/n3c_pubs.sql -text
 src/non-packaged-resources/zipcodes.sql -text
