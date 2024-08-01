@@ -79,6 +79,7 @@ src/main/java/org/cd2h/N3CDashboardTagLib/util/Indexer.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/util/LocalProperties.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/util/PropertyLoader.java -text
 src/main/java/org/cd2h/N3CDashboardTagLib/util/TomcatRewriteMap.java -text
+src/main/java/org/cd2h/ctsa/AddressLookup.java -text
 src/main/java/org/cd2h/n3c_dashboard/Analyzer.java -text
 src/main/java/org/cd2h/n3c_dashboard/Demo.java -text
 src/main/java/org/cd2h/n3c_dashboard/Scorecard.java -text
