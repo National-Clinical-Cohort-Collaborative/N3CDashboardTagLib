@@ -21,12 +21,25 @@ left outer join ctsa.census_address on(grants.perf_site_addr = census_address.pe
 left outer join (ctsa.org_mapping natural join ror.address) as ror on (ror.org = grants.perf_site_org and ror.address = grants.perf_site_addr)
 ;
 
-create view collaboration as
+create materialized view collaboration as
 select jsonb_pretty(jsonb_agg(org))
 	from (select distinct
 		grant_number,
-		title,
+		(select title from ctsa.grants where (grants.grant_num_act||grants.grant_num_ic||grants.grant_num_serial)=bar.grant_number order by fy limit 1) as title,
 		institution,
+		(select jsonb_agg(pi)
+			from (select distinct
+					pi_name
+				  from ctsa.grants where (grants.grant_num_act||grants.grant_num_ic||grants.grant_num_serial)=bar.grant_number
+			) as pi
+		) as pi_info,
+		(select jsonb_agg(award)
+			from (select distinct
+					project,
+					fy
+				  from ctsa.grants where (grants.grant_num_act||grants.grant_num_ic||grants.grant_num_serial)=bar.grant_number
+			) as award
+		) as awards,
 		inst_geo_code_latitude,
 		inst_geo_code_longitude,
 		(select jsonb_agg(perf)
@@ -41,7 +54,6 @@ select jsonb_pretty(jsonb_agg(org))
 		) as perf_site_details
 		from (select distinct
 				grant_number,
-				(select title from ctsa.grants where grants.appl_id=take_4.appl_id limit 1) as title,
 				institution,
 				inst_geo_code_latitude,
 				inst_geo_code_longitude
